@@ -51,8 +51,8 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/findId" element={<FindId />} />
-        <Route path="/findPassword" element={<FindPassword />} />
+        <Route path="/findid" element={<FindId />} />
+        <Route path="/findpassword" element={<FindPassword />} />
 
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
