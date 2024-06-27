@@ -1,0 +1,103 @@
+.LoginPage {
+  width: 100%;
+  height: 100vb;
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subdiv {
+  width: 500px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  width: 500px;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #262626;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+}
+
+.contentTitle {
+  width: 100%;
+  margin-top: 26px;
+}
+
+.inputtitle {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  color: #262626;
+}
+
+.inputWrite {
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+.input {
+  width: 100%;
+  height: 45px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+.input:focus {
+  outline: 2px solid rgb(139, 133, 205);
+}
+.errMessage {
+  margin-top: 8px;
+  color: #ef0000;
+  font-size: 12px;
+}
+
+.button{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.btn {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  width: 100%;
+  height: 48px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: rgb(43, 5, 133);
+  border-radius: 7px;
+  color: rgb(255, 255, 255);
+}
+
+.btn:hover {
+  background-color: rgb(129, 134, 203)
+}
+
+.user {
+  text-align: center;
+  margin-bottom: 60px;
+  
+}
