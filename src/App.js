@@ -60,7 +60,7 @@ const App = () => {
 
         </Route>
 
-        {/* 로그인 한 사람은 갈 수 없는 경로 */}
+        {/* 로그인 한 사람은 갈 수 없는 경로 */}~
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
