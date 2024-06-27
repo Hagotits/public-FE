@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=4000 react-scripts start"
+    "start": "react-scripts start"
   },
   "author": "",
   "license": "ISC",

@@ -38,7 +38,7 @@ const App = () => {
   const { pathname } = useLocation();
   const { planId } = useParams();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (isAuth) {
       dispatch(authUser());
@@ -56,9 +56,7 @@ const App = () => {
 
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}>
-
-        </Route>
+        <Route element={<ProtectedRoutes />}></Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~
         <Route element={<NotAuthRoutes />}>
