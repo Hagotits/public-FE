@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { authUser } from "./redux/thunkFunctions";
 import ProtectedRoutes from "./appointment/ProtectedRoutes";
 import NotAuthRoutes from "./appointment/NotAuthRoutes";
+import FindId from "./components/FindId";
+import FindPassword from "./components/FindPassword";
 
 function Layout() {
   return (
@@ -53,11 +55,8 @@ const App = () => {
       <Route path="/" element={<Layout />}>
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpassword" element={<FindPassword />} />
-
-
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}></Route>
-
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />

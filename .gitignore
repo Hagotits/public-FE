@@ -3,3 +3,4 @@ package-lock.json
 .env
 node_modules/
 *.pack
+node_modules/.cache/.eslintcache

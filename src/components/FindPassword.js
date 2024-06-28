@@ -1,8 +1,8 @@
 import React from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions"
+import { loginUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
 
 const FindPassword = () => {
@@ -32,10 +32,10 @@ const FindPassword = () => {
     required: "필수 필드입니다.",
     minLenge: {
       value: 6,
-      massage: "6자 이상 입력해주세요"
+      massage: "6자 이상 입력해주세요",
     },
   };
-  
+
   return (
     <div>
       <div className="LoginPage">
@@ -94,4 +94,4 @@ const FindPassword = () => {
   );
 };
 
-export default FindId;
+export default FindPassword;

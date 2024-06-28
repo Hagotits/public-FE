@@ -1,8 +1,8 @@
 import React from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions"
+import { registerUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
 
 const SignUp = () => {
@@ -14,14 +14,9 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async ({ id, auNum, name, password}) => {
+  const onSubmit = async ({ email, name, password }) => {
+    const body = { email, name, password };
     try {
-      const body = {
-        id,
-        auNum,
-        name,
-        password,
-      };
       await dispatch(registerUser(body));
       navigate("/login");
     } catch (err) {
@@ -29,15 +24,15 @@ const SignUp = () => {
     }
   };
 
-  const userId = {
+  const userEmail = {
     required: "필수 필드입니다.",
   };
-  const userAuNum = {
-    required: "필수 필드입니다.",
-  }
+  // const userAuNum = {
+  //   required: "필수 필드입니다.",
+  // };
   const userName = {
     required: "필수 필드입니다.",
-  }
+  };
   const userPassword = {
     required: "필수 필드입니다.",
     minLength: {
@@ -58,17 +53,17 @@ const SignUp = () => {
                 <input
                   type="text"
                   className="input"
-                  {...register("id", userId)}
+                  {...register("email", userEmail)}
                 />
-                {errors?.id && (
+                {errors?.email && (
                   <div>
-                    <span>{errors.id.message}</span>
+                    <span>{errors.email.message}</span>
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="contentTitle">
+            {/* <div className="contentTitle">
               <div className="inputTitle">인증번호</div>
               <div className="inputWirte">
                 <input
@@ -82,7 +77,7 @@ const SignUp = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="contentTitle">
               <div className="inputTitle">NAME</div>
