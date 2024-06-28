@@ -57,9 +57,9 @@ const SignUp = () => {
   const userEmail = {
     required: "필수 필드입니다.",
   };
-  const userAuNum = {
-    required: "필수 필드입니다.",
-  };
+  // const userAuNum = {
+  //   required: "필수 필드입니다.",
+  // };
   const userName = {
     required: "필수 필드입니다.",
   };
