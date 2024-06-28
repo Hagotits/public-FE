@@ -1,8 +1,8 @@
 import React from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions"
+import { loginUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
 
 const Login = () => {
@@ -14,8 +14,8 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmit = async ({ id, password }) => {
-    const body = { id, password };
+  const onSubmit = async ({ email, password }) => {
+    const body = { email, password };
     try {
       await dispatch(loginUser(body));
       navigate("/");
@@ -24,18 +24,17 @@ const Login = () => {
     }
   };
 
-  const userId = {
+  const userEmail = {
     required: "필수 필드입니다.",
   };
-
   const userPassword = {
     required: "필수 필드입니다.",
     minLenge: {
       value: 6,
-      massage: "6자 이상 입력해주세요"
+      massage: "6자 이상 입력해주세요",
     },
   };
-  
+
   return (
     <div>
       <div className="LoginPage">
@@ -45,6 +44,7 @@ const Login = () => {
             <div className="contentTitle">
               <div className="inputTitle">EMAIL</div>
               <div className="inputWirte">
+<<<<<<< HEAD
                 <div className="inputWrapper">
                   <input
                     type="text"
@@ -57,6 +57,18 @@ const Login = () => {
                     </div>
                   )}
                 </div>
+=======
+                <input
+                  type="text"
+                  className="input"
+                  {...register("email", userEmail)}
+                />
+                {errors?.email && (
+                  <div>
+                    <span>{errors.email.message}</span>
+                  </div>
+                )}
+>>>>>>> 468eda11a7fed5c981e2a2b553ca566777ea533e
               </div>
             </div>
 

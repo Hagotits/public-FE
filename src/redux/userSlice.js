@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 import {
   registerUser,
   loginUser,
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const initialState = {
   userData: {
-    id: "",
+    email: "",
     password: "",
   },
   isAuth: false,
@@ -38,7 +38,7 @@ const userSlice = createSlice({
       })
 
       // 로그임
-      .addCase(loginUser. pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -52,7 +52,7 @@ const userSlice = createSlice({
         state.isLoading = true;
         toast.error(action.payload || "로그인에 실패했습니다.");
       })
-      .addCase(authUser. pending, (state) => {
+      .addCase(authUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(authUser.fulfilled, (state, action) => {
