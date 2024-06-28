@@ -38,7 +38,7 @@ const FindPassword = () => {
   
   return (
     <div>
-      <div className="LoginPage">
+      <div className="FindPasswordPage">
         <div className="subdiv">
           <div className="title">Login</div>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -94,4 +94,4 @@ const FindPassword = () => {
   );
 };
 
-export default FindId;
+export default FindPassword;

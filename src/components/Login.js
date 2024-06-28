@@ -45,37 +45,41 @@ const Login = () => {
             <div className="contentTitle">
               <div className="inputTitle">EMAIL</div>
               <div className="inputWirte">
-                <input
-                  type="text"
-                  className="input"
-                  {...register("id", userId)}
-                />
-                {errors?.id && (
-                  <div>
-                    <span>{errors.id.message}</span>
-                  </div>
-                )}
+                <div className="inputWrapper">
+                  <input
+                    type="text"
+                    className="input"
+                    {...register("id", userId)}
+                  />
+                  {errors?.id && (
+                    <div>
+                      <span>{errors.id.message}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
             <div className="contentTitle">
               <div className="inputTitle">PASSWORD</div>
               <div className="inputWirte">
-                <input
-                  type="password"
-                  className="input"
-                  {...register("password", userPassword)}
-                />
-                {errors?.password && (
-                  <div>
-                    <span>{errors?.password.message}</span>
-                  </div>
-                )}
+                <div className="inputWrapper">
+                  <input
+                    type="password"
+                    className="input"
+                    {...register("password", userPassword)}
+                  />
+                  {errors?.password && (
+                    <div>
+                      <span>{errors?.password.message}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
             <div className="button">
-              <button className="btn" type="submit">
+              <button className="btn">
                 로그인
               </button>
             </div>

@@ -51,14 +51,15 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/findid" element={<FindId />} />
-        <Route path="/findpassword" element={<FindPassword />} />
+        {/* <Route path="/main" element={<Main />} /> */}
+        {/* <Route path="/findid" element={<FindId />} /> */}
+        {/* <Route path="/findpassword" element={<FindPassword />} /> */}
 
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}></Route>
 
-        {/* 로그인 한 사람은 갈 수 없는 경로 */}~
+        {/* 로그인 한 사람은 갈 수 없는 경로 */}
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

@@ -38,7 +38,7 @@ const FindId = () => {
   
   return (
     <div>
-      <div className="LoginPage">
+      <div className="FindIdPage">
         <div className="subdiv">
           <div className="title">Login</div>
           <form onSubmit={handleSubmit(onSubmit)}>
