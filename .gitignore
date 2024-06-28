@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+.env
+node_modules/
+node_modules/*
+*.pack
+node_modules/.cache/.eslintcache
+node_modules/.cache/default-development/index.pack.old
+node_modules/.cache/default-development/0.pack
+node_modules/.cache/default-development/1.pack
