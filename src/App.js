@@ -64,11 +64,8 @@ const App = () => {
         <Route path="/write" element={<Write />} />
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}>
-        
-        </Route>
-
-        {/* 로그인 한 사람은 갈 수 없는 경로 */}
+        <Route element={<ProtectedRoutes />}></Route>
+        {/* 로그인 한 사람은 갈 수 없는 경로 */}~
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

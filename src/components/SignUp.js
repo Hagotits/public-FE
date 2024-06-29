@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
+import axios from "axios";
 
 const SignUp = () => {
+  const [isAuth, setIsAuth] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,6 +24,33 @@ const SignUp = () => {
       navigate("/login");
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const sendAuNum = async (email) => {
+    try {
+      await axios.post("http://localhost:4000/auth/verify", { email });
+      alert("인증번호가 이메일로 전송되었습니다.");
+    } catch (err) {
+      console.error(err);
+      alert("인증번호 전송에 실패했습니다.");
+    }
+  };
+
+  const certAuNum = async (authCode) => {
+    try {
+      const response = await axios.post("http://localhost:4000/auth/cert", {
+        authCode,
+      });
+      if (response.status === 200) {
+        alert("인증이 성공했습니다.");
+        setIsAuth(true);
+      } else {
+        alert("인증번호가 일치하지 않습니다.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("인증번호가 일치하지 않습니다.");
     }
   };
 
@@ -74,7 +103,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            {/* <div className="contentTitle">
+            <div className="contentTitle">
               <div className="inputTitle">인증번호</div>
               <div className="inputWrite">
                 <div className="inputWrapper">
@@ -83,6 +112,13 @@ const SignUp = () => {
                     className="input"
                     {...register("auNum", userAuNum)}
                   />
+                  <button
+                    type="button"
+                    className="sendAuNumBtn"
+                    onClick={() => certAuNum(watch("auNum"))}
+                  >
+                    인증번호 확인
+                  </button>
                 </div>
                 {errors?.auNum && (
                   <div className="errMessage">
@@ -90,7 +126,7 @@ const SignUp = () => {
                   </div>
                 )}
               </div>
-            </div> */}
+            </div>
 
             <div className="contentTitle">
               <div className="inputTitle">NAME</div>

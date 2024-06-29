@@ -78,9 +78,7 @@ const Login = () => {
             </div>
 
             <div className="button">
-              <button className="btn">
-                로그인
-              </button>
+              <button className="btn">로그인</button>
             </div>
           </form>
           <p className="user">
