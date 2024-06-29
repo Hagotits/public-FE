@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/thunkFunctions";
+import axios from "axios";
 import "../style/Login.css";
 
 const FindPassword = () => {
+  const [isAuth, setIsAuth] = useState(false);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
@@ -24,16 +27,40 @@ const FindPassword = () => {
     }
   };
 
+  const sendAuNum = async (email) => {
+    try {
+      await axios.post("http://localhost:4000/find/password", { email });
+      alert("인증번호가 이메일로 전송되었습니다.");
+    } catch (err) {
+      console.error(err);
+      alert("인증번호 전송에 실패했습니다.");
+    }
+  };
+
+  const certAuNum = async (authCode) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/find/password/update",
+        { authCode }
+      );
+      if (response.status === 200) {
+        alert("인증이 성공했습니다.");
+        setIsAuth(true);
+      } else {
+        alert("인증번호가 일치하지 않습니다.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("인증번호가 일치하지 않습니다.");
+    }
+  };
+
   const userEmail = {
     required: "필수 필드입니다.",
   };
 
   const userAuNum = {
     required: "필수 필드입니다.",
-    minLenge: {
-      value: 6,
-      massage: "6자 이상 입력해주세요",
-    },
   };
 
   return (
@@ -76,6 +103,13 @@ const FindPassword = () => {
                     className="input"
                     {...register("auNum", userAuNum)}
                   />
+                  <button
+                    type="button"
+                    className="sendAuNumBtn"
+                    onClick={() => certAuNum(watch("auNum"))}
+                  >
+                    인증번호 확인
+                  </button>
                   {errors?.auNum && (
                     <div>
                       <span>{errors?.auNum.message}</span>
@@ -87,16 +121,13 @@ const FindPassword = () => {
 
             <div className="button">
               <button className="btn" type="submit">
-                비밀번호 찾기
+                비밀번호 변경
               </button>
             </div>
           </form>
           <p className="user">
             {""}아이디가 없다면?{""}
             <a href="/signup">회원가입</a>
-          </p>
-          <p className="find">
-            <a href="/findId">아이디 찾기</a>
           </p>
         </div>
       </div>

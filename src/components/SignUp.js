@@ -57,9 +57,9 @@ const SignUp = () => {
   const userEmail = {
     required: "필수 필드입니다.",
   };
-  // const userAuNum = {
-  //   required: "필수 필드입니다.",
-  // };
+  const userAuNum = {
+    required: "필수 필드입니다.",
+  };
   const userName = {
     required: "필수 필드입니다.",
   };
@@ -90,7 +90,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     className="sendAuNumBtn"
-                    onClick={() => sendAuNum(watch("email"))}
+                    onClick={() => sendAuNum(b("email"))}
                   >
                     인증번호 전송
                   </button>
