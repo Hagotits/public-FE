@@ -14,8 +14,8 @@ const FindId = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmit = async ({ id, auNum }) => {
-    const body = { id, auNum };
+  const onSubmit = async ({ email, auNum }) => {
+    const body = { email, auNum };
     try {
       await dispatch(loginUser(body));
       navigate("/");
@@ -24,7 +24,7 @@ const FindId = () => {
     }
   };
 
-  const userId = {
+  const userEmail = {
     required: "필수 필드입니다.",
   };
 
@@ -40,19 +40,28 @@ const FindId = () => {
     <div>
       <div className="FindIdPage">
         <div className="subdiv">
-          <div className="title">Login</div>
+          <div className="title">아이디 찾기</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="contentTitle">
               <div className="inputTitle">EMAIL</div>
               <div className="inputWirte">
-                <input
-                  type="text"
-                  className="input"
-                  {...register("id", userId)}
-                />
-                {errors?.id && (
+                <div className="inputWrapper">
+                  <input
+                    type="text"
+                    className="input"
+                    {...register("email", userEmail)}
+                  />
+                  <button
+                    type="button"
+                    className="sendAuNumBtn"
+                    onClick={() => sendAuNum(watch("email"))}
+                  >
+                    인증번호 전송
+                  </button>
+                </div>
+                {errors?.email && (
                   <div>
-                    <span>{errors.id.message}</span>
+                    <span>{errors.email.message}</span>
                   </div>
                 )}
               </div>
@@ -61,16 +70,18 @@ const FindId = () => {
             <div className="contentTitle">
               <div className="inputTitle">인증번호</div>
               <div className="inputWirte">
-                <input
-                  type="auNum"
-                  className="input"
-                  {...register("auNum", userAuNum)}
-                />
-                {errors?.auNum && (
-                  <div>
-                    <span>{errors?.auNum.message}</span>
-                  </div>
-                )}
+                <div className="inputWrapper">
+                  <input
+                    type="auNum"
+                    className="input"
+                    {...register("auNum", userAuNum)}
+                  />
+                  {errors?.auNum && (
+                    <div>
+                      <span>{errors?.auNum.message}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -8,16 +8,19 @@ import {
   useParams,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "./App.css";
-import Login from "./views/Login";
-import SignUp from "./components/SignUp";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { authUser } from "./redux/thunkFunctions";
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoutes from "./appointment/ProtectedRoutes";
 import NotAuthRoutes from "./appointment/NotAuthRoutes";
-import FindId from "./components/FindId";
-import FindPassword from "./components/FindPassword";
+import Login from "./views/Login";
+import SignUp from "./views/SignUp";
+import FindId from "./views/FindId";
+import FindPassword from "./views/FindPassword";
+import ResetPassword from "./components/ResetPassword";
+import MyPage from "./views/MyPage";
+import Write from "./components/Write";
 
 function Layout() {
   return (
@@ -53,23 +56,19 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-<<<<<<< HEAD
         {/* <Route path="/main" element={<Main />} /> */}
-        {/* <Route path="/findid" element={<FindId />} /> */}
-        {/* <Route path="/findpassword" element={<FindPassword />} /> */}
-
-
-        {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}></Route>
-
-        {/* 로그인 한 사람은 갈 수 없는 경로 */}
-=======
         <Route path="/findid" element={<FindId />} />
         <Route path="/findpassword" element={<FindPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/write" element={<Write />} />
+
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}></Route>
-        {/* 로그인 한 사람은 갈 수 없는 경로 */}~
->>>>>>> 468eda11a7fed5c981e2a2b553ca566777ea533e
+        <Route element={<ProtectedRoutes />}>
+        
+        </Route>
+
+        {/* 로그인 한 사람은 갈 수 없는 경로 */}
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

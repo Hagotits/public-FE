@@ -44,31 +44,18 @@ const Login = () => {
             <div className="contentTitle">
               <div className="inputTitle">EMAIL</div>
               <div className="inputWirte">
-<<<<<<< HEAD
                 <div className="inputWrapper">
                   <input
                     type="text"
                     className="input"
-                    {...register("id", userId)}
+                    {...register("email", userEmail)}
                   />
-                  {errors?.id && (
+                  {errors?.email && (
                     <div>
-                      <span>{errors.id.message}</span>
+                      <span>{errors.email.message}</span>
                     </div>
                   )}
                 </div>
-=======
-                <input
-                  type="text"
-                  className="input"
-                  {...register("email", userEmail)}
-                />
-                {errors?.email && (
-                  <div>
-                    <span>{errors.email.message}</span>
-                  </div>
-                )}
->>>>>>> 468eda11a7fed5c981e2a2b553ca566777ea533e
               </div>
             </div>
 
