@@ -1,25 +1,120 @@
-/* .WritePage {
+.WritePage {
   width: 100%;
-  height: 100vh;
+  height: 130vh;
+  padding: 20px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.subdiv {
+.Writesubdiv {
   position: relative;
+  width: 800px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 700px;
-  padding: 30px;
-  border-radius: 15px;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Writetitle {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 80px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #262626;
+  text-align: center;
+}
+
+.WritecontentDiv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.WriteinputTitle {
+  font-size: 20px;
+  font-weight: 720;
+  color: #262626;
+  padding-top: 10px;
+}
+
+.WriteinputWrite {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  position: relative;
+  width: 450px;
+  height: 45px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  align-items: rigth;
+}
+.Writeexplaninput {
+  position: relative;
+  width: 450px;
+  height: 150px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  align-items: rigth;
+}
+
+.input:focus, .Writeexplaninput:focus {
+  outline: 2px solid rgb(139, 133, 205);
 }
 
 .file {
-  display: none;
-} */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 200px;
+  height: 150px;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  width: 100%;
+  height: 48px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: rgb(43, 5, 133);
+  border-radius: 7px;
+  color: rgb(255, 255, 255);
+}
+
+.btn:hover {
+  background-color: rgb(129, 134, 203);
+}
+
+.errMessage {
+  margin-top: 2px;
+  color: #ff0000;
+  font-size: 13px;
+}
