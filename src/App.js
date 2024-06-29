@@ -57,8 +57,8 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* <Route path="/main" element={<Main />} /> */}
-        <Route path="/findid" element={<FindId />} />
-        <Route path="/findpassword" element={<FindPassword />} />
+        <Route path="/find/id" element={<FindId />} />
+        <Route path="/find/password" element={<FindPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/write" element={<Write />} />

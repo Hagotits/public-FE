@@ -51,6 +51,13 @@ const FindPassword = () => {
                     className="input"
                     {...register("email", userEmail)}
                   />
+                  <button
+                    type="button"
+                    className="sendAuNumBtn"
+                    onClick={() => sendAuNum(watch("email"))}
+                  >
+                    인증번호 전송
+                  </button>
                   {errors?.email && (
                     <div>
                       <span>{errors.email.message}</span>
@@ -90,7 +97,6 @@ const FindPassword = () => {
           </p>
           <p className="find">
             <a href="/findId">아이디 찾기</a>
-            <a href="/findPassword">비밀번호 찾기</a>
           </p>
         </div>
       </div>
