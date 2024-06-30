@@ -18,7 +18,7 @@ import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import FindId from "./views/FindId";
 import FindPassword from "./views/FindPassword";
-import ResetPassword from "./components/ResetPassword";
+import ResetPassword from "./views/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./views/Write";
 import Header from "./components/Header";
@@ -63,7 +63,6 @@ const App = () => {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/write" element={<Write />} />
-
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}></Route>
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~
