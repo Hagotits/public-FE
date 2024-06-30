@@ -1,10 +1,8 @@
 .background {
   position: relative;
   z-index: 10;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  color: rgb(255 255 255);
+  background-color: rgb(17 24 39);
   width: 100vw;
 }
 
@@ -102,10 +100,9 @@
 .background {
   position: relative;
   z-index: 10;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity)); /* 흰색 텍스트 색상 */
-  --tw-bg-opacity: 1;
+  color: rgb(80 81 255); /* 흰색 텍스트 색상 */
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  border: 1px solid #ddd;
 }
 
 .width {
