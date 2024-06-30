@@ -17,7 +17,6 @@ import ProtectedRoutes from "./appointment/ProtectedRoutes";
 import NotAuthRoutes from "./appointment/NotAuthRoutes";
 import Login from "./views/Login";
 import SignUp from "./views/SignUp";
-import FindId from "./views/FindId";
 import FindPassword from "./views/FindPassword";
 import ResetPassword from "./views/ResetPassword";
 import MyPage from "./views/MyPage";
@@ -59,7 +58,6 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Main />} />
-        <Route path="/find/id" element={<FindId />} />
         <Route path="/find/password" element={<FindPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
