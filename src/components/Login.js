@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions";
+import { authUser, loginUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
 
 const Login = () => {
@@ -13,13 +13,11 @@ const Login = () => {
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.email);
 
   const onSubmit = async ({ email, password }) => {
     const body = { email, password };
     try {
       await dispatch(loginUser(body));
-      console.log(userId);
       navigate("/");
     } catch (err) {
       console.log(err);
