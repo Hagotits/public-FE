@@ -1,8 +1,7 @@
 import React from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions"
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "../style/Login.css";
 
 const ResetPassword = () => {
@@ -12,15 +11,26 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const useSelector = useSelector((state) => state.auth.user);
 
   const onSubmit = async ({ password, newPassword }) => {
     const body = { password, newPassword };
     try {
-      await dispatch(loginUser(body));
-      navigate("/");
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.post(
+        "http://localhost:4000/auth/update",
+        body,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response.status === 200) {
+        alert("비밀번호가 성공적으로 변경되었습니다.");
+        navigate("/");
+      }
     } catch (err) {
       console.log(err);
+      alert("비밀번호 변경에 실패했습니다.");
     }
   };
 
@@ -28,7 +38,7 @@ const ResetPassword = () => {
     required: "필수 필드입니다.",
     minLenge: {
       value: 6,
-      massage: "6자 이상 입력해주세요"
+      massage: "6자 이상 입력해주세요",
     },
   };
 
@@ -36,7 +46,7 @@ const ResetPassword = () => {
     required: "필수 필드입니다.",
     minLenge: {
       value: 6,
-      massage: "6자 이상 입력해주세요"
+      massage: "6자 이상 입력해주세요",
     },
   };
 

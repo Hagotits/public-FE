@@ -12,6 +12,7 @@ import { authUser } from "./redux/thunkFunctions";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "./components/Header";
 import ProtectedRoutes from "./appointment/ProtectedRoutes";
 import NotAuthRoutes from "./appointment/NotAuthRoutes";
 import Login from "./views/Login";
@@ -21,7 +22,7 @@ import FindPassword from "./views/FindPassword";
 import ResetPassword from "./views/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./views/Write";
-import Header from "./components/Header";
+import Main from "./views/Main";
 
 function Layout() {
   return (
@@ -57,7 +58,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* <Route path="/main" element={<Main />} /> */}
+        <Route index element={<Main />} />
         <Route path="/find/id" element={<FindId />} />
         <Route path="/find/password" element={<FindPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />

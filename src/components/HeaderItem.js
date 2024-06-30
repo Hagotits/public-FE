@@ -2,13 +2,13 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../redux/thunkFunctions";
-// import "../style/HeaderItem.scss";
+import "../style/HeaderItem.css";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
-  { to: "/plan", name: "플랜 추가", auth: true },
-  { to: "/myplan", name: "내 플랜보기", auth: true },
+  // { to: "/plan", name: "플랜 추가", auth: true },
+  { to: "/mypage", name: "마이페이지", auth: true },
   { to: "", name: "로그아웃", auth: true },
 ];
 
