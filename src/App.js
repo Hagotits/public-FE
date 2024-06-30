@@ -12,6 +12,7 @@ import { authUser } from "./redux/thunkFunctions";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "./components/Header";
 import ProtectedRoutes from "./appointment/ProtectedRoutes";
 import NotAuthRoutes from "./appointment/NotAuthRoutes";
 import Login from "./views/Login";
@@ -21,11 +22,12 @@ import FindPassword from "./views/FindPassword";
 import ResetPassword from "./components/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./components/Write";
+import Main from "./components/Main";
 
 function Layout() {
   return (
     <div className="layout">
-      {/* <Header /> */}
+      <Header />
       <ToastContainer
         position="bottom-right"
         theme="light"
@@ -56,13 +58,12 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* <Route path="/main" element={<Main />} /> */}
+        <Route index element={<Main />} />
         <Route path="/find/id" element={<FindId />} />
         <Route path="/find/password" element={<FindPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/write" element={<Write />} />
-
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}></Route>
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~

@@ -4,7 +4,8 @@ package-lock.json
 node_modules/
 node_modules/*
 *.pack
-node_modules/.cache/.eslintcache
-node_modules/.cache/default-development/index.pack.old
-node_modules/.cache/default-development/0.pack
-node_modules/.cache/default-development/1.pack
+.eslintcache
+index.pack.old
+0.pack
+1.pack
+0.pack

@@ -40,7 +40,7 @@ const FindPassword = () => {
   const certAuNum = async (authCode) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/find/password/update",
+        "http://localhost:4000/find/password/cert",
         { authCode }
       );
       if (response.status === 200) {
