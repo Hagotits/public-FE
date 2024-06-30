@@ -20,12 +20,13 @@ import FindId from "./views/FindId";
 import FindPassword from "./views/FindPassword";
 import ResetPassword from "./components/ResetPassword";
 import MyPage from "./views/MyPage";
-import Write from "./components/Write";
+import Write from "./views/Write";
+import Header from "./components/Header";
 
 function Layout() {
   return (
     <div className="layout">
-      {/* <Header /> */}
+      <Header />
       <ToastContainer
         position="bottom-right"
         theme="light"
