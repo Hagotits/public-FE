@@ -58,16 +58,18 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Main />} />
-        <Route path="/find/password" element={<FindPassword />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/write" element={<Write />} />
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}></Route>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/write" element={<Write />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/find/password" element={<FindPassword />} />
+        </Route>
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/find/password" element={<FindPassword />} />
         </Route>
       </Route>
     </Routes>

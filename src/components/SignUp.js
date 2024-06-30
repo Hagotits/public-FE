@@ -30,6 +30,7 @@ const SignUp = () => {
   const sendAuNum = async (email) => {
     try {
       await axios.post("http://localhost:4000/auth/verify", { email });
+      console.log(email);
       alert("인증번호가 이메일로 전송되었습니다.");
     } catch (err) {
       console.error(err);
@@ -90,7 +91,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     className="sendAuNumBtn"
-                    onClick={() => sendAuNum(b("email"))}
+                    onClick={() => sendAuNum(watch("email"))}
                   >
                     인증번호 전송
                   </button>
