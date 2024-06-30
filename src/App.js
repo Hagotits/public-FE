@@ -22,6 +22,7 @@ import ResetPassword from "./views/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./views/Write";
 import Main from "./views/Main";
+import Fleamarket from "./views/Fleamarket";
 
 function Layout() {
   return (

@@ -91,11 +91,6 @@
   color: inherit; /* 부모 요소의 색상 상속 */
 }
 
-/* 마우스를 올렸을 때 밑줄 표시 */
-.logo a:hover {
-  text-decoration: underline; /* 밑줄 표시 */
-}
-
 /* 기존 스타일 유지 */
 .background {
   position: relative;
