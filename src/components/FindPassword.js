@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions";
 import axios from "axios";
 import "../style/Login.css";
+import { useSelector, useDispatch } from "react-redux";
 
 const FindPassword = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -16,16 +15,7 @@ const FindPassword = () => {
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const onSubmit = async ({ email, auNum }) => {
-    const body = { email, auNum };
-    try {
-      await dispatch(loginUser(body));
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const email = useSelector((state) => state.user.email);
 
   const sendAuNum = async (email) => {
     try {
@@ -38,14 +28,16 @@ const FindPassword = () => {
   };
 
   const certAuNum = async (authCode) => {
+    const body = { email: email, authCode };
     try {
       const response = await axios.post(
         "http://localhost:4000/find/password/cert",
-        { authCode }
+        { body }
       );
       if (response.status === 200) {
         alert("인증이 성공했습니다.");
         setIsAuth(true);
+        navigate("/resetpassword", { state: { email: email } });
       } else {
         alert("인증번호가 일치하지 않습니다.");
       }
@@ -68,7 +60,7 @@ const FindPassword = () => {
       <div className="FindPasswordPage">
         <div className="subdiv">
           <div className="title">비밀번호 찾기</div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(certAuNum)}>
             <div className="contentTitle">
               <div className="inputTitle">EMAIL</div>
               <div className="inputWirte">
@@ -117,12 +109,6 @@ const FindPassword = () => {
                   )}
                 </div>
               </div>
-            </div>
-
-            <div className="button">
-              <button className="btn" type="submit">
-                비밀번호 변경
-              </button>
             </div>
           </form>
           <p className="user">
