@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/thunkFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { authUser, loginUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
 
 const Login = () => {

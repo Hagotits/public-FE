@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const initialState = {
   userData: {
     email: "",
-    password: "",
+    name: "",
   },
   isAuth: false,
   isLoading: false,
@@ -20,10 +20,18 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setuser: (state, action) => {
+      state.userData = action.payload;
+      state.isAuth = true;
+    },
+    clearUser: (state) => {
+      state.userData = initialState.userData;
+      state.isAuth = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // 회원가입
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -36,8 +44,6 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
-
-      // 로그임
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -67,8 +73,6 @@ const userSlice = createSlice({
         state.isAuth = false;
         localStorage.removeItem("accessToken");
       })
-
-      // 로그아웃
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -88,3 +92,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+export const { setUser, clearUser } = userSlice.actions;
