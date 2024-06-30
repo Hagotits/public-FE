@@ -22,7 +22,7 @@ import FindPassword from "./views/FindPassword";
 import ResetPassword from "./components/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./views/Write";
-import Header from "./components/Header";
+import Main from "./views/Main";
 
 function Layout() {
   return (
