@@ -22,6 +22,7 @@ import ResetPassword from "./views/ResetPassword";
 import MyPage from "./views/MyPage";
 import Write from "./views/Write";
 import Main from "./views/Main";
+import Fleamarket from "./views/Fleamarket";
 
 function Layout() {
   return (
@@ -62,6 +63,7 @@ const App = () => {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/fleamarket" element={<Fleamarket />} />
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}></Route>
         {/* 로그인 한 사람은 갈 수 없는 경로 */}~

@@ -6,6 +6,7 @@ import { registerUser } from "../redux/thunkFunctions";
 import "../style/Write.css";
 
 const Write = () => {
+  
   const {
     register,
     handleSubmit,
@@ -184,10 +185,6 @@ const Write = () => {
                 </div>
               </div>
             </div>
-
-
-
-
 
             <div className="button">
               <button className="btn" type="submit">
