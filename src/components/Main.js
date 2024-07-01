@@ -6,17 +6,17 @@ import "../style/Main.css";
 export default function Main() {
   const navigate = useNavigate();
   const isAuth = useSelector((state) => state.user?.isAuth);
-  // 여기 useSelector 쓰는 법 찾은듯?
   const userId = useSelector((state) => state.user?.userData);
 
   const handleSignUp = () => {
     navigate("/signup");
   };
+
   useEffect(() => {
     if (isAuth) {
       console.log(userId);
     }
-  });
+  }, [isAuth]);
 
   return (
     <div className="MainPage">
