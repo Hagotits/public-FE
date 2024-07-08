@@ -40,8 +40,10 @@ const SignUp = () => {
 
   const certAuNum = async (authCode) => {
     try {
+      const email = watch("email");
       const response = await axios.post("http://localhost:4000/auth/cert", {
         authCode,
+        email,
       });
       if (response.status === 200) {
         alert("인증이 성공했습니다.");

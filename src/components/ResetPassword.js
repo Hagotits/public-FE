@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const ResetPassword = () => {
   const {
@@ -11,22 +12,26 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
-  const userEmail = useSelector((state) => state.user.email);
-  const dispatch = useDispatch();
+  const location = useLocation();
+  const email = location.state?.email;
 
-  const onSubmit = async ({ legacyPassword, newPassword, certPassword }) => {
+  useEffect(() => {
+    console.log(email);
+  }, [email]);
+
+  const onSubmit = async ({ newPassword, certPassword }) => {
     try {
-      const body = { userEmail, legacyPassword, newPassword, certPassword };
-      if (dispatch(authUser)) {
-        return useSelector((state) => state.user.id);
-      }
+      const body = { email, newPassword, certPassword };
+
       const response = await axios.post(
-        "http://localhost:4000/auth/update",
+        "http://localhost:4000/auth/reset",
         body
       );
       if (response.status === 200) {
         alert("비밀번호가 성공적으로 변경되었습니다.");
-        navigate("/");
+        navigate("/login");
+      } else {
+        alert("사용자를 찾을 수 없습니다.");
       }
     } catch (err) {
       console.log(err);
@@ -34,13 +39,6 @@ const ResetPassword = () => {
     }
   };
 
-  const legacyPassword = {
-    required: "필수 필드입니다.",
-    minLenge: {
-      value: 6,
-      massage: "6자 이상 입력해주세요",
-    },
-  };
   const newPassword = {
     required: "필수 필드입니다.",
     minLenge: {
@@ -64,28 +62,12 @@ const ResetPassword = () => {
           <div className="title">새로운 비밀번호를 입력해주세요</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="contentTitle">
-              <div className="inputTitle">기존 비밀번호</div>
-              <div className="inputWirte">
-                <input
-                  type="password"
-                  className="input"
-                  {...register("password", legacyPassword)}
-                />
-                {errors?.password && (
-                  <div>
-                    <span>{errors.password.message}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="contentTitle">
               <div className="inputTitle">새 비밀번호</div>
               <div className="inputWirte">
                 <input
                   type="password"
                   className="input"
-                  {...register("password", newPassword)}
+                  {...register("newPassword", newPassword)}
                 />
                 {errors?.password && (
                   <div>
@@ -99,9 +81,9 @@ const ResetPassword = () => {
               <div className="inputTitle">비밀번호 확인</div>
               <div className="inputWirte">
                 <input
-                  type="newPassword"
+                  type="password"
                   className="input"
-                  {...register("newPassword", certPassword)}
+                  {...register("certPassword", certPassword)}
                 />
                 {errors?.newPassword && (
                   <div>

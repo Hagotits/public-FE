@@ -13,9 +13,10 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+        {/* <React.StrictMode> */}
+        {/* 개발 환경에서는 끄지만 배포 환경에서는 키는게 좋다. */}
+        <App />
+        {/* </React.StrictMode> */}
       </PersistGate>
     </Provider>
   </BrowserRouter>

@@ -3,10 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../style/Login.css";
-import { useSelector, useDispatch } from "react-redux";
 
 const FindPassword = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [email, setEmail] = useState(null);
   const {
     register,
     handleSubmit,
@@ -14,13 +13,17 @@ const FindPassword = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const email = useSelector((state) => state.user.email);
 
   const sendAuNum = async (email) => {
     try {
-      await axios.post("http://localhost:4000/find/password", { email });
-      alert("인증번호가 이메일로 전송되었습니다.");
+      const response = await axios.post("http://localhost:4000/find/password", {
+        email,
+      });
+      setEmail(email);
+      console.log(email);
+      if (response.data) {
+        alert("인증번호가 이메일로 전송되었습니다.");
+      }
     } catch (err) {
       console.error(err);
       alert("인증번호 전송에 실패했습니다.");
@@ -28,16 +31,14 @@ const FindPassword = () => {
   };
 
   const certAuNum = async (authCode) => {
-    const body = { email: email, authCode };
     try {
       const response = await axios.post(
         "http://localhost:4000/find/password/cert",
-        { body }
+        { authCode, email }
       );
       if (response.status === 200) {
         alert("인증이 성공했습니다.");
-        setIsAuth(true);
-        navigate("/resetpassword", { state: { email: email } });
+        navigate("/reset", { state: { email: email } });
       } else {
         alert("인증번호가 일치하지 않습니다.");
       }
