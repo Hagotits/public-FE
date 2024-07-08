@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../style/Main.css";
 
-export default function Main() {
+const Main = () => {
   const navigate = useNavigate();
   const isAuth = useSelector((state) => state.user?.isAuth);
   const userId = useSelector((state) => state.user?.userData);
@@ -40,4 +40,6 @@ export default function Main() {
       </div>
     </div>
   );
-}
+};
+
+export default Main;
