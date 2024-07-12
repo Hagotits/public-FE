@@ -17,14 +17,50 @@ const Write = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:4000/article", {
-        ...data,
-        userId, // userId를 data에 포함시킴
-      });
-      if (response.status === 200) {
-        alert("게시글이 등록되었습니다.");
-        // 게시판으로 이동
-        // navigate("/articles");
+      const formData = new FormData();
+      for (const key in data) {
+        if (key === "img") {
+          Array.from(data[key]).forEach((file) => {
+            formData.append("img", file);
+          });
+        }
+      }
+
+      // 1. 이미지 업로드 요청
+      const imgResponse = await axios.post(
+        "http://localhost:4000/article/img",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (imgResponse.status === 200) {
+        const imgPaths = imgResponse.data.filePath;
+
+        // 2. 게시물 업로드 요청
+        const articleData = {
+          userId,
+          title: data.title,
+          img: imgPaths.join(","), // 이미지 경로를 콤마로 구분된 문자열로 저장
+          content: data.content,
+          price: data.price,
+          place: data.place,
+          attend: data.attend,
+          receptTime: data.receptTime,
+        };
+
+        const articleResponse = await axios.post(
+          "http://localhost:4000/article",
+          articleData
+        );
+
+        if (articleResponse.status === 200) {
+          alert("게시글이 등록되었습니다.");
+          navigate("/");
+        }
       }
     } catch (err) {
       console.error(err);
@@ -45,7 +81,8 @@ const Write = () => {
                 <input
                   type="file"
                   className="file"
-                  accept="image/png, image/jpg, image/jpeg"
+                  accept="image/*"
+                  multiple
                   {...register("img")}
                 />
               </div>
@@ -98,7 +135,6 @@ const Write = () => {
                     {...register("attend", { required: "필수 필드입니다." })}
                   >
                     <option value={""}>
-                      {" "}
                       나눠가지길 희망하는 인원수를 선택해주세요
                     </option>
                     <option value={"1"}>1</option>
@@ -143,7 +179,7 @@ const Write = () => {
                     className="input"
                     {...register("place", { required: "필수 필드입니다." })}
                   >
-                    <option value={""}> 선택해주세요</option>
+                    <option value={""}>선택해주세요</option>
                     <option value={"신촌 세븐 앞"}>신촌 세븐 앞</option>
                     <option value={"신촌 짱돌 앞"}>신촌 짱돌 앞</option>
                     <option value={"단월 농협 앞"}>단월 농협 앞</option>
