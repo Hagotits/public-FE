@@ -20,10 +20,14 @@ const Main = () => {
 
   return (
     <div className="MainPage">
-      <div className="subdiv">
+      <div className="MainSubdiv">
         <div className="leftdiv">figma상 왼쪽 파란 박스</div>
         <div className="rightdiv">
-          <div className="title">믿을만한 학생들의 공동구매</div>
+          <div className="MainTitle">
+            믿을만한
+            <br />
+            학생들의 공동구매
+          </div>
           <div className="content">
             거래하며 서로 물건과 정을 나누어요
             <br />

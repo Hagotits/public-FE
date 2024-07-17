@@ -1,75 +1,97 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../redux/thunkFunctions";
+// import React, { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
+// import axios from "axios";
+// import "../style/Fleamarket.css";
+
+// const FleaMarket = () => {
+//   const reduxItem = useSelector((state) => state.item);
+
+//   const [item, setItem] = useState(null);
+
+//   useEffect(() => {
+//     if (reduxItem) {
+//       fetchItem(reduxItem.id);
+//     }
+//   }, [reduxItem]);
+
+//   const fetchItem = async (id) => {
+//     try {
+//       const response = await axios.get(`http://localhost:4000/articles/${id}`);
+//       setItem(response.data);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "../style/Fleamarket.css";
 
-const Fleamarket = () => {
+const FleaMarket = () => {
+
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
+  
+  const handleWrite = () => {
+    navigate("/write");
+  };
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const userName = user?.userData?.name;
+
+  useEffect(() => {
+    if (!user?.userData) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  if (!user?.userData) {
+    return null;
+  }
+
+  const Img = params.get("img");
+  const title = params.get("title");
+  const price = parseFloat(params.get("price"));
+  const place = params.get("place");
+  const attend = parseInt(params.get("attend"));
+  const receptTime = params.get("receptTime");
+
   return (
     <div className="FleamarketPage">
-      <div className="post"> 
-        <div className="image"></div>
+      <div className="category">
+          <button className="writeBtn" type="button" onClick={handleWrite}>
+            글쓰기
+          </button>
+          <button className="modifyBtn" type="button" onClick={handleSignUp}>
+            수정하기
+          </button>
+      </div>
+      <div className="post">
+        <div className="image">{Img}</div>
         <div className="text">
-          <div className="Title">다이슨 드라이기 정품</div>
-          <div className="price">100,000원</div>
-          <div className="town">서울 강남구 도곡동</div>
+          <div className="Title">{title}</div>
+          <div className="price">{price}</div>
+          <div className="town">{place}원</div>
         </div>
         <div className="leftover">
           <div className="gray">
-            <div className="person">1명 남음</div>
-            <div className="time">22:19:50</div>
+            <div className="person">{attend}</div>
+            <div className="time">{receptTime}</div>
           </div>
-          <div className="Button">
-            <button className="Btn">
-              7000원으로 참여하기
+          <div className="FleButton">
+            <button className="FleBtn">
+              {price / attend}원으로 참여하기
             </button>
           </div>
         </div>
       </div>
-
-      <div className="post"> 
-        <div className="image"></div>
-        <div className="text">
-          <div className="Title">다이슨 드라이기 정품</div>
-          <div className="price">100,000원</div>
-          <div className="town">서울 강남구 도곡동</div>
-        </div>
-        <div className="leftover">
-          <div className="gray">
-            <div className="person">1명 남음</div>
-            <div className="time">22:19:50</div>
-          </div>
-          <div className="Button">
-            <button className="Btn">
-              7000원으로 참여하기
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="post"> 
-        <div className="image"></div>
-        <div className="text">
-          <div className="Title">다이슨 드라이기 정품</div>
-          <div className="price">100,000원</div>
-          <div className="town">서울 강남구 도곡동</div>
-        </div>
-        <div className="leftover">
-          <div className="gray">
-            <div className="person">1명 남음</div>
-            <div className="time">22:19:50</div>
-          </div>
-          <div className="Button">
-            <button className="Btn">
-              7000원으로 참여하기
-            </button>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
-}
+};
 
-export default Fleamarket;
+export default FleaMarket;

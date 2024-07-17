@@ -23,6 +23,7 @@ import MyPage from "./views/MyPage";
 import Write from "./views/Write";
 import Main from "./views/Main";
 import Fleamarket from "./views/Fleamarket";
+import Articles from "./views/Articles";
 
 function Layout() {
   return (
@@ -50,7 +51,7 @@ const App = () => {
     if (isAuth) {
       dispatch(authUser());
       if (pathname === "/") {
-        navigate("/");
+        navigate("/fleamarket");
       }
     }
   }, [dispatch, pathname, isAuth, navigate, planId]);
@@ -60,14 +61,15 @@ const App = () => {
       <Route path="/" element={<Layout />}>
         {/* 누구나 갈 수 있는 경로 */}
         <Route index element={<Main />} />
-        <Route path="/write" element={<Write />} />
-        <Route path="/fleamarket" element={<Fleamarket />} />
         
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/mypage" element={<MyPage />} />
-          
+          <Route path="/write" element={<Write />} />
+          <Route path="/fleamarket" element={<Fleamarket />} />
+          <Route path="/articles" element={<Articles />} />
         </Route>
+        
         {/* 로그인 한 사람은 갈 수 없는 경로 */}
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />

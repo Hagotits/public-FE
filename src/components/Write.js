@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import "../style/Write.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "../style/Write.css";
 
 const Write = () => {
   const {
@@ -13,7 +13,7 @@ const Write = () => {
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const userId = useSelector((state) => state.user?.userData.id);
-  console.log(userId);
+  const userName = localStorage.getItem("userName");
 
   const onSubmit = async (data) => {
     try {
@@ -23,10 +23,10 @@ const Write = () => {
           Array.from(data[key]).forEach((file) => {
             formData.append("img", file);
           });
-        }
-      }
+        };
+      };
 
-      // 1. 이미지 업로드 요청
+      // 이미지 업로드 요청
       const imgResponse = await axios.post(
         "http://localhost:4000/article/img",
         formData,
@@ -40,7 +40,7 @@ const Write = () => {
       if (imgResponse.status === 200) {
         const imgPaths = imgResponse.data.filePath;
 
-        // 2. 게시물 업로드 요청
+        // 게시물 업로드 요청
         const articleData = {
           userId,
           title: data.title,
@@ -59,7 +59,9 @@ const Write = () => {
 
         if (articleResponse.status === 200) {
           alert("게시글이 등록되었습니다.");
-          navigate("/");
+          navigate(
+            `/articles?userId=${userId}&title=${data.title}&price=${data.price}&place=${data.place}&content=${data.content}&attend=${data.attend}&receptTime=${data.receptTime}`
+          );
         }
       }
     } catch (err) {
@@ -225,8 +227,8 @@ const Write = () => {
               </div>
             </div>
 
-            <div className="button">
-              <button className="btn" type="submit">
+            <div className="WriteButton">
+              <button className="WriteBtn" type="submit">
                 글 등록하기
               </button>
             </div>

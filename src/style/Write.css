@@ -90,13 +90,13 @@
   height: 150px;
 }
 
-.button {
+.WriteButton {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.btn {
+.WriteBtn {
   margin-top: 50px;
   margin-bottom: 30px;
   width: 100%;
@@ -109,7 +109,7 @@
   color: rgb(255, 255, 255);
 }
 
-.btn:hover {
+.WriteBtn:hover {
   background-color: rgb(129, 134, 203);
 }
 

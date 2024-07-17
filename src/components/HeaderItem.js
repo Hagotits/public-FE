@@ -8,6 +8,7 @@ const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
   { to: "/mypage", name: "마이페이지", auth: true },
+  { to: "/likeList", name: "찜목록", auth: true},
   { to: "", name: "로그아웃", auth: true },
 ];
 
