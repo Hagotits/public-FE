@@ -1,39 +1,13 @@
-// import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
-// import axios from "axios";
-// import "../style/Fleamarket.css";
-
-// const FleaMarket = () => {
-//   const reduxItem = useSelector((state) => state.item);
-
-//   const [item, setItem] = useState(null);
-
-//   useEffect(() => {
-//     if (reduxItem) {
-//       fetchItem(reduxItem.id);
-//     }
-//   }, [reduxItem]);
-
-//   const fetchItem = async (id) => {
-//     try {
-//       const response = await axios.get(`http://localhost:4000/articles/${id}`);
-//       setItem(response.data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../style/Fleamarket.css";
 
 const FleaMarket = () => {
-
   const handleSignUp = () => {
     navigate("/signup");
   };
-  
+
   const handleWrite = () => {
     navigate("/write");
   };
@@ -64,12 +38,12 @@ const FleaMarket = () => {
   return (
     <div className="FleamarketPage">
       <div className="category">
-          <button className="writeBtn" type="button" onClick={handleWrite}>
-            글쓰기
-          </button>
-          <button className="modifyBtn" type="button" onClick={handleSignUp}>
-            수정하기
-          </button>
+        <button className="writeBtn" type="button" onClick={handleWrite}>
+          글쓰기
+        </button>
+        <button className="modifyBtn" type="button" onClick={handleSignUp}>
+          수정하기
+        </button>
       </div>
       <div className="post">
         <div className="image">{Img}</div>
@@ -84,9 +58,7 @@ const FleaMarket = () => {
             <div className="time">{receptTime}</div>
           </div>
           <div className="FleButton">
-            <button className="FleBtn">
-              {price / attend}원으로 참여하기
-            </button>
+            <button className="FleBtn">{price / attend}원으로 참여하기</button>
           </div>
         </div>
       </div>
