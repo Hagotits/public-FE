@@ -69,11 +69,11 @@ const Write = () => {
   };
 
   const setMinValue = () => {
-    if(dateElement.value < date) {
+    if (dateElement.value < date) {
       alert("현재 시간보다 이전 날짜는 설정할 수 없습니다.");
       dateElement.value = date;
     }
-  }
+  };
 
   return (
     <div>
@@ -164,7 +164,7 @@ const Write = () => {
                 <div className="Writeexplandiv">
                   <input
                     type="datetime-local"
-                    onchange="setMinValue()"
+                    onChange="setMinValue()"
                     min="date"
                     className="input"
                     {...register("receptTime", {
