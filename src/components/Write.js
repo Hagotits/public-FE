@@ -13,7 +13,6 @@ const Write = () => {
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const userId = useSelector((state) => state.user?.userData.id);
-  const userName = localStorage.getItem("userName");
 
   const onSubmit = async (data) => {
     try {
@@ -23,8 +22,8 @@ const Write = () => {
           Array.from(data[key]).forEach((file) => {
             formData.append("img", file);
           });
-        };
-      };
+        }
+      }
 
       // 이미지 업로드 요청
       const imgResponse = await axios.post(
@@ -58,10 +57,9 @@ const Write = () => {
         );
 
         if (articleResponse.status === 200) {
+          const articleId = articleResponse.data.id;
           alert("게시글이 등록되었습니다.");
-          navigate(
-            `/articles?userId=${userId}&title=${data.title}&price=${data.price}&place=${data.place}&content=${data.content}&attend=${data.attend}&receptTime=${data.receptTime}`
-          );
+          navigate(`/articles/:${articleId}`);
         }
       }
     } catch (err) {
