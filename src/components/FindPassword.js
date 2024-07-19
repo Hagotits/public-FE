@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../style/Login.css";
+import axiosInstance from "../utils/axios";
 
 const FindPassword = () => {
   const [email, setEmail] = useState(null);
@@ -16,7 +16,7 @@ const FindPassword = () => {
 
   const sendAuNum = async (email) => {
     try {
-      const response = await axios.post("http://localhost:4000/find/password", {
+      const response = await axiosInstance.post("/find/password", {
         email,
       });
       setEmail(email);
@@ -32,10 +32,10 @@ const FindPassword = () => {
 
   const certAuNum = async (authCode) => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/find/password/cert",
-        { authCode, email }
-      );
+      const response = await axiosInstance.post("/find/password/cert", {
+        authCode,
+        email,
+      });
       if (response.status === 200) {
         alert("인증이 성공했습니다.");
         navigate("/reset", { state: { email: email } });

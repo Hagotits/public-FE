@@ -44,7 +44,7 @@ const App = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user?.isAuth);
   const { pathname } = useLocation();
-  const { planId } = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,22 +54,23 @@ const App = () => {
         navigate("/fleamarket");
       }
     }
-  }, [dispatch, pathname, isAuth, navigate, planId]);
+  }, [dispatch, pathname, isAuth, navigate, postId]);
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* 누구나 갈 수 있는 경로 */}
         <Route index element={<Main />} />
-        
+
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/write" element={<Write />} />
           <Route path="/fleamarket" element={<Fleamarket />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:postId" element={<Articles />} />
         </Route>
-        
+
         {/* 로그인 한 사람은 갈 수 없는 경로 */}
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />

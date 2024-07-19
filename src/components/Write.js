@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../style/Write.css";
+import axiosInstance from "../utils/axios";
 
 const Write = () => {
   const {
@@ -26,15 +26,11 @@ const Write = () => {
       }
 
       // 이미지 업로드 요청
-      const imgResponse = await axios.post(
-        "http://localhost:4000/article/img",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const imgResponse = await axiosInstance.post("/articles/img", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (imgResponse.status === 200) {
         const imgPaths = imgResponse.data.filePath;
@@ -51,15 +47,15 @@ const Write = () => {
           receptTime: data.receptTime,
         };
 
-        const articleResponse = await axios.post(
-          "http://localhost:4000/article",
+        const articleResponse = await axiosInstance.post(
+          "/articles",
           articleData
         );
 
         if (articleResponse.status === 200) {
           const articleId = articleResponse.data.id;
           alert("게시글이 등록되었습니다.");
-          navigate(`/articles/:${articleId}`);
+          navigate(`/articles/${articleId}`);
         }
       }
     } catch (err) {

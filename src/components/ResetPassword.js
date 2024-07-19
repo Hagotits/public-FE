@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../style/Login.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import axiosInstance from "../utils/axios";
 
 const ResetPassword = () => {
   const {
@@ -23,10 +24,7 @@ const ResetPassword = () => {
     try {
       const body = { email, newPassword, certPassword };
 
-      const response = await axios.post(
-        "http://localhost:4000/auth/reset",
-        body
-      );
+      const response = await axiosInstance.post("/auth/reset", body);
       if (response.status === 200) {
         alert("비밀번호가 성공적으로 변경되었습니다.");
         navigate("/login");

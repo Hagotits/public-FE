@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/thunkFunctions";
 import "../style/Login.css";
-import axios from "axios";
+import axiosInstance from "../utils/axios";
 
 const SignUp = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   const sendAuNum = async (email) => {
     try {
-      await axios.post("http://localhost:4000/auth/verify", { email });
+      await axiosInstance.post("/auth/verify", { email });
       console.log(email);
       alert("인증번호가 이메일로 전송되었습니다.");
     } catch (err) {
@@ -41,7 +41,7 @@ const SignUp = () => {
   const certAuNum = async (authCode) => {
     try {
       const email = watch("email");
-      const response = await axios.post("http://localhost:4000/auth/cert", {
+      const response = await axiosInstance.post("/auth/cert", {
         authCode,
         email,
       });
