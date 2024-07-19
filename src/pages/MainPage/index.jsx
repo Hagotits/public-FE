@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../style/Main.css";
+import "../../style/Main.css";
 
 const Main = () => {
   const navigate = useNavigate();

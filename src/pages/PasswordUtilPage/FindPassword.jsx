@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import "../style/Login.css";
-import axiosInstance from "../utils/axios";
+import "../../style/Login.css";
+import axiosInstance from "../../utils/axios";
 
 const FindPassword = () => {
   const [email, setEmail] = useState(null);

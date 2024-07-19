@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../style/Write.css";
-import axiosInstance from "../utils/axios";
+import "../../style/Write.css";
+import axiosInstance from "../../utils/axios";
 
 const Write = () => {
   const {

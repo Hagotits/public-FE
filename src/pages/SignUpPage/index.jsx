@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../redux/thunkFunctions";
-import "../style/Login.css";
-import axiosInstance from "../utils/axios";
+import { registerUser } from "../../redux/thunkFunctions";
+import "../../style/Login.css";
+import axiosInstance from "../../utils/axios";
 
 const SignUp = () => {
   const [isAuth, setIsAuth] = useState(false);

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import "../style/Login.css";
+import "../../style/Login.css";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import axiosInstance from "../utils/axios";
+import axiosInstance from "../../utils/axios";
 
 const ResetPassword = () => {
   const {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../style/Articles.css";
+import "../../style/Articles.css";
 import { useParams } from "react-router-dom";
-import axiosInstance from "../utils/axios";
+import axiosInstance from "../../utils/axios";
 
 const Articles = () => {
   const [article, setArticle] = useState(null);
