@@ -82,6 +82,16 @@
   outline: 2px solid rgb(139, 133, 205);
 }
 
+/* input 어떤 곳을 클릭해도 캘린더 나오도록 */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* 캘린더 아이콘 투명하게 */
+}
+
 .file {
   border: 1px solid #ccc;
   border-radius: 5px;

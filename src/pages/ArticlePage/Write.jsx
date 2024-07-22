@@ -64,11 +64,18 @@ const Write = () => {
     }
   };
 
-  const setMinValue = () => {
-    if (dateElement.value < date) {
-      alert("현재 시간보다 이전 날짜는 설정할 수 없습니다.");
-      dateElement.value = date;
+  const handleDateChange = (event) => {
+    const dateValue = event.target.value;
+    const hours = new Date(dateValue).getHours();
+
+    event.target.blur();
+
+    if (hours >= 0 && hours < 12) {
+      console.log("오전 선택됨");
+    } else {
+      console.log("오후 선택됨");
     }
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -158,15 +165,17 @@ const Write = () => {
               <div className="WriteinputTitle">수령날짜 / 시간</div>
               <div className="WriteinputWrite">
                 <div className="Writeexplandiv">
-                  <input
-                    type="datetime-local"
-                    onChange="setMinValue()"
-                    min="date"
-                    className="input"
-                    {...register("receptTime", {
-                      required: "필수 필드입니다.",
-                    })}
-                  />
+                  <label for="date">
+                    <input
+                      type="datetime-local"
+                      onChange={handleDateChange}
+                      min={new Date().toISOString().slice(0, 16)}
+                      className="input"
+                      {...register("receptTime", {
+                        required: "필수 필드입니다.",
+                      })}
+                    />
+                  </label>
                   {errors?.receptTime && (
                     <div className="errMessage">
                       <span>{errors.receptTime.message}</span>
