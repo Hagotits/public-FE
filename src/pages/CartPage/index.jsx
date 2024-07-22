@@ -1,48 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCartItems, payProducts, removeCartItem } from '../../store/thunkFunctions';
-import CartTable from './Sections/CartTable';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCartItems,
+  payProducts,
+  removeCartItem,
+} from "../../redux/thunkFunctions";
+import CartTable from "./Sections/CartTable";
 
 const CartPage = () => {
-  const userData = useSelector(state => state.user?.userData);
-  const cartDetail = useSelector(state => state.user?.cartDetail);
+  const userData = useSelector((state) => state.user?.userData);
+  const cartDetail = useSelector((state) => state.user?.cartDetail);
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     let cartItemIds = [];
 
-    if (userData?.cart && userData/cart.length > 0) {
-      userData.cart.forEach(item => {
+    if (userData?.cart && userData / cart.length > 0) {
+      userData.cart.forEach((item) => {
         cartItemIds.push(item.id);
-      })
+      });
 
       const body = {
         cartItemIds,
-        userCart: userData.cart
-      }
-      
-      dispatch(getCartItems(body))
+        userCart: userData.cart,
+      };
+
+      dispatch(getCartItems(body));
     }
-  }, [dispatch, userData])
+  }, [dispatch, userData]);
 
   useEffect(() => {
-    calculateTotal(cartDetail)
-  }, [cartDetail])
+    calculateTotal(cartDetail);
+  }, [cartDetail]);
 
   const calculateTotal = (cartItems) => {
     let total = 0;
-    cartItems.map(item => total += item.price * item.quantity)
+    cartItems.map((item) => (total += item.price * item.quantity));
     setTotal(total);
-  }
+  };
 
   const handleRemoveCartItem = (productId) => {
     dispatch(removeCartItem(productId));
-  }
+  };
 
   const handlePaymentClick = () => {
-    dispatch(payProducts({ cartDetail }))
-  }
+    dispatch(payProducts({ cartDetail }));
+  };
 
   return (
     <section>
@@ -50,24 +54,25 @@ const CartPage = () => {
         <h2>찜 목록</h2>
       </div>
 
-      {cartDetail?.length > 0 ?
+      {cartDetail?.length > 0 ? (
         <>
-          <CartTable products={cartDetail} onRemoveItem={handleRemoveCartItem} />
+          <CartTable
+            products={cartDetail}
+            onRemoveItem={handleRemoveCartItem}
+          />
           <div>
-            <p><span>합계: </span>{total}원</p>
-            <button
-              onClick={handlePaymentClick}
-            >
-              결제하기
-            </button>
+            <p>
+              <span>합계: </span>
+              {total}원
+            </p>
+            <button onClick={handlePaymentClick}>결제하기</button>
           </div>
-          
         </>
-        :
+      ) : (
         <p>찜목록이 없습니다.</p>
-      }
+      )}
     </section>
-  )
-}
+  );
+};
 
 export default CartPage;

@@ -24,6 +24,7 @@ import Write from "./pages/ArticlePage/Write";
 import Main from "./pages/MainPage/index";
 import Fleamarket from "./pages/MainPage/index";
 import Articles from "./pages/ArticlePage/Articles";
+import CartPage from "./pages/CartPage/index";
 
 function Layout() {
   return (
