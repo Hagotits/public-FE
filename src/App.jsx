@@ -20,11 +20,13 @@ import SignUp from "./pages/SignUpPage/index";
 import FindPassword from "./pages/PasswordUtilPage/FindPassword";
 import ResetPassword from "./pages/PasswordUtilPage/ResetPassword";
 import MyPage from "./pages/MyPage/index";
-import Write from "./pages/ArticlePage/Write";
 import Main from "./pages/MainPage/index";
 import Fleamarket from "./pages/MainPage/index";
 import Articles from "./pages/ArticlePage/Articles";
 import CartPage from "./pages/CartPage/index";
+import UploadArticlePage from "./pages/UploadArticlePage/index";
+import DetailProductPage from "./pages/DetailProductPage/index";
+import HistoryPage from "./pages/HistoryPage/index";
 
 function Layout() {
   return (
@@ -66,11 +68,12 @@ const App = () => {
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/write" element={<Write />} />
           <Route path="/fleamarket" element={<Fleamarket />} />
           <Route path="/articles" element={<Articles />} />
-          <Route path="/articles/:postId" element={<Articles />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/articles/:postId" element={<DetailProductPage />} />
+          <Route path="/write" element={<UploadArticlePage />} />
+          <Route path="/user/cart" element={<CartPage />} />
+          <Route path="/history" element={<HistoryPage />} />
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}

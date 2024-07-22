@@ -16,7 +16,6 @@ const FleaMarket = () => {
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const userName = user?.userData?.name;
 
   useEffect(() => {
     if (!user?.userData) {

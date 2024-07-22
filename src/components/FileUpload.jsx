@@ -1,9 +1,9 @@
 import React from "react";
-import DropZone from "react-dropzone";
+import Dropzone from "react-dropzone";
 import axiosInstance from "../utils/axios";
 
-const FileUpload = async ({ onImageChange, images }) => {
-  const handleDrop = (files) => {
+const FileUpload = ({ onImageChange, images }) => {
+  const handleDrop = async (files) => {
     let formData = new FormData();
 
     const config = {
@@ -11,18 +11,18 @@ const FileUpload = async ({ onImageChange, images }) => {
     };
 
     formData.append("file", files[0]);
-  };
 
-  try {
-    const response = await axiosInstance.post(
-      `/acticles/img`,
-      formData,
-      config
-    );
-    onImageChange([...images, response.data.fileName]);
-  } catch (err) {
-    console.error(err);
-  }
+    try {
+      const response = await axiosInstance.post(
+        "/articles/img",
+        formData,
+        config
+      );
+      onImageChange([...images, response.data.fileName]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleDelete = (image) => {
     const currentIndex = images.indexOf(image);
@@ -33,21 +33,34 @@ const FileUpload = async ({ onImageChange, images }) => {
 
   return (
     <div>
-      <DropZone onDrop={handleDrop}>
-        {({ getRootProps, getInputProps }) => {
-          <div>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>+</p>
-            </div>
-          </div>;
-        }}
-      </DropZone>
+      <Dropzone onDrop={handleDrop}>
+        {({ getRootProps, getInputProps }) => (
+          <div
+            {...getRootProps()}
+            style={{
+              border: "2px dashed #007bff",
+              padding: "20px",
+              cursor: "pointer",
+            }}
+          >
+            <input {...getInputProps()} />
+            <p>이미지를 드래그하거나 클릭하여 업로드하세요.</p>
+          </div>
+        )}
+      </Dropzone>
 
-      <div>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {images.map((image) => (
-          <div key={image} onClick={() => handleDelete(image)}>
-            <img src={`$${import.meta.env.SERVERL_URL}/${image}`} alt={image} />
+          <div
+            key={image}
+            onClick={() => handleDelete(image)}
+            style={{ margin: "10px", cursor: "pointer" }}
+          >
+            <img
+              src={`${import.meta.env.VITE_SERVER_URL}/${image}`}
+              alt={image}
+              style={{ width: "100px", height: "100px" }}
+            />
           </div>
         ))}
       </div>
