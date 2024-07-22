@@ -12,7 +12,7 @@ const routes = [
   { to: "/write", name: "업로드", auth: true },
   {
     to: "/user/cart",
-    name: "카트",
+    // name: "카트",
     auth: true,
     icon: <AiOutlineShoppingCart style={{ fontSize: "1.4rem" }} />,
   },
@@ -40,7 +40,7 @@ const HeaderItem = ({ mobile }) => {
         mobile ? "flex-col bg-gray-900 h-full" : ""
       } items-center`}
     >
-      {routes.map(({ to, name, auth }) => {
+      {routes.map(({ to, name, auth, icon }) => {
         if (isAuth !== auth) return null;
         if (name === "로그아웃") {
           return (
@@ -51,7 +51,7 @@ const HeaderItem = ({ mobile }) => {
         } else {
           return (
             <li key={name} className="list">
-              <Link to={to}>{name}</Link>
+              <Link to={to}> {icon && icon} {name}</Link>
             </li>
           );
         }

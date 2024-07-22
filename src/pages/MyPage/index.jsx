@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 // import Wishlist from "../../pages/;
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Header from '../../layout/Header/Header';
 
 function MyPage({ match, history }) {
   const userId = useSelector((state) => state.user?.userData.id); // 현재 로그인한 사용자의 ID 가져오기
@@ -65,7 +66,22 @@ function MyPage({ match, history }) {
   // 컴포넌트가 처음 렌더링될 때, match.params.id가 변결될 때 실행됨
 
   return (
-    <div>MyPage</div>
+    <div className="MyPage">
+      <div className="MypageSub">
+        <div className="myinfo"></div>
+        <div className="subHeader">
+          <ul>
+            <li>판매 물품</li>
+            <li>관심 목록</li>
+            <li>거래 완료</li>
+            <li>거래 후기</li>
+          </ul>
+        </div>
+        <div className="subContent">
+          <div>게시글 목록, 관심글 목록 들어가면 됨</div>
+        </div>
+      </div>
+    </div>
     // <>
     //   {userId && isCurrentUserSeller ? (
     //     <>

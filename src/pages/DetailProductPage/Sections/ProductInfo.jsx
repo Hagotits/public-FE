@@ -17,10 +17,10 @@ const ProductInfo = ({ product }) => {
         <li>{product.title}</li>
         <li>
           <span>인원: </span>
-          {product.person}명
+          {product.attend}명
         </li>
         <li>
-          <span>수령 날짜: </span>
+          <span>수령 날짜 / 시간: </span>
           {product.date}
         </li>
         <li>
@@ -31,12 +31,12 @@ const ProductInfo = ({ product }) => {
           <span>가격: </span>
           {product.price}원
         </li>
-        <li>{product.explan}</li>
+        <li>{product.content}</li>
       </ul>
 
       <div>
         <button onClick={handleClick}>
-          {product.price / product.person}로 참여하기
+          {product.price / product.attend}로 참여하기
         </button>
       </div>
     </div>
