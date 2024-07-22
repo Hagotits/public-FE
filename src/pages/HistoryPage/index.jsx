@@ -1,9 +1,9 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import dayjs from 'dayjs';
+import React from "react";
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 const HistoryPage = () => {
-  const userData = useSelector(state => state.user?.userData);
+  const userData = useSelector((state) => state.user?.userData);
 
   return (
     <section>
@@ -22,18 +22,26 @@ const HistoryPage = () => {
         </thead>
 
         <tbody>
-          {userData?.history.map(item => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.price}</td>
-              <td>{item.quantity}</td>
-              <td>{item.dateOfPurchase.format('YYYY-MM-DD HH:mm:ss')}</td>
+          {userData?.history?.length > 0 ? (
+            userData.history.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.price}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  {dayjs(item.dateOfPurchase).format("YYYY-MM-DD HH:mm:ss")}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No purchase history available</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </section>
-  )
-}
+  );
+};
 
 export default HistoryPage;

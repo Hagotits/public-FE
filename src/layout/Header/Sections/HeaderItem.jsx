@@ -16,6 +16,7 @@ const routes = [
     auth: true,
     icon: <AiOutlineShoppingCart style={{ fontSize: "1.4rem" }} />,
   },
+  { to: "/history", name: "주문목록", auth: true },
   { to: "", name: "로그아웃", auth: true },
 ];
 
