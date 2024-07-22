@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../style/Fleamarket.css";
+import "../../style/Articles.css";
 
 const FleaMarket = () => {
   const handleSignUp = () => {

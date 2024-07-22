@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import ProfileSection from "../components/Profile/ProfileSection";
-import Wishlist from "../components/Profile/Wishlist"
-import { useSelector } from "react-redux"
+// import Wishlist from "../../pages/;
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import userData from "../components/Profile/userData";
-import Articles from "../views/Articles";
 
-function MyPage( { match, history }) {
-
+function MyPage({ match, history }) {
   const userId = useSelector((state) => state.user?.userData.id); // 현재 로그인한 사용자의 ID 가져오기
-  
+
   const { id } = useParams();
   const [active, setActive] = useState(true);
   const [archived, setArchived] = useState(false);
@@ -60,16 +56,15 @@ function MyPage( { match, history }) {
     setReview(true);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0); // 페이지 가장 위로 스크롤
-    Articles.userId(match.params.id)
-      .then((res) => setUser(res.user))
-      .catch((err) => console.log(err)); // userId 호출해 사용자 정보 가져오고, setUser로 상태 업데이트
-  }, [id]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0); // 페이지 가장 위로 스크롤
+  //   Articles.userId(match.params.id)
+  //     .then((res) => setUser(res.user))
+  //     .catch((err) => console.log(err)); // userId 호출해 사용자 정보 가져오고, setUser로 상태 업데이트
+  // }, [id]);
   // 컴포넌트가 처음 렌더링될 때, match.params.id가 변결될 때 실행됨
 
-  
-  return(
+  return (
     <>
       {userData && isCurrentUserSeller ? (
         <>
@@ -120,7 +115,7 @@ function MyPage( { match, history }) {
             </div>
           </div>
         </>
-      ) : ((
+      ) : (
         <>
           <SellerProfile params={user} history={history} />
           <div className="container">
@@ -153,7 +148,7 @@ function MyPage( { match, history }) {
             </div>
           </div>
         </>
-      ))}
+      )}
     </>
   );
 }
