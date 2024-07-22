@@ -65,91 +65,92 @@ function MyPage({ match, history }) {
   // 컴포넌트가 처음 렌더링될 때, match.params.id가 변결될 때 실행됨
 
   return (
-    <>
-      {userData && isCurrentUserSeller ? (
-        <>
-          <ProfileSection params={user} />
-          <div className="container">
-            <div className="sidenbar">
-              <button
-                className={`sidebar-button ${active ? "active" : ""}`}
-                onClick={handleActive}
-              >
-                판매 물품
-              </button>
+    <div>MyPage</div>
+    // <>
+    //   {userId && isCurrentUserSeller ? (
+    //     <>
+    //       <ProfileSection params={user} />
+    //       <div className="container">
+    //         <div className="sidenbar">
+    //           <button
+    //             className={`sidebar-button ${active ? "active" : ""}`}
+    //             onClick={handleActive}
+    //           >
+    //             판매 물품
+    //           </button>
 
-              <button
-                className={`sidebar-button ${archived ? "active" : ""}`}
-                onClick={handleArchived}
-              >
-                보관함
-              </button>
+    //           <button
+    //             className={`sidebar-button ${archived ? "active" : ""}`}
+    //             onClick={handleArchived}
+    //           >
+    //             보관함
+    //           </button>
 
-              <button
-                className={`sidebar-button ${wishlist ? "active" : ""}`}
-                onClick={handleWish}
-              >
-                관심 목록
-              </button>
+    //           <button
+    //             className={`sidebar-button ${wishlist ? "active" : ""}`}
+    //             onClick={handleWish}
+    //           >
+    //             관심 목록
+    //           </button>
 
-              <button
-                className={`sidebar-button ${soldout ? "active" : ""}`}
-                onClick={handleSoldout}
-              >
-                판매 완료
-              </button>
+    //           <button
+    //             className={`sidebar-button ${soldout ? "active" : ""}`}
+    //             onClick={handleSoldout}
+    //           >
+    //             판매 완료
+    //           </button>
 
-              <button
-                className={`sidebar-button ${review ? "active" : ""}`}
-                onClick={handleReview}
-              >
-                거래 후기
-              </button>
-            </div>
-            <div className="profile-main-contents">
-              {active && <ActiveSells params={user} />}
-              {archived && <ArchivedSells params={history} />}
-              {wishlist && <Wishlist />}
-              {soldout && <Soldout />}
-              {review && <Review />}
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <SellerProfile params={user} history={history} />
-          <div className="container">
-            <div className="sidebar">
-              <button
-                className={`sidebar-button ${active ? "active" : ""}`}
-                onClick={handleActive}
-              >
-                판매 물품
-              </button>
+    //           <button
+    //             className={`sidebar-button ${review ? "active" : ""}`}
+    //             onClick={handleReview}
+    //           >
+    //             거래 후기
+    //           </button>
+    //         </div>
+    //         <div className="profile-main-contents">
+    //           {active && <ActiveSells params={user} />}
+    //           {archived && <ArchivedSells params={history} />}
+    //           {wishlist && <Wishlist />}
+    //           {soldout && <Soldout />}
+    //           {review && <Review />}
+    //         </div>
+    //       </div>
+    //     </>
+    //   ) : (
+    //     <>
+    //       <SellerProfile params={user} history={history} />
+    //       <div className="container">
+    //         <div className="sidebar">
+    //           <button
+    //             className={`sidebar-button ${active ? "active" : ""}`}
+    //             onClick={handleActive}
+    //           >
+    //             판매 물품
+    //           </button>
 
-              <button
-                className={`sidebar-button ${soldout ? "active" : ""}`}
-                onClick={handleSoldout}
-              >
-                판매 완료
-              </button>
+    //           <button
+    //             className={`sidebar-button ${soldout ? "active" : ""}`}
+    //             onClick={handleSoldout}
+    //           >
+    //             판매 완료
+    //           </button>
 
-              <button
-                className={`sidebar-button ${review ? "active" : ""}`}
-                onClick={handleReview}
-              >
-                거래 후기
-              </button>
-            </div>
-            <div className="profile-main-contents">
-              {review && <Review />}
-              {active && <ActiveSells params={user} />}
-              {soldout && <Soldout />}
-            </div>
-          </div>
-        </>
-      )}
-    </>
+    //           <button
+    //             className={`sidebar-button ${review ? "active" : ""}`}
+    //             onClick={handleReview}
+    //           >
+    //             거래 후기
+    //           </button>
+    //         </div>
+    //         <div className="profile-main-contents">
+    //           {review && <Review />}
+    //           {active && <ActiveSells params={user} />}
+    //           {soldout && <Soldout />}
+    //         </div>
+    //       </div>
+    //     </>
+    //   )}
+    // </>
   );
 }
 
