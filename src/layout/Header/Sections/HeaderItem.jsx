@@ -12,7 +12,7 @@ const routes = [
   { to: "/write", name: "업로드", auth: true },
   {
     to: "/user/cart",
-    // name: "카트",
+    name: "카트",
     auth: true,
     icon: <AiOutlineShoppingCart style={{ fontSize: "1.4rem" }} />,
   },
@@ -51,8 +51,10 @@ const HeaderItem = ({ mobile }) => {
           );
         } else {
           return (
-            <li key={name} className="list">
-              <Link to={to}> {icon && icon} {name}</Link>
+            <li key={to} className="list">
+              <Link to={to}>
+                {icon && icon} {name}
+              </Link>
             </li>
           );
         }
