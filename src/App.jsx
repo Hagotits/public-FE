@@ -12,18 +12,18 @@ import { authUser } from "./redux/thunkFunctions";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "./components/Header";
-import ProtectedRoutes from "./appointment/ProtectedRoutes";
-import NotAuthRoutes from "./appointment/NotAuthRoutes";
-import Login from "./views/Login";
-import SignUp from "./views/SignUp";
-import FindPassword from "./views/FindPassword";
-import ResetPassword from "./views/ResetPassword";
-import MyPage from "./views/MyPage";
-import Write from "./views/Write";
-import Main from "./views/Main";
-import Fleamarket from "./views/Fleamarket";
-import Articles from "./views/Articles";
+import Header from "./layout/Header/Header";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import NotAuthRoutes from "./components/NotAuthRoutes";
+import Login from "./pages/LoginPage/index";
+import SignUp from "./pages/SignUpPage/index";
+import FindPassword from "./pages/PasswordUtilPage/FindPassword";
+import ResetPassword from "./pages/PasswordUtilPage/ResetPassword";
+import MyPage from "./pages/MyPage/index";
+import Write from "./pages/ArticlePage/Write";
+import Main from "./pages/MainPage/index";
+import Fleamarket from "./pages/MainPage/index";
+import Articles from "./pages/ArticlePage/Articles";
 
 function Layout() {
   return (
@@ -44,7 +44,7 @@ const App = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user?.isAuth);
   const { pathname } = useLocation();
-  const { planId } = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,22 +54,23 @@ const App = () => {
         navigate("/fleamarket");
       }
     }
-  }, [dispatch, pathname, isAuth, navigate, planId]);
+  }, [dispatch, pathname, isAuth, navigate, postId]);
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* 누구나 갈 수 있는 경로 */}
         <Route index element={<Main />} />
-        
+
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/write" element={<Write />} />
           <Route path="/fleamarket" element={<Fleamarket />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:postId" element={<Articles />} />
         </Route>
-        
+
         {/* 로그인 한 사람은 갈 수 없는 경로 */}
         <Route element={<NotAuthRoutes />}>
           <Route path="/login" element={<Login />} />
