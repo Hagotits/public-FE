@@ -1,0 +1,135 @@
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../utils/axios";
+import { useNavigate } from "react-router-dom";
+import FileUpload from "../../components/FileUpload";
+
+const places = [
+  { key: 1, value: "신촌 세븐 앞" },
+  { key: 2, value: "신촌 짱돌 앞" },
+  { key: 3, value: "단월 농협 앞" },
+  { key: 4, value: "모시래 세븐 앞" },
+  { key: 5, value: "모시래 기숙사 여동 앞" },
+  { key: 6, value: "모시래 기숙사 남동 앞" },
+  { key: 7, value: "해오름 기숙사 여동 앞" },
+  { key: 8, value: "해오름 기숙사 남동 앞" },
+];
+
+const UploadArticlePage = () => {
+  const [article, setArticle] = useState({
+    title: "",
+    content: "",
+    place: "",
+    price: 0,
+    attend: 0,
+    images: [],
+  });
+  const userData = useSelector((state) => state?.user.userData);
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setArticle((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleImages = (newImages) => {
+    setArticle((prevState) => ({
+      ...prevState,
+      images: newImages,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const body = {
+      writer: userData.id,
+      ...article,
+    };
+
+    try {
+      await axiosInstance.post("/articles", body);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <h1>예상 상품 업로드</h1>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <FileUpload images={article.images} onImageChange={handleImages} />
+        <div>
+          <label htmlFor="title">이름</label>
+          <input
+            name="title"
+            id="title"
+            onChange={handleChange}
+            value={article.title}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="content">설명</label>
+          <input
+            name="content"
+            id="content"
+            onChange={handleChange}
+            value={article.content}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="price">가격</label>
+          <input
+            name="price"
+            type="number"
+            id="price"
+            onChange={handleChange}
+            value={article.price}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="attend">거래 인원</label>
+          <input
+            name="attend"
+            type="number"
+            id="attend"
+            onChange={handleChange}
+            value={article.attend}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="place">거래 장소</label>
+          <select
+            name="place"
+            id="place"
+            onChange={handleChange}
+            value={article.place}
+          >
+            {places.map((item) => (
+              <option key={item.key} value={item.key}>
+                {item.value}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <button type="submit">생성하기</button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default UploadArticlePage;
