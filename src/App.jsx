@@ -69,6 +69,7 @@ const App = () => {
           <Route path="/fleamarket" element={<Fleamarket />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:postId" element={<Articles />} />
+          <Route path="/cart" element={<CartPage />} />
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}
