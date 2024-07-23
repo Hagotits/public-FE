@@ -1,48 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
-import ProductImage from "./Sections/ProductImage";
-import ProductInfo from "./Sections/ProductInfo";
+import ArticleImage from "./Sections/ArticleImage";
+import ArticleInfo from "./Sections/ArticleInfo";
 
-const DetailProductPage = () => {
-  const { productId } = useParams();
-  const [product, setProduct] = useState(null);
+const DetailArticlePage = () => {
+  const { articleId } = useParams();
+  const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    async function fetchProduct() {
+    console.log("articleId:", articleId); // articleId 값 확인
+
+    async function fetchArticle() {
       try {
         const response = await axiosInstance.get(
-          `products/${productId}?type=single`
+          `articles/${articleId}?type=single`
         );
-        console.log(response);
-        setProduct(response.data[0]);
+        console.log(response.data);
+        setArticle(response.data[0]);
       } catch (error) {
         console.error(error);
       }
     }
-    fetchProduct();
-  }, [productId]);
 
-  if (!product) return null;
+    if (articleId) {
+      fetchArticle();
+    }
+  }, [articleId]);
+
+  if (!article) return null;
 
   return (
-    <section>
+    <div>
       <div>
-        <h1>{product.title}</h1>
+        <h1>{article.title}</h1>
       </div>
 
       <div>
         <div>
           {/* {ProductImage} */}
-          <ProductImage product={product} />
+          <ArticleImage article={article} />
         </div>
         <div>
           {/* {ProductInfo} */}
-          <ProductInfo product={product} />
+          <ArticleInfo article={article} />
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default DetailProductPage;
+export default DetailArticlePage;

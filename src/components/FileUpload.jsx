@@ -57,7 +57,7 @@ const FileUpload = ({ onImageChange, images }) => {
             style={{ margin: "10px", cursor: "pointer" }}
           >
             <img
-              src={`${import.meta.env.VITE_SERVER_URL}/${image}`}
+              src={`${import.meta.env.SERVER_URL}/${image}`}
               alt={image}
               style={{ width: "100px", height: "100px" }}
             />

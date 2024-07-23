@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/thunkFunctions";
 
-const ProductInfo = ({ product }) => {
+const ArticleInfo = ({ article }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(addToCart({ productId: product._id }));
+    dispatch(addToCart({ articleId: article._id }));
   };
 
   return (
@@ -14,33 +14,33 @@ const ProductInfo = ({ product }) => {
       <p>상품 정보</p>
 
       <ul>
-        <li>{product.title}</li>
+        <li>{article.title}</li>
         <li>
           <span>인원: </span>
-          {product.attend}명
+          {article.attend}명
         </li>
         <li>
           <span>수령 날짜 / 시간: </span>
-          {product.date}
+          {article.date}
         </li>
         <li>
           <span>수령 장소: </span>
-          {product.place}
+          {article.place}
         </li>
         <li>
           <span>가격: </span>
-          {product.price}원
+          {article.price}원
         </li>
-        <li>{product.content}</li>
+        <li>{article.content}</li>
       </ul>
 
       <div>
         <button onClick={handleClick}>
-          {product.price / product.attend}로 참여하기
+          {article.price / article.attend}로 참여하기
         </button>
       </div>
     </div>
   );
 };
 
-export default ProductInfo;
+export default ArticleInfo;
