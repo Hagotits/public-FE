@@ -7,7 +7,7 @@ const ImageSlider = ({ images = [] }) => {
     <Carousel autoPlay showThumbs={false} infiniteLoop>
       {images.map((image) => (
         <div key={image}>
-          <img src={`${import.meta.env.SERVER_URL}/${image}`} alt={image} />
+          <img src={`http://localhost:4000/${image}`} alt={image} />
         </div>
       ))}
       <div></div>

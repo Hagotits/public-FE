@@ -11,7 +11,7 @@ const DetailArticlePage = () => {
   useEffect(() => {
     console.log("articleId:", articleId); // articleId 값 확인
 
-    async function fetchArticle() {
+    const fetchArticle = async () => {
       try {
         const response = await axiosInstance.get(
           `articles/${articleId}?type=single`
@@ -21,7 +21,7 @@ const DetailArticlePage = () => {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     if (articleId) {
       fetchArticle();

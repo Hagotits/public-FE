@@ -18,7 +18,12 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = async ({ email, name, password }) => {
-    const body = { email, name, password };
+    const body = {
+      email,
+      name,
+      password,
+      image: `https://via.placeholder.com/600x400?text=no+user+image`,
+    };
     try {
       await dispatch(registerUser(body));
       navigate("/login");

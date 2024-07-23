@@ -24,7 +24,7 @@ import Main from "./pages/MainPage/index";
 import Fleamarket from "./pages/MainPage/index";
 import CartPage from "./pages/CartPage/index";
 import UploadArticlePage from "./pages/UploadArticlePage/index";
-import DetailProductPage from "./pages/DetailProductPage/index";
+import DetailArticlePage from "./pages/DetailArticlePage/index";
 import HistoryPage from "./pages/HistoryPage/index";
 
 function Layout() {
@@ -70,7 +70,7 @@ const App = () => {
           {/* 전체 게시판 페이지: fleamarket */}
           <Route path="/fleamarket" element={<Fleamarket />} />
           {/* 상세 게시판 페이지: articles */}
-          <Route path="/articles/:articleId" element={<DetailProductPage />} />
+          <Route path="/articles/:articleId" element={<DetailArticlePage />} />
           {/* 글쓰기 페이지: write */}
           <Route path="/write" element={<UploadArticlePage />} />
           <Route path="/user/cart" element={<CartPage />} />

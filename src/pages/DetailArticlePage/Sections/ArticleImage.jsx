@@ -10,8 +10,8 @@ const ArticleImage = ({ article }) => {
 
       article.images.map((imageName) => {
         return images.push({
-          original: `${import.meta.env.SERVER_URL}/${imageName}`,
-          thumbnail: `${import.meta.env.SERVER_URL}/${imageName}`,
+          original: `http://localhost:4000/${imageName}`,
+          thumbnail: `http://localhost:4000/${imageName}`,
         });
       });
       setImages(images);
