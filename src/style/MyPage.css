@@ -35,8 +35,6 @@
   margin: 0 auto;
   display: block;
   object-fit: cover;
-
-  background-color: blueviolet;
 }
 
 .userName {
@@ -73,8 +71,8 @@
 }
 
 .sidebar button.active {
-  border-bottom: 4px solid #FF7E36;
-  color: #FF7E36;
+  border-bottom: 4px solid rgb(80, 81, 246);
+  color: rgb(80, 81, 246);
 }
 
 

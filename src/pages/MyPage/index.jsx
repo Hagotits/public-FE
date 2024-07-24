@@ -24,22 +24,22 @@ const MyPage = () => {
         </div>
         <div className="sidebar">
           <button
-            className="category"
+            className={`category ${activeCategory === "판매 물품" ? "active" : ""}`}
             onClick={() => setActiveCategory("판매 물품")}>
               판매 물품
           </button>
           <button
-            className="category"
+            className={`category ${activeCategory === "관심 목록" ? "active" : ""}`}
             onClick={() => setActiveCategory("관심 목록")}>
               관심 목록
           </button>
           <button
-            className="category"
+            className={`category ${activeCategory === "거래 완료" ? "active" : ""}`}
             onClick={() => setActiveCategory("거래 완료")}>
               거래 완료
           </button>
           <button
-            className="category"
+            className={`category ${activeCategory === "거래 후기" ? "active" : ""}`}
             onClick={() => setActiveCategory("거래 후기")}>
               거래 후기
           </button>
