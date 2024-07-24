@@ -23,8 +23,9 @@ const UploadArticlePage = () => {
     price: 0,
     attend: 0,
     images: [],
+    receptTime: "",
   });
-  const userData = useSelector((state) => state?.user.userData);
+  const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -117,11 +118,22 @@ const UploadArticlePage = () => {
             value={article.place}
           >
             {places.map((item) => (
-              <option key={item.key} value={item.key}>
+              <option key={item.key} value={item.value}>
                 {item.value}
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label>수령 날짜</label>
+          <input
+            type="datetime-local"
+            name="receptTime"
+            id="receptTime"
+            onChange={handleChange}
+            value={article.receptTime}
+          />
         </div>
 
         <div>
