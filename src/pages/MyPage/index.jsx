@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Header from '../../layout/Header/Header';
 import "../../style/MyPage.css";
-import FleaMarket from '../ArticlePage/index';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import CartPage from '../CartPage/index';
 
@@ -46,7 +45,7 @@ const MyPage = () => {
           </button>
         </div>
         <div className="subContent">
-          {activeCategory === "판매 물품" && <FleaMarket />}
+          {activeCategory === "판매 물품" && <div>판매 물품</div>}
           {activeCategory === "관심 목록" && <CartPage />}
           {activeCategory === "거래 완료" && <div>거래 완료</div>}
           {activeCategory === "거래 후기" && <div>거래 후기</div>}
