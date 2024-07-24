@@ -22,7 +22,6 @@ import ResetPassword from "./pages/PasswordUtilPage/ResetPassword";
 import MyPage from "./pages/MyPage/index";
 import Main from "./pages/MainPage/index";
 import Fleamarket from "./pages/MainPage/index";
-import Articles from "./pages/ArticlePage/Articles";
 import CartPage from "./pages/CartPage/index";
 import UploadArticlePage from "./pages/UploadArticlePage/index";
 import DetailProductPage from "./pages/DetailProductPage/index";
@@ -66,18 +65,20 @@ const App = () => {
         <Route index element={<Main />} />
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutes isAuth={isAuth} />}>
           <Route path="/mypage" element={<MyPage />} />
+          {/* 전체 게시판 페이지: fleamarket */}
           <Route path="/fleamarket" element={<Fleamarket />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/articles/:postId" element={<DetailProductPage />} />
+          {/* 상세 게시판 페이지: articles */}
+          <Route path="/articles/:articleId" element={<DetailProductPage />} />
+          {/* 글쓰기 페이지: write */}
           <Route path="/write" element={<UploadArticlePage />} />
           <Route path="/user/cart" element={<CartPage />} />
           <Route path="/history" element={<HistoryPage />} />
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}
-        <Route element={<NotAuthRoutes />}>
+        <Route element={<NotAuthRoutes isAuth={isAuth} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/find/password" element={<FindPassword />} />

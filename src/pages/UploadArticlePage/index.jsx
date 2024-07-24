@@ -46,7 +46,7 @@ const UploadArticlePage = () => {
     event.preventDefault();
 
     const body = {
-      writer: userData.id,
+      userId: userData.id,
       ...article,
     };
 
