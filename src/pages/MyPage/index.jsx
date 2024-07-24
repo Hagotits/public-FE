@@ -1,172 +1,58 @@
 import React, { useEffect, useState, useContext } from "react";
-// import Wishlist from "../../pages/;
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Header from '../../layout/Header/Header';
+import "../../style/MyPage.css";
+import FleaMarket from '../ArticlePage/index';
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import CartPage from '../CartPage/index';
 
-function MyPage({ match, history }) {
-  const userId = useSelector((state) => state.user?.userData.id); // 현재 로그인한 사용자의 ID 가져오기
-
-  const { id } = useParams();
-  const [active, setActive] = useState(true);
-  const [archived, setArchived] = useState(false);
-  const [wishlist, setWishlist] = useState(false);
-  const [soldout, setSoldout] = useState(false);
-  const [review, setReview] = useState(false); // 위 네가지는 각 섹션의 활성 상태 관리하는 state
-  const [user, setUser] = useState([]); // 현재 프로필의 사용자 정보 저장하는 state
-
-  const isCurrentUserSeller = userId && id === userId._id; // 현재 프로필이 로그인 한 사용자의 것인지 확인하는 변수
-
-  const handleActive = () => {
-    setActive(true);
-    setArchived(false);
-    setWishlist(false);
-    setSoldout(false);
-    setReview(false);
-  };
-
-  const handleArchived = () => {
-    setActive(false);
-    setArchived(true);
-    setWishlist(false);
-    setSoldout(false);
-    setReview(false);
-  };
-
-  const handleWish = () => {
-    setActive(false);
-    setArchived(false);
-    setWishlist(true);
-    setSoldout(false);
-    setReview(false);
-  };
-
-  const handleSoldout = () => {
-    setActive(false);
-    setArchived(false);
-    setWishlist(false);
-    setSoldout(true);
-    setReview(false);
-  };
-
-  const handleReview = () => {
-    setActive(false);
-    setArchived(false);
-    setWishlist(false);
-    setSoldout(false);
-    setReview(true);
-  };
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0); // 페이지 가장 위로 스크롤
-  //   Articles.userId(match.params.id)
-  //     .then((res) => setUser(res.user))
-  //     .catch((err) => console.log(err)); // userId 호출해 사용자 정보 가져오고, setUser로 상태 업데이트
-  // }, [id]);
-  // 컴포넌트가 처음 렌더링될 때, match.params.id가 변결될 때 실행됨
-
+const MyPage = () => {
+  const [activeCategory, setActiveCategory] = useState("판매 물품");
+  
   return (
     <div className="MyPage">
       <div className="MypageSub">
-        <div className="myinfo"></div>
-        <div className="subHeader">
-          <ul>
-            <li>판매 물품</li>
-            <li>관심 목록</li>
-            <li>거래 완료</li>
-            <li>거래 후기</li>
-          </ul>
+        <div className="userInfo">
+          <div className="userImg" />
+          <div className="userSub">
+            <div className="userName">하가형</div>
+            <div className="userBtn">
+              <button className="profile">프로필 수정</button>
+              <button className="userOut">회원 탈퇴</button>
+            </div>
+          </div>
+        </div>
+        <div className="sidebar">
+          <button
+            className="category"
+            onClick={() => setActiveCategory("판매 물품")}>
+              판매 물품
+          </button>
+          <button
+            className="category"
+            onClick={() => setActiveCategory("관심 목록")}>
+              관심 목록
+          </button>
+          <button
+            className="category"
+            onClick={() => setActiveCategory("거래 완료")}>
+              거래 완료
+          </button>
+          <button
+            className="category"
+            onClick={() => setActiveCategory("거래 후기")}>
+              거래 후기
+          </button>
         </div>
         <div className="subContent">
-          <div>게시글 목록, 관심글 목록 들어가면 됨</div>
+          {activeCategory === "판매 물품" && <FleaMarket />}
+          {activeCategory === "관심 목록" && <CartPage />}
+          {activeCategory === "거래 완료" && <div>거래 완료</div>}
+          {activeCategory === "거래 후기" && <div>거래 후기</div>}
         </div>
       </div>
     </div>
-    // <>
-    //   {userId && isCurrentUserSeller ? (
-    //     <>
-    //       <ProfileSection params={user} />
-    //       <div className="container">
-    //         <div className="sidenbar">
-    //           <button
-    //             className={`sidebar-button ${active ? "active" : ""}`}
-    //             onClick={handleActive}
-    //           >
-    //             판매 물품
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${archived ? "active" : ""}`}
-    //             onClick={handleArchived}
-    //           >
-    //             보관함
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${wishlist ? "active" : ""}`}
-    //             onClick={handleWish}
-    //           >
-    //             관심 목록
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${soldout ? "active" : ""}`}
-    //             onClick={handleSoldout}
-    //           >
-    //             판매 완료
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${review ? "active" : ""}`}
-    //             onClick={handleReview}
-    //           >
-    //             거래 후기
-    //           </button>
-    //         </div>
-    //         <div className="profile-main-contents">
-    //           {active && <ActiveSells params={user} />}
-    //           {archived && <ArchivedSells params={history} />}
-    //           {wishlist && <Wishlist />}
-    //           {soldout && <Soldout />}
-    //           {review && <Review />}
-    //         </div>
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <>
-    //       <SellerProfile params={user} history={history} />
-    //       <div className="container">
-    //         <div className="sidebar">
-    //           <button
-    //             className={`sidebar-button ${active ? "active" : ""}`}
-    //             onClick={handleActive}
-    //           >
-    //             판매 물품
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${soldout ? "active" : ""}`}
-    //             onClick={handleSoldout}
-    //           >
-    //             판매 완료
-    //           </button>
-
-    //           <button
-    //             className={`sidebar-button ${review ? "active" : ""}`}
-    //             onClick={handleReview}
-    //           >
-    //             거래 후기
-    //           </button>
-    //         </div>
-    //         <div className="profile-main-contents">
-    //           {review && <Review />}
-    //           {active && <ActiveSells params={user} />}
-    //           {soldout && <Soldout />}
-    //         </div>
-    //       </div>
-    //     </>
-    //   )}
-    // </>
   );
 }
 
