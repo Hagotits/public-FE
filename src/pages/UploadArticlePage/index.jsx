@@ -142,7 +142,7 @@ const UploadArticlePage = () => {
           </div>
 
           <div className="productUploadBtn">
-            <button type="submit">생성하기</button>
+            <button className="productBtn" type="submit">생성하기</button>
           </div>
         </form>
       </div>

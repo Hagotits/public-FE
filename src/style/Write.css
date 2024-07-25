@@ -68,7 +68,7 @@ form div select {
   justify-content: center;
 }
 
-button {
+.productBtn {
   margin-top: 50px;
   margin-bottom: 30px;
   width: 100%;
@@ -81,6 +81,6 @@ button {
   color: rgb(255, 255, 255);
 }
 
-button:hover {
+.productBtn:hover {
   background-color: rgb(129, 134, 203);
 }
