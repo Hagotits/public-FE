@@ -32,9 +32,14 @@ const FileUpload = ({ onImageChange, images }) => {
           <div
             {...getRootProps()}
             style={{
-              border: "2px dashed #007bff",
-              padding: "20px",
+              border: "1px solid gray",
+              padding: "10px",
               cursor: "pointer",
+              borderRadius: "10px",
+              backgroundColor: "rgb(230, 230, 230)",
+              width: "200px",
+              height: "150px",
+              marginTop: "20px",
             }}
           >
             <input {...getInputProps()} />

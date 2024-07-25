@@ -1,112 +1,74 @@
-.WritePage {
+.UploadPage {
   width: 100%;
-  height: 130vh;
-  padding: 20px;
-  background-color: white;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Writesubdiv {
-  position: relative;
-  width: 800px;
-  padding: 30px;
-  background-color: white;
-  border-radius: 15px;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-}
-
-.Writetitle {
-  width: 100%;
-  margin-top: 30px;
-  margin-bottom: 80px;
-  font-size: 30px;
-  font-weight: 700;
-  color: #262626;
-  text-align: center;
-}
-
-.WritecontentDiv {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 26px;
-  width: 100%;
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-.WriteinputTitle {
-  font-size: 20px;
-  font-weight: 720;
-  color: #262626;
-  padding-top: 10px;
-}
-
-.WriteinputWrite {
-  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.input {
+.UploadTitle {
   position: relative;
-  width: 450px;
-  height: 45px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 400;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  align-items: rigth;
-}
-.Writeexplaninput {
-  position: relative;
-  width: 450px;
-  height: 150px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 400;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  align-items: rigth;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+  margin-top: 30px;
 }
 
-.input:focus, .Writeexplaninput:focus {
-  outline: 2px solid rgb(139, 133, 205);
-}
-
-/* input 어떤 곳을 클릭해도 캘린더 나오도록 */
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent; /* 캘린더 아이콘 투명하게 */
-}
-
-.file {
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.UploadContent {
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  flex-direction: column;
   padding: 5px;
-  width: 200px;
-  height: 150px;
 }
 
-.WriteButton {
+label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+input, select {
+  font-size: 15px;
+  font-weight: 400;
+  color: #262626;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+#content {
+  height: 100px;
+}
+
+form div {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center; /* label과 input을 세로로 정렬 */
+  margin-bottom: 20px; /* 각 div 박스 사이의 간격 */
+}
+
+form div label {
+  text-align: left; /* label 텍스트를 왼쪽 정렬 */
+  padding-right: 10px; /* label과 input 사이의 간격 */
+}
+
+form div input[type="number"],
+form div input[type="datetime-local"],
+form div select {
+  flex: none; /* 숫자, 날짜, select 요소가 flex 동작을 따르지 않도록 설정 */
+}
+
+.productUploadBtn {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.WriteBtn {
+button {
   margin-top: 50px;
   margin-bottom: 30px;
   width: 100%;
@@ -119,12 +81,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   color: rgb(255, 255, 255);
 }
 
-.WriteBtn:hover {
+button:hover {
   background-color: rgb(129, 134, 203);
-}
-
-.errMessage {
-  margin-top: 2px;
-  color: #ff0000;
-  font-size: 13px;
 }
