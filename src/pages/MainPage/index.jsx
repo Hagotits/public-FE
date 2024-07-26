@@ -10,7 +10,9 @@ const MainPage = () => {
   const [articles, setArticles] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    places: [],
+  });
 
   useEffect(() => {
     fetchArticles({ skip, limit });

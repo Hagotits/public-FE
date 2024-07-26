@@ -117,13 +117,13 @@ const UploadArticlePage = () => {
           <div>
             <label htmlFor="place">거래 장소</label>
             <select
-              name="place"
-              id="place"
+              name="places"
+              id="places"
               onChange={handleChange}
               value={article.places}
             >
               {places.map((item) => (
-                <option key={item.key} value={item.value}>
+                <option key={item.key} value={item.key}>
                   {item.value}
                 </option>
               ))}
