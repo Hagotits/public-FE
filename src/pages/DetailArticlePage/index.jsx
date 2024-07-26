@@ -10,23 +10,17 @@ const DetailArticlePage = () => {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    console.log("articleId:", articleId); // articleId 값 확인
-
     const fetchArticle = async () => {
       try {
-        const response = await axiosInstance.get(
-          `articles/${articleId}?type=single`
-        );
-        console.log(response.data);
+        const response = await axiosInstance.get(`articles/${articleId}
+        ?type=single`);
+        console.log(response.data[0]);
         setArticle(response.data[0]);
       } catch (error) {
         console.error(error);
       }
     };
-
-    if (articleId) {
-      fetchArticle();
-    }
+    fetchArticle();
   }, [articleId]);
 
   if (!article) return null;

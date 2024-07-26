@@ -12,6 +12,7 @@ const routes = [
   { to: "/write", name: "업로드", auth: true },
   {
     to: "/user/cart",
+    name: "cart",
     auth: true,
     icon: <AiOutlineShoppingCart style={{ fontSize: "1.4rem" }} />,
   },
@@ -21,6 +22,7 @@ const routes = [
 
 const HeaderItem = ({ mobile }) => {
   const isAuth = useSelector((state) => state.user?.isAuth);
+  const cart = useSelector((state) => state.user?.userData?.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -48,12 +50,24 @@ const HeaderItem = ({ mobile }) => {
               <Link onClick={handleLogout}>{name}</Link>
             </li>
           );
+        } else if (icon) {
+          return (
+            <li
+              className="relative py-2 text-center border-b-4 cursor-pointer"
+              key={name}
+            >
+              <Link to={to}>
+                {icon}
+                <span className="absolute top-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -right-3">
+                  {cart?.length}
+                </span>
+              </Link>
+            </li>
+          );
         } else {
           return (
-            <li key={to} className="list">
-              <Link to={to}>
-                {icon && icon} {name}
-              </Link>
+            <li key={name} className="list">
+              <Link to={to}>{name}</Link>
             </li>
           );
         }

@@ -9,7 +9,9 @@ const MainPage = () => {
   const [articles, setArticles] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    places: [],
+  });
 
   useEffect(() => {
     fetchArticles({ skip, limit });
@@ -55,27 +57,26 @@ const MainPage = () => {
     setSkip(skip + limit);
   };
 
-  const showFilteredResults = (filters) => {
-    const body = {
-      skip: 0,
-      limit,
-      filters,
-      searchTerm,
-    };
-    fetchArticles(body);
-    setSkip(0);
-  };
+  // const showFilteredResults = (filters) => {
+  //   const body = {
+  //     skip: 0,
+  //     limit,
+  //     filters,
+  //     searchTerm,
+  //   };
+  //   fetchArticles(body);
+  //   setSkip(0);
+  // };
 
   const handleSearchTerm = (event) => {
-    const newSearchTerm = event.target.value;
-    setSearchTerm(newSearchTerm);
     const body = {
       skip: 0,
       limit,
       filters,
-      searchTerm: newSearchTerm,
+      searchTerm: event.target.value,
     };
     fetchArticles(body);
+    setSearchTerm(event.target.value);
     setSkip(0);
   };
 

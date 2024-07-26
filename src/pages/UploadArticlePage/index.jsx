@@ -22,7 +22,7 @@ const UploadArticlePage = () => {
   const [article, setArticle] = useState({
     title: "",
     content: "",
-    place: "",
+    places: 1,
     price: 0,
     attend: 0,
     images: [],
@@ -120,13 +120,13 @@ const UploadArticlePage = () => {
           <div>
             <label htmlFor="place">거래 장소</label>
             <select
-              name="place"
-              id="place"
+              name="places"
+              id="places"
               onChange={handleChange}
-              value={article.place}
+              value={article.places}
             >
               {places.map((item) => (
-                <option key={item.key} value={item.value}>
+                <option key={item.key} value={item.key}>
                   {item.value}
                 </option>
               ))}
@@ -145,12 +145,12 @@ const UploadArticlePage = () => {
           </div>
 
           <div className="productUploadBtn">
-            <button className="productBtn" type="submit">생성하기</button>
+            <button className="productBtn" type="submit">
+              생성하기
+            </button>
           </div>
         </form>
       </div>
-      
-
     </div>
   );
 };
