@@ -6,12 +6,18 @@ const FileUpload = ({ onImageChange, images }) => {
   const handleDrop = async (files) => {
     let formData = new FormData();
 
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
+
     formData.append("file", files[0]);
 
     try {
-      const response = await axiosInstance.post("/articles/image", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axiosInstance.post(
+        "/articles/image",
+        formData,
+        config
+      );
       onImageChange([...images, response.data.fileName]);
     } catch (err) {
       console.error(err);
