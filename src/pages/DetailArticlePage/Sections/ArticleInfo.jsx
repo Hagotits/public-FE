@@ -42,30 +42,30 @@ const ArticleInfo = ({ article }) => {
     <div>
       <p>상품 정보</p>
 
-      <ul>
-        <li>{article.title}</li>
-        <li>
+      <div>
+        <div>{article.title}</div>
+        <div>
           <span>인원: </span>
           {article.attend}명
-        </li>
-        <li>
+        </div>
+        <div>
           <span>수령 날짜 / 시간: </span>
           {article.receptTime}
-        </li>
-        <li>
+        </div>
+        <div>
           <span>남은 시간: </span>
           {remainTime}
-        </li>
-        <li>
+        </div>
+        <div>
           <span>수령 장소: </span>
           {article.place}
-        </li>
-        <li>
+        </div>
+        <div>
           <span>가격: </span>
           {article.price}원
-        </li>
-        <li>{article.content}</li>
-      </ul>
+        </div>
+        <div>{article.content}</div>
+      </div>
 
       <div>
         <button onClick={handleClick}>

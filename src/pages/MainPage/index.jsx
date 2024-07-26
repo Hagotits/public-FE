@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchInput from "./Sections/SearchInput";
 import axiosInstance from "../../utils/axios";
-import "../../style/Main.css";
 import CardItem from "./Sections/CardItem";
 
 const MainPage = () => {
@@ -81,27 +80,25 @@ const MainPage = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h2>공동구매 마켓</h2>
-      </div>
-
-      <div>
+    <section>
+      <div className="flex justify-end mb-3">
         <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
 
-      <div>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {articles.map((article) => (
           <CardItem article={article} key={article.id} />
         ))}
       </div>
 
       {hasMore && (
-        <div>
-          <button onClick={handleLoadMore}>더 보기</button>
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={handleLoadMore}
+            className="px-4 py-2 mt-5 text-white bg-black rounded-md hover:bg-gray-500">더 보기</button>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
