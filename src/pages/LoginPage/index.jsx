@@ -10,15 +10,17 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = ({ email, password }) => {
     const body = { email, password };
     try {
-      await dispatch(loginUser(body));
+      dispatch(loginUser(body));
       navigate("/");
+      reset();
     } catch (err) {
       console.log(err);
     }

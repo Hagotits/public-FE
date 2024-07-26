@@ -11,7 +11,7 @@ const CartTable = ({ products, onRemoveItem }) => {
   const renderItems =
     products.length > 0 &&
     products.map((product) => (
-      <tr key={product._id}>
+      <tr key={product.id}>
         <td>
           <img
             className="w-[70px]"
@@ -22,7 +22,7 @@ const CartTable = ({ products, onRemoveItem }) => {
         <td>{product.quantity} 개</td>
         <td>{product.price} 원</td>
         <td>
-          <button onClick={() => onRemoveItem(product._id)}>지우기</button>
+          <button onClick={() => onRemoveItem(product.id)}>지우기</button>
         </td>
       </tr>
     ));

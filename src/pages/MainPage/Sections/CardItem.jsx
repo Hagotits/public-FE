@@ -5,7 +5,7 @@ import ImageSlider from "../../../components/ImageSlider";
 const CardItem = ({ article }) => {
   return (
     <div>
-      <ImageSlider images={article.images || []} />
+      <ImageSlider images={article.images} />
       <Link to={`/articles/${article.id}`}>
         <p>{article.title}</p>
         <p>{article.content}</p>

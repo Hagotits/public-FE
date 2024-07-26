@@ -26,6 +26,7 @@ import CartPage from "./pages/CartPage/index";
 import UploadArticlePage from "./pages/UploadArticlePage/index";
 import DetailArticlePage from "./pages/DetailArticlePage/index";
 import HistoryPage from "./pages/HistoryPage/index";
+import ProtectedPage from "./pages/ProtectedPage";
 
 function Layout() {
   return (
@@ -66,12 +67,11 @@ const App = () => {
 
         {/* 로그인 한 사람만 갈 수 있는 경로 */}
         <Route element={<ProtectedRoutes isAuth={isAuth} />}>
+          <Route path="/protected" element={<ProtectedPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          {/* 전체 게시판 페이지: fleamarket */}
           <Route path="/fleamarket" element={<Fleamarket />} />
           {/* 상세 게시판 페이지: articles */}
           <Route path="/articles/:articleId" element={<DetailArticlePage />} />
-          {/* 글쓰기 페이지: write */}
           <Route path="/write" element={<UploadArticlePage />} />
           <Route path="/user/cart" element={<CartPage />} />
           <Route path="/history" element={<HistoryPage />} />

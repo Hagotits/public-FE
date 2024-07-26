@@ -12,12 +12,13 @@ const SignUp = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async ({ email, name, password }) => {
+  const onSubmit = ({ email, name, password }) => {
     const body = {
       email,
       name,
@@ -25,8 +26,9 @@ const SignUp = () => {
       image: `https://via.placeholder.com/600x400?text=no+user+image`,
     };
     try {
-      await dispatch(registerUser(body));
+      dispatch(registerUser(body));
       navigate("/login");
+      reset();
     } catch (err) {
       console.error(err);
     }

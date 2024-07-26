@@ -10,8 +10,8 @@ const ArticleImage = ({ article }) => {
 
       article.images.map((imageName) => {
         return images.push({
-          original: `http://localhost:4000/${imageName}`,
-          thumbnail: `http://localhost:4000/${imageName}`,
+          original: `${process.env.SERVER_URL}/${imageName}`,
+          thumbnail: `${process.env.SERVER_URL}/${imageName}`,
         });
       });
       setImages(images);
@@ -20,5 +20,4 @@ const ArticleImage = ({ article }) => {
 
   return <ImageGallery items={images} />;
 };
-
 export default ArticleImage;

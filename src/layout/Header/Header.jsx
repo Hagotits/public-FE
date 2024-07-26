@@ -7,7 +7,7 @@ const Header = () => {
   const [menu, setMenu] = useState(false);
 
   const handleMenu = () => {
-    setMenu((prevMenu) => !prevMenu);
+    setMenu(!menu);
   };
 
   return (
@@ -18,19 +18,22 @@ const Header = () => {
           <div className="logo">
             <Link to="/">PUBLICK MARKET</Link>
           </div>
+
           {/* Div  */}
           <div className="flex-box sm-hidden">
             <button onClick={handleMenu} aria-expanded={menu}>
               {menu ? "-" : "+"}
             </button>
           </div>
+
           {/* Large Header  */}
           <div className="large-header sm-block">
             <HeaderItem />
           </div>
+
           {/* Small Header  */}
           <div className={`small-header ${menu ? "block" : "hidden"}`}>
-            <HeaderItem mobile />
+            {menu && <HeaderItem mobile />}
           </div>
         </div>
       </div>

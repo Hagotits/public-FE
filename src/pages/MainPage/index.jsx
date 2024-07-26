@@ -56,27 +56,26 @@ const MainPage = () => {
     setSkip(skip + limit);
   };
 
-  const showFilteredResults = (filters) => {
-    const body = {
-      skip: 0,
-      limit,
-      filters,
-      searchTerm,
-    };
-    fetchArticles(body);
-    setSkip(0);
-  };
+  // const showFilteredResults = (filters) => {
+  //   const body = {
+  //     skip: 0,
+  //     limit,
+  //     filters,
+  //     searchTerm,
+  //   };
+  //   fetchArticles(body);
+  //   setSkip(0);
+  // };
 
   const handleSearchTerm = (event) => {
-    const newSearchTerm = event.target.value;
-    setSearchTerm(newSearchTerm);
     const body = {
       skip: 0,
       limit,
       filters,
-      searchTerm: newSearchTerm,
+      searchTerm: event.target.value,
     };
     fetchArticles(body);
+    setSearchTerm(event.target.value);
     setSkip(0);
   };
 

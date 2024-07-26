@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
-import "../../style/Write.css"
+import "../../style/Write.css";
 
 const places = [
   { key: 1, value: "신촌 세븐 앞" },
@@ -20,7 +20,7 @@ const UploadArticlePage = () => {
   const [article, setArticle] = useState({
     title: "",
     content: "",
-    place: "",
+    places: 1,
     price: 0,
     attend: 0,
     images: [],
@@ -120,7 +120,7 @@ const UploadArticlePage = () => {
               name="place"
               id="place"
               onChange={handleChange}
-              value={article.place}
+              value={article.places}
             >
               {places.map((item) => (
                 <option key={item.key} value={item.value}>
@@ -142,12 +142,12 @@ const UploadArticlePage = () => {
           </div>
 
           <div className="productUploadBtn">
-            <button className="productBtn" type="submit">생성하기</button>
+            <button className="productBtn" type="submit">
+              생성하기
+            </button>
           </div>
         </form>
       </div>
-      
-
     </div>
   );
 };

@@ -9,7 +9,7 @@ import CartTable from "./Sections/CartTable";
 
 const CartPage = () => {
   const userData = useSelector((state) => state.user?.userData);
-  const cartDetail = useSelector((state) => state.user?.cartDetail) || []; // cartDetail이 undefined일 경우 빈 배열로 초기화
+  const cartDetail = useSelector((state) => state.user?.cartDetail);
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
 
@@ -32,14 +32,12 @@ const CartPage = () => {
   }, [dispatch, userData]);
 
   useEffect(() => {
-    if (cartDetail.length > 0) {
-      calculateTotal(cartDetail);
-    }
+    calculateTotal(cartDetail);
   }, [cartDetail]);
 
   const calculateTotal = (cartItems) => {
     let total = 0;
-    cartItems.forEach((item) => (total += item.price * item.quantity)); // map 대신 forEach 사용
+    cartItems.map((item) => (total += item.price * item.quantity)); // map 대신 forEach 사용
     setTotal(total);
   };
 

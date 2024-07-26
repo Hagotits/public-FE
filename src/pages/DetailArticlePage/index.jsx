@@ -9,8 +9,6 @@ const DetailArticlePage = () => {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-    console.log("articleId:", articleId); // articleId 값 확인
-
     const fetchArticle = async () => {
       try {
         const response = await axiosInstance.get(
@@ -22,10 +20,7 @@ const DetailArticlePage = () => {
         console.error(error);
       }
     };
-
-    if (articleId) {
-      fetchArticle();
-    }
+    fetchArticle();
   }, [articleId]);
 
   if (!article) return null;
