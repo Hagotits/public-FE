@@ -26,7 +26,7 @@ import CartPage from "./pages/CartPage/index";
 import UploadArticlePage from "./pages/UploadArticlePage/index";
 import DetailArticlePage from "./pages/DetailArticlePage/index";
 import HistoryPage from "./pages/HistoryPage/index";
-import ProtectedPage from "./pages/ProtectedPage";
+import ProtectedPage from "./pages/ProtectedPage/index";
 
 function Layout() {
   return (

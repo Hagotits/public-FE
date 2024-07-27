@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import ArticleImage from "./Sections/ArticleImage";
-import ArticleInfo from "./Sections/ArticleInfo";
-import "../../style/Articles.css"
+import "../../style/Articles.css";
+import dayjs from "dayjs";
 
 const DetailArticlePage = () => {
   const { articleId } = useParams();
@@ -39,16 +39,18 @@ const DetailArticlePage = () => {
               <div className="bc">{article.place}</div>
             </div>
           </div>
-          
-            <div className="POST">
-              <div className="TITLE">{article.title}</div>
-              <div className="PRICE">{article.price}원</div>
-              <div className="EXPLAN">{article.content}</div>
-            </div>
+
+          <div className="POST">
+            <div className="TITLE">{article.title}</div>
+            <div className="PRICE">{article.price}원</div>
+            <div className="EXPLAN">{article.content}</div>
+          </div>
           <div className="LEFTOVER">
             <div className="GRAY">
-              <div className="person">{article.attend -1}명 남음</div>
-              <div className="time">{article.receptTime}</div>
+              <div className="person">{article.attend - 1}명 남음</div>
+              <div className="time">
+                {dayjs(article.receptTime).format("YYYY-MM-DD HH:mm:ss")}
+              </div>
             </div>
             <div className="BUTTON">
               <button className="BTN">
@@ -59,7 +61,6 @@ const DetailArticlePage = () => {
         </div>
       )}
     </div>
-
   );
 };
 

@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
-import "../../style/Write.css"
-import DetailArticlePage from '../DetailArticlePage/index';
+import "../../style/Write.css";
+import DetailArticlePage from "../DetailArticlePage/index";
 
 const places = [
-  { key: 0, value: "선택해주세요."},
+  { key: 0, value: "선택해주세요." },
   { key: 1, value: "신촌 세븐 앞" },
   { key: 2, value: "신촌 짱돌 앞" },
   { key: 3, value: "단월 농협 앞" },
@@ -57,7 +57,9 @@ const UploadArticlePage = () => {
     try {
       const response = await axiosInstance.post("/articles", body);
       const newArticleId = response.data.articleId;
-      navigate(`/articles/${newArticleId}`);
+      if (response.data === 200) {
+        navigate(`/articles/${newArticleId}`);
+      }
     } catch (err) {
       console.log(err);
     }
