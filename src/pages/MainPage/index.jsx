@@ -57,17 +57,6 @@ const MainPage = () => {
     setSkip(skip + limit);
   };
 
-  // const showFilteredResults = (filters) => {
-  //   const body = {
-  //     skip: 0,
-  //     limit,
-  //     filters,
-  //     searchTerm,
-  //   };
-  //   fetchArticles(body);
-  //   setSkip(0);
-  // };
-
   const handleSearchTerm = (event) => {
     const body = {
       skip: 0,
@@ -81,12 +70,11 @@ const MainPage = () => {
   };
 
   return (
-    <section>
+    <div className="p-3 sm:p-5 mx-auto">
       <div className="flex justify-end mb-3">
         <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
-
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="w-full h-auto grid grid-cols-2 gap-4 sm:grid-cols-4">
         {articles.map((article) => (
           <CardItem article={article} key={article.id} />
         ))}
@@ -96,10 +84,13 @@ const MainPage = () => {
         <div className="flex justify-center mt-5">
           <button
             onClick={handleLoadMore}
-            className="px-4 py-2 mt-5 text-white bg-black rounded-md hover:bg-gray-500">더 보기</button>
+            className="px-4 py-2 mt-5 text-white bg-black rounded-md hover:bg-gray-500"
+          >
+            더 보기
+          </button>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
