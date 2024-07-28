@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import HeaderItem from "./Sections/HeaderItem";
-import "../../style/Header.css";
 
 const Header = () => {
   const [menu, setMenu] = useState(false);
@@ -11,28 +10,29 @@ const Header = () => {
   };
 
   return (
-    <div className="background">
-      <div className="width">
-        <div className="items">
+    <div className="relative z-10 text-black bg-white w-screen border-b">
+      <div className="w-full">
+        <div className="flex items-center justify-between mx-5 sm:mx-10 lg:mx-20">
           {/* Logo */}
-          <div className="logo">
-            <Link to="/">PUBLICK MARKET</Link>
+          <div className="flex items-center text-xl text-[rgb(80,81,255)] font-bold h-14">
+            <Link to="/" className="text-inherit no-underline visited:text-inherit">PUBLICK MARKET</Link>
           </div>
 
           {/* Div  */}
-          <div className="flex-box sm-hidden">
+          <div className="flex-xl sm:hidden">
             <button onClick={handleMenu} aria-expanded={menu}>
               {menu ? "-" : "+"}
             </button>
           </div>
 
           {/* Large Header  */}
-          <div className="large-header sm-block">
+          <div className="hidden sm:block">
             <HeaderItem />
           </div>
 
           {/* Small Header  */}
-          <div className={`small-header ${menu ? "block" : "hidden"}`}>
+          <div className="block sm:hidden">
+          {/* {`${menu ? "block" : "hidden"}`} */}
             {menu && <HeaderItem mobile />}
           </div>
         </div>
