@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import "../../style/Login.css";
 import axiosInstance from "../../utils/axios";
 
 const FindPassword = () => {
@@ -57,66 +56,74 @@ const FindPassword = () => {
   };
 
   return (
-    <div>
-      <div className="FindPasswordPage">
-        <div className="subdiv">
-          <div className="title">비밀번호 찾기</div>
-          <form onSubmit={handleSubmit(certAuNum)}>
-            <div className="contentTitle">
-              <div className="inputTitle">EMAIL</div>
-              <div className="inputWirte">
-                <div className="inputWrapper">
-                  <input
-                    type="text"
-                    className="input"
-                    {...register("email", userEmail)}
-                  />
-                  <button
-                    type="button"
-                    className="sendAuNumBtn"
-                    onClick={() => sendAuNum(watch("email"))}
-                  >
-                    인증번호 전송
-                  </button>
-                  {errors?.email && (
-                    <div>
-                      <span>{errors.email.message}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="contentTitle">
-              <div className="inputTitle">인증번호</div>
-              <div className="inputWirte">
-                <div className="inputWrapper">
-                  <input
-                    type="auNum"
-                    className="input"
-                    {...register("auNum", userAuNum)}
-                  />
-                  <button
-                    type="button"
-                    className="sendAuNumBtn"
-                    onClick={() => certAuNum(watch("auNum"))}
-                  >
-                    인증번호 확인
-                  </button>
-                  {errors?.auNum && (
-                    <div>
-                      <span>{errors?.auNum.message}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </form>
-          <p className="user">
-            {""}아이디가 없다면?{""}
-            <a href="/signup">회원가입</a>
-          </p>
+    <div className="w-full h-screen p-5 bg-white flex justify-center items-center">
+      <div className="relative w-[500px] p-8 bg-white rounded-lg border border-gray-300 shadow-md flex flex-col justify-center items-center">
+        <div className="w-full mt-8 mb-16 text-2xl font-bold text-gray-900 text-center">
+          비밀번호 찾기
         </div>
+        <form onSubmit={handleSubmit(certAuNum)} className="w-full">
+          <div className="relative w-full mt-4">
+            <div className="relative w-full text-lg font-bold text-gray-900">
+              EMAIL
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("email", userEmail)}
+                />
+                <button
+                  type="button"
+                  className="absolute right-1 top-[5px] h-[35px] border-none text-sm font-bold bg-[#2B0585] rounded-lg text-white px-2.5 hover:bg-[#8186CB]"
+                  onClick={() => sendAuNum(watch("email"))}
+                >
+                  인증번호 전송
+                </button>
+                {errors?.email && (
+                  <div className="mt-1 text-red-500 text-sm">
+                    <span>{errors.email.message}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="relative w-full mt-4">
+            <div className="relative w-full text-lg font-bold text-gray-900">
+              인증번호
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("auNum", userAuNum)}
+                />
+                <button
+                  type="button"
+                  className="absolute right-1 top-[5px] h-[35px] border-none text-sm font-bold bg-[#2B0585] rounded-lg text-white px-2.5 hover:bg-[#8186CB]"
+                  onClick={() => certAuNum(watch("auNum"))}
+                >
+                  인증번호 확인
+                </button>
+                {errors?.auNum && (
+                  <div className="mt-1 text-red-500 text-sm">
+                    <span>{errors.auNum.message}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </form>
+        <br />
+        <p className="text-center mb-5">
+          아이디가 없다면?
+          <a href="/signup" className="text-blue-500">
+            {" "}
+            회원가입
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/thunkFunctions";
-import "../../style/Login.css";
 import axiosInstance from "../../utils/axios";
 
 const SignUp = () => {
@@ -82,109 +81,141 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <div className="SignUpPage">
-        <div className="subdiv">
-          <div className="title">Sign Up</div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="contentTitle">
-              <div className="inputTitle">EMAIL</div>
-              <div className="inputWrite">
-                <div className="inputWrapper">
-                  <input
-                    type="text"
-                    placeholder="이메일을 입력하세요."
-                    className="input"
-                    {...register("email", userEmail)}
-                  />
-                  <button
-                    type="button"
-                    className="sendAuNumBtn"
-                    onClick={() => sendAuNum(watch("email"))}
-                  >
-                    인증번호 전송
-                  </button>
-                </div>
-                {errors?.email && (
-                  <div className="errMessage">
-                    <span>{errors.email.message}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="contentTitle">
-              <div className="inputTitle">인증번호</div>
-              <div className="inputWrite">
-                <div className="inputWrapper">
-                  <input
-                    type="text"
-                    className="input"
-                    {...register("auNum", userAuNum)}
-                  />
-                  <button
-                    type="button"
-                    className="sendAuNumBtn"
-                    onClick={() => certAuNum(watch("auNum"))}
-                  >
-                    인증번호 확인
-                  </button>
-                </div>
-                {errors?.auNum && (
-                  <div className="errMessage">
-                    <span>{errors.auNum.message}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="contentTitle">
-              <div className="inputTitle">NAME</div>
-              <div className="inputWrite">
-                <div className="inputWrapper">
-                  <input
-                    type="text"
-                    className="input"
-                    {...register("name", userName)}
-                  />
-                </div>
-                {errors?.name && (
-                  <div className="errMessage">
-                    <span>{errors.name.message}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="contentTitle">
-              <div className="inputTitle">PASSWORD</div>
-              <div className="inputWrite">
-                <div className="inputWrapper">
-                  <input
-                    type="password"
-                    className="input"
-                    {...register("password", userPassword)}
-                  />
-                </div>
-                {errors?.password && (
-                  <div className="errMessage">
-                    <span>{errors.password.message}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="button">
-              <button className="btn" type="submit">
-                회원가입
-              </button>
-            </div>
-          </form>
-          <p className="user">
-            아이디가 있다면?
-            <a href="/login">로그인</a>
-          </p>
+    <div className="w-full h-screen p-5 bg-white flex justify-center items-center">
+      <div className="relative w-[500px] p-8 bg-white rounded-lg border border-gray-300 shadow-md flex justify-center items-center flex-col">
+        <div
+          id="회원가입"
+          className="w-full mt-8 mb-16 text-2xl font-bold text-gray-900 text-center"
+        >
+          Sign Up
         </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="relative w-full mt-4">
+            <div
+              id="이메일"
+              className="relative w-full text-lg font-bold text-gray-900"
+            >
+              EMAIL
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="이메일을 입력하세요."
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("email", userEmail)}
+                />
+                <button
+                  id="인증번호 전송"
+                  type="button"
+                  className="absolute right-1 top-[5px] h-[35px] border-none text-sm font-bold bg-[#2B0585] rounded-lg text-white px-2.5 hover:bg-[#8186CB]"
+                  onClick={() => sendAuNum(watch("email"))}
+                >
+                  인증번호 전송
+                </button>
+              </div>
+              {errors?.email && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.email.message}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative w-full mt-4">
+            <div
+              id="인증번호"
+              className="relative w-full text-lg font-bold text-gray-900 "
+            >
+              인증번호
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("auNum", userAuNum)}
+                />
+                <button
+                  id="인증번호 확인"
+                  type="button"
+                  className="absolute right-1 top-[5px] h-[35px] border-none text-sm font-bold bg-[#2B0585] rounded-lg text-white px-2.5 hover:bg-[#8186CB]"
+                  onClick={() => certAuNum(watch("auNum"))}
+                >
+                  인증번호 확인
+                </button>
+              </div>
+              {errors?.auNum && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.auNum.message}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative w-full mt-4">
+            <div
+              id="이름"
+              className="relative w-full text-lg font-bold text-gray-900"
+            >
+              NAME
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("name", userName)}
+                />
+              </div>
+              {errors?.name && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.name.message}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative w-full mt-4">
+            <div
+              id="비밀번호"
+              className="relative w-full text-lg font-bold text-gray-900"
+            >
+              PASSWORD
+            </div>
+            <div className="w-full rounded-lg mt-1.5 flex flex-col">
+              <div className="relative w-full">
+                <input
+                  type="password"
+                  className="relative w-full h-[45px] border border-gray-300 rounded-lg text-lg font-normal bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 pl-2"
+                  {...register("password", userPassword)}
+                />
+              </div>
+              {errors?.password && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.password.message}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="w-full flex justify-center">
+            <button
+              id="회원가입"
+              className="mt-12 mb-8 w-full h-12 border-none text-base font-bold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
+              type="submit"
+            >
+              회원가입
+            </button>
+          </div>
+        </form>
+        <p className="text-center mb-5">
+          아이디가 있다면?
+          <a href="/login" className="text-blue-500">
+            {" "}
+            로그인
+          </a>
+        </p>
       </div>
     </div>
   );
