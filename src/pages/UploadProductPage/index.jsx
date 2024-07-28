@@ -4,23 +4,11 @@ import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 
-const places = [
-  { key: 1, value: "선택해주세요." },
-  { key: 2, value: "신촌 세븐 앞" },
-  { key: 3, value: "신촌 짱돌 앞" },
-  { key: 4, value: "단월 농협 앞" },
-  { key: 5, value: "모시래 세븐 앞" },
-  { key: 6, value: "모시래 기숙사 여동 앞" },
-  { key: 7, value: "모시래 기숙사 남동 앞" },
-  { key: 8, value: "해오름 기숙사 여동 앞" },
-  { key: 9, value: "해오름 기숙사 남동 앞" },
-];
-
 const UploadProductPage = () => {
   const [product, setProduct] = useState({
     title: "",
     content: "",
-    places: 1,
+    places: "",
     price: 0,
     attend: 0,
     images: [],
@@ -162,13 +150,7 @@ const UploadProductPage = () => {
               name="places"
               onChange={handleChange}
               value={product.places}
-            >
-              {places.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {item.value}
-                </option>
-              ))}
-            </div>
+            ></div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
