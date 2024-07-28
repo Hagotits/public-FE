@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/thunkFunctions";
 
-const ArticleInfo = ({ article }) => {
+const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
   const [remainTime, setRemainTime] = useState("");
 
   const handleClick = () => {
-    dispatch(addToCart({ articleId: article.id }));
+    dispatch(addToCart({ productId: product.id }));
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const remainTime = calculateRemainTime(article.receptTime);
+      const remainTime = calculateRemainTime(product.receptTime);
       setRemainTime(remainTime);
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, [article]);
+  }, [product]);
 
   const calculateRemainTime = (endTime) => {
     const end = new Date(endTime);
@@ -43,14 +43,14 @@ const ArticleInfo = ({ article }) => {
       <p>상품 정보</p>
 
       <div>
-        <div>{article.title}</div>
+        <div>{product.title}</div>
         <div>
           <span>인원: </span>
-          {article.attend}명
+          {product.attend}명
         </div>
         <div>
           <span>수령 날짜 / 시간: </span>
-          {article.receptTime}
+          {product.receptTime}
         </div>
         <div>
           <span>남은 시간: </span>
@@ -58,22 +58,22 @@ const ArticleInfo = ({ article }) => {
         </div>
         <div>
           <span>수령 장소: </span>
-          {article.place}
+          {product.place}
         </div>
         <div>
           <span>가격: </span>
-          {article.price}원
+          {product.price}원
         </div>
-        <div>{article.content}</div>
+        <div>{product.content}</div>
       </div>
 
       <div>
         <button onClick={handleClick}>
-          {Math.floor(article.price / article.attend)}원으로 참여하기
+          {Math.floor(product.price / product.attend)}원으로 참여하기
         </button>
       </div>
     </div>
   );
 };
 
-export default ArticleInfo;
+export default ProductInfo;

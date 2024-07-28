@@ -16,8 +16,8 @@ const places = [
   { key: 9, value: "해오름 기숙사 남동 앞" },
 ];
 
-const UploadArticlePage = () => {
-  const [article, setArticle] = useState({
+const UploadProductPage = () => {
+  const [product, setProduct] = useState({
     title: "",
     content: "",
     places: 1,
@@ -31,14 +31,14 @@ const UploadArticlePage = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setArticle((prevState) => ({
+    setProduct((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleImages = (newImages) => {
-    setArticle((prevState) => ({
+    setProduct((prevState) => ({
       ...prevState,
       images: newImages,
     }));
@@ -49,14 +49,14 @@ const UploadArticlePage = () => {
 
     const body = {
       userId: userData.id,
-      ...article,
+      ...product,
     };
 
     try {
-      const response = await axiosInstance.post("/articles", body);
+      const response = await axiosInstance.post("/products", body);
       if (response.data) {
-        const newArticleId = response.data.articleId;
-        await navigate(`/articles/${newArticleId}`);
+        const newProductId = response.data.productId;
+        await navigate(`/products/${newProductId}`);
       }
     } catch (err) {
       console.log(err);
@@ -81,7 +81,7 @@ const UploadArticlePage = () => {
             >
               상품 이미지
             </label>
-            <FileUpload images={article.images} onImageChange={handleImages} />
+            <FileUpload images={product.images} onImageChange={handleImages} />
           </div>
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
@@ -95,7 +95,7 @@ const UploadArticlePage = () => {
               name="title"
               className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid"
               onChange={handleChange}
-              value={article.title}
+              value={product.title}
             />
           </div>
 
@@ -111,7 +111,7 @@ const UploadArticlePage = () => {
               className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px]"
               name="content"
               onChange={handleChange}
-              value={article.content}
+              value={product.content}
             />
           </div>
 
@@ -128,7 +128,7 @@ const UploadArticlePage = () => {
               name="price"
               type="number"
               onChange={handleChange}
-              value={article.price}
+              value={product.price}
             />
           </div>
 
@@ -145,7 +145,7 @@ const UploadArticlePage = () => {
               name="attend"
               type="number"
               onChange={handleChange}
-              value={article.attend}
+              value={product.attend}
             />
           </div>
 
@@ -157,18 +157,18 @@ const UploadArticlePage = () => {
             >
               거래 장소
             </label>
-            <select
+            <div
               className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md"
               name="places"
               onChange={handleChange}
-              value={article.places}
+              value={product.places}
             >
               {places.map((item) => (
                 <option key={item.key} value={item.key}>
                   {item.value}
                 </option>
               ))}
-            </select>
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -183,7 +183,7 @@ const UploadArticlePage = () => {
               type="datetime-local"
               name="receptTime"
               onChange={handleChange}
-              value={article.receptTime}
+              value={product.receptTime}
             />
           </div>
 
@@ -201,4 +201,4 @@ const UploadArticlePage = () => {
   );
 };
 
-export default UploadArticlePage;
+export default UploadProductPage;

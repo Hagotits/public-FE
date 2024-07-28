@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 
-const ArticleImage = ({ article }) => {
+const ProductImage = ({ product }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    if (article?.images?.length > 0) {
+    if (product?.images?.length > 0) {
       let images = [];
 
-      article.images.map((imageName) => {
+      product.images.map((imageName) => {
         return images.push({
           // original: `${process.env.SERVER_URL}/${imageName}`,
           // thumbnail: `${process.env.SERVER_URL}/${imageName}`,
@@ -17,8 +17,8 @@ const ArticleImage = ({ article }) => {
       });
       setImages(images);
     }
-  }, [article]);
+  }, [product]);
 
   return <ImageGallery items={images} />;
 };
-export default ArticleImage;
+export default ProductImage;

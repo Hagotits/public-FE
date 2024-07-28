@@ -6,7 +6,7 @@ import CardItem from "./Sections/CardItem";
 const MainPage = () => {
   const limit = 4;
   const [searchTerm, setSearchTerm] = useState("");
-  const [articles, setArticles] = useState([]);
+  const [product, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [filters, setFilters] = useState({
@@ -14,10 +14,10 @@ const MainPage = () => {
   });
 
   useEffect(() => {
-    fetchArticles({ skip, limit });
+    fetchProducts({ skip, limit });
   }, []);
 
-  const fetchArticles = async ({
+  const fetchProducts = async ({
     skip,
     limit,
     loadMore = false,
@@ -32,12 +32,12 @@ const MainPage = () => {
     };
 
     try {
-      const response = await axiosInstance.get("/articles", { params });
+      const response = await axiosInstance.get("/products", { params });
 
       if (loadMore) {
-        setArticles([...articles, ...response.data.articles]);
+        setProducts([...products, ...response.data.products]);
       } else {
-        setArticles(response.data.articles);
+        setProducts(response.data.products);
       }
       setHasMore(response.data.hasMore);
     } catch (err) {
@@ -53,7 +53,7 @@ const MainPage = () => {
       filters,
       searchTerm,
     };
-    fetchArticles(body);
+    fetchProducts(body);
     setSkip(skip + limit);
   };
 
@@ -64,7 +64,7 @@ const MainPage = () => {
       filters,
       searchTerm: event.target.value,
     };
-    fetchArticles(body);
+    fetchProducts(body);
     setSearchTerm(event.target.value);
     setSkip(0);
   };
@@ -75,8 +75,8 @@ const MainPage = () => {
         <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
       <div className="w-full h-auto grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {articles.map((article) => (
-          <CardItem article={article} key={article.id} />
+        {products.map((product) => (
+          <CardItem product={product} key={product.id} />
         ))}
       </div>
 
