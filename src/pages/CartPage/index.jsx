@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCartItems,
-  payProducts,
   removeCartItem,
 } from "../../redux/thunkFunctions";
 import CartTable from "./Sections/CartTable";
 
 const CartPage = () => {
   const userData = useSelector((state) => state.user?.userData);
-  const cartDetail = useSelector((state) => state.user?.cartDetail);
+  const cartDetail = useSelector((state) => state.user?.cartDetail || []);
   const dispatch = useDispatch();
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     let cartItemIds = [];
@@ -31,23 +29,10 @@ const CartPage = () => {
     }
   }, [dispatch, userData]);
 
-  useEffect(() => {
-    calculateTotal(cartDetail);
-  }, [cartDetail]);
-
-  const calculateTotal = (cartItems) => {
-    let total = 0;
-    cartItems.map((item) => (total += item.price * item.quantity)); // map 대신 forEach 사용
-    setTotal(total);
-  };
-
   const handleRemoveCartItem = (productId) => {
     dispatch(removeCartItem(productId));
   };
 
-  const handlePaymentClick = () => {
-    dispatch(payProducts({ cartDetail }));
-  };
 
   return (
     <section>
@@ -61,13 +46,6 @@ const CartPage = () => {
             products={cartDetail}
             onRemoveItem={handleRemoveCartItem}
           />
-          <div>
-            <p>
-              <span>합계: </span>
-              {total}원
-            </p>
-            <button onClick={handlePaymentClick}>결제하기</button>
-          </div>
         </>
       ) : (
         <p>찜목록이 없습니다.</p>
