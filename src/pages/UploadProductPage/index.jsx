@@ -4,18 +4,6 @@ import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 
-const places = [
-  { key: 1, value: "선택해주세요." },
-  { key: 2, value: "신촌 세븐 앞" },
-  { key: 3, value: "신촌 짱돌 앞" },
-  { key: 4, value: "단월 농협 앞" },
-  { key: 5, value: "모시래 세븐 앞" },
-  { key: 6, value: "모시래 기숙사 여동 앞" },
-  { key: 7, value: "모시래 기숙사 남동 앞" },
-  { key: 8, value: "해오름 기숙사 여동 앞" },
-  { key: 9, value: "해오름 기숙사 남동 앞" },
-];
-
 const UploadProductPage = () => {
   const [product, setProduct] = useState({
     title: "",
@@ -93,7 +81,7 @@ const UploadProductPage = () => {
             </label>
             <input
               name="title"
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid"
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid border border-gray-400"
               onChange={handleChange}
               value={product.title}
             />
@@ -108,7 +96,7 @@ const UploadProductPage = () => {
               설명
             </label>
             <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px]"
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
               name="content"
               onChange={handleChange}
               value={product.content}
@@ -124,7 +112,7 @@ const UploadProductPage = () => {
               가격
             </label>
             <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md"
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
               name="price"
               type="number"
               onChange={handleChange}
@@ -141,7 +129,7 @@ const UploadProductPage = () => {
               거래 인원
             </label>
             <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md"
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
               name="attend"
               type="number"
               onChange={handleChange}
@@ -157,18 +145,13 @@ const UploadProductPage = () => {
             >
               거래 장소
             </label>
-            <div
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md"
-              name="places"
+            <input
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+              name="place"
               onChange={handleChange}
-              value={product.places}
+              value={product.place}
             >
-              {places.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {item.value}
-                </option>
-              ))}
-            </div>
+            </input>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -179,7 +162,7 @@ const UploadProductPage = () => {
               수령 날짜
             </label>
             <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md"
+              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
               type="datetime-local"
               name="receptTime"
               onChange={handleChange}
