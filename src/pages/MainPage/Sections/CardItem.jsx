@@ -7,11 +7,11 @@ const CardItem = ({ article }) => {
   console.log(article.id);
   return (
     <div className="border-[1px] border-gray-300">
-      <div className="image h-48 bg-gray-100">
-        <ImageSlider images={article.images || []} />
-      </div>
       <Link to={`/articles/${article.id}`}>
         <div>
+          <div className="image h-48 bg-gray-100">
+            <ImageSlider images={article.images || []} />
+          </div>
           <p className="p-1">{article.title}</p>
           <p className="p-1 text-xs text-gray-500">{article.price}원</p>
           <p className="p-1">{article.place}</p>

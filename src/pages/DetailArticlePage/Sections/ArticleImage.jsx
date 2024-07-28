@@ -13,7 +13,6 @@ const ArticleImage = ({ article }) => {
           // original: `${process.env.SERVER_URL}/${imageName}`,
           // thumbnail: `${process.env.SERVER_URL}/${imageName}`,
           original: `http://localhost:4000/${imageName}`,
-          thumbnail: `http://localhost:4000/${imageName}`,
         });
       });
       setImages(images);
