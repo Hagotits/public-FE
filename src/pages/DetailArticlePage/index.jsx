@@ -12,10 +12,14 @@ const DetailArticlePage = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axiosInstance.get(`articles/${articleId}
-        ?type=single`);
-        console.log(response.data[0]);
-        setArticle(response.data[0]);
+        const response = await axiosInstance.get(
+          `/articles/${articleId}?type=single`
+        );
+        console.log(response.data);
+        const articleData = Array.isArray(response.data)
+          ? response.data[0]
+          : response.data;
+        setArticle(articleData);
       } catch (error) {
         console.error(error);
       }
