@@ -4,7 +4,6 @@ import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
 
 const CardItem = ({ product }) => {
-  console.log(product.id);
   return (
     <div className="border-[1px] border-gray-300">
       <Link to={`/products/${product.id}`}>

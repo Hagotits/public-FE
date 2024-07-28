@@ -147,16 +147,10 @@ const UploadProductPage = () => {
             </label>
             <input
               className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-              name="place"
+              name="places"
               onChange={handleChange}
               value={product.places}
-            >
-              {places.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {item.value}
-                </option>
-              ))}
-            </input>
+            />
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
