@@ -8,7 +8,7 @@ const UploadProductPage = () => {
   const [product, setProduct] = useState({
     title: "",
     content: "",
-    places: 1,
+    places: "",
     price: 0,
     attend: 0,
     images: [],
@@ -42,8 +42,8 @@ const UploadProductPage = () => {
 
     try {
       const response = await axiosInstance.post("/products", body);
+      const newProductId = response.data.productId;
       if (response.data) {
-        const newProductId = response.data.productId;
         await navigate(`/products/${newProductId}`);
       }
     } catch (err) {
@@ -149,9 +149,14 @@ const UploadProductPage = () => {
               className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
               name="place"
               onChange={handleChange}
-              value={product.place}
+              value={product.places}
             >
-            </input>
+              {places.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.value}
+                </option>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
