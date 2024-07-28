@@ -42,8 +42,8 @@ const UploadProductPage = () => {
 
     try {
       const response = await axiosInstance.post("/products", body);
+      const newProductId = response.data.productId;
       if (response.data) {
-        const newProductId = response.data.productId;
         await navigate(`/products/${newProductId}`);
       }
     } catch (err) {
