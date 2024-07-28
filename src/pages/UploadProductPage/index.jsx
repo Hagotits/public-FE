@@ -1,43 +1,29 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 
 const UploadProductPage = () => {
-  const [product, setProduct] = useState({
-    title: "",
-    content: "",
-    places: "",
-    price: 0,
-    attend: 0,
-    images: [],
-    receptTime: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setProduct((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const [images, setImages] = useState([]);
 
   const handleImages = (newImages) => {
-    setProduct((prevState) => ({
-      ...prevState,
-      images: newImages,
-    }));
+    setImages(newImages);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const onSubmit = async (data) => {
     const body = {
       userId: userData.id,
-      ...product,
+      ...data,
+      images,
     };
 
     try {
@@ -51,6 +37,30 @@ const UploadProductPage = () => {
     }
   };
 
+  const productTitle = {
+    required: "필수 항목입니다.",
+  };
+
+  const productContent = {
+    required: "필수 항목입니다.",
+  };
+
+  const productPlaces = {
+    required: "필수 항목입니다.",
+  };
+
+  const productPrice = {
+    required: "필수 항목입니다.",
+  };
+
+  const productAttend = {
+    required: "필수 항목입니다.",
+  };
+
+  const productReceptTime = {
+    required: "필수 항목입니다.",
+  };
+
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
       <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
@@ -60,7 +70,7 @@ const UploadProductPage = () => {
       </div>
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="상품 이미지"
@@ -69,7 +79,7 @@ const UploadProductPage = () => {
             >
               상품 이미지
             </label>
-            <FileUpload images={product.images} onImageChange={handleImages} />
+            <FileUpload images={images} onImageChange={handleImages} />
           </div>
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
@@ -79,12 +89,18 @@ const UploadProductPage = () => {
             >
               상품명
             </label>
-            <input
-              name="title"
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid border border-gray-400"
-              onChange={handleChange}
-              value={product.title}
-            />
+            <div className="w-full">
+              <input
+                name="title"
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid border border-gray-400"
+                {...register("title", productTitle)}
+              />
+              {errors.title && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.title.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -95,12 +111,18 @@ const UploadProductPage = () => {
             >
               설명
             </label>
-            <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
-              name="content"
-              onChange={handleChange}
-              value={product.content}
-            />
+            <div className="w-full">
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
+                name="content"
+                {...register("content", productContent)}
+              />
+              {errors.content && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.content.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -111,13 +133,20 @@ const UploadProductPage = () => {
             >
               가격
             </label>
-            <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-              name="price"
-              type="number"
-              onChange={handleChange}
-              value={product.price}
-            />
+            <div className="w-full">
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+                name="price"
+                type="number"
+                placeholder="물건의 원가를 작성해주세요."
+                {...register("price", productPrice)}
+              />
+              {errors.price && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.price.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -128,29 +157,42 @@ const UploadProductPage = () => {
             >
               거래 인원
             </label>
-            <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-              name="attend"
-              type="number"
-              onChange={handleChange}
-              value={product.attend}
-            />
+            <div className="w-full">
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+                name="attend"
+                type="number"
+                placeholder="(본인 포함) 몇 명이서 나눠가지고 싶은가요?"
+                {...register("attend", productAttend)}
+              />
+              {errors.attend && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.attend.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="거래 장소"
-              htmlFor="place"
+              htmlFor="places"
               className="text-base font-medium text-left pr-2.5"
             >
               거래 장소
             </label>
-            <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-              name="places"
-              onChange={handleChange}
-              value={product.places}
-            />
+            <div className="w-full">
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+                name="places"
+                {...register("places", productPlaces)}
+              />
+              {errors.places && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.places.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
@@ -160,13 +202,19 @@ const UploadProductPage = () => {
             >
               수령 날짜
             </label>
-            <input
-              className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-              type="datetime-local"
-              name="receptTime"
-              onChange={handleChange}
-              value={product.receptTime}
-            />
+            <div className="w-full">
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+                type="datetime-local"
+                name="receptTime"
+                {...register("receptTime", productReceptTime)}
+              />
+              {errors.receptTime && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.receptTime.message}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="w-full flex justify-center">
