@@ -14,7 +14,7 @@ const FileUpload = ({ onImageChange, images }) => {
 
     try {
       const response = await axiosInstance.post(
-        "/articles/image",
+        "/products/image",
         formData,
         config
       );

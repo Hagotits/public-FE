@@ -21,7 +21,6 @@ import FindPassword from "./pages/PasswordUtilPage/FindPassword";
 import ResetPassword from "./pages/PasswordUtilPage/ResetPassword";
 import MyPage from "./pages/MyPage/index";
 import Main from "./pages/MainPage/index";
-import Fleamarket from "./pages/MainPage/index";
 import CartPage from "./pages/CartPage/index";
 import UploadArticlePage from "./pages/UploadArticlePage/index";
 import DetailArticlePage from "./pages/DetailArticlePage/index";
@@ -54,7 +53,7 @@ const App = () => {
     if (isAuth) {
       dispatch(authUser());
       if (pathname === "/") {
-        navigate("/fleamarket");
+        navigate("/");
       }
     }
   }, [dispatch, pathname, isAuth, navigate, postId]);
@@ -69,7 +68,6 @@ const App = () => {
         <Route element={<ProtectedRoutes isAuth={isAuth} />}>
           <Route path="/protected" element={<ProtectedPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/fleamarket" element={<Fleamarket />} />
           {/* 상세 게시판 페이지: articles */}
           <Route path="/articles/:articleId" element={<DetailArticlePage />} />
           <Route path="/write" element={<UploadArticlePage />} />
