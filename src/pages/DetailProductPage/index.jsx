@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import ProductImage from "./Sections/ProductImage";
 import dayjs from "dayjs";
+import ProductInfo from "./Sections/ProductInfo";
 
 const DetailProductPage = () => {
   const { productId } = useParams();

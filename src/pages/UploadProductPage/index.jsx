@@ -22,6 +22,7 @@ const UploadProductPage = () => {
   const onSubmit = async (data) => {
     const body = {
       userId: userData.id,
+      userName: userData.name,
       ...data,
       images,
     };
