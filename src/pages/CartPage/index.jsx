@@ -36,8 +36,8 @@ const CartPage = () => {
 
   return (
     <section>
-      <div>
-        <h2>찜 목록</h2>
+      <div className="text-center m-7">
+        <h2 className="text-2xl">찜 목록</h2>
       </div>
 
       {cartDetail.length > 0 ? (
