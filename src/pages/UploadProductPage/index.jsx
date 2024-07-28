@@ -156,7 +156,7 @@ const UploadProductPage = () => {
                   {item.value}
                 </option>
               ))}
-            </div>
+            </input>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
