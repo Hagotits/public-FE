@@ -5,17 +5,18 @@ import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 
 const UploadProductPage = () => {
+  const userData = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     title: "",
     content: "",
     places: "",
+    userName: userData.name,
     price: 0,
     attend: 0,
     images: [],
     receptTime: "",
   });
-  const userData = useSelector((state) => state.user.userData);
-  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -37,6 +38,7 @@ const UploadProductPage = () => {
 
     const body = {
       userId: userData.id,
+      userName: userData.name,
       ...product,
     };
 
