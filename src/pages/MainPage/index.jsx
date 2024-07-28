@@ -6,7 +6,7 @@ import CardItem from "./Sections/CardItem";
 const MainPage = () => {
   const limit = 4;
   const [searchTerm, setSearchTerm] = useState("");
-  const [product, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [filters, setFilters] = useState({
