@@ -22,10 +22,10 @@ import ResetPassword from "./pages/PasswordUtilPage/ResetPassword";
 import MyPage from "./pages/MyPage/index";
 import Main from "./pages/MainPage/index";
 import CartPage from "./pages/CartPage/index";
-import UploadProductPage from "./pages/DetailProductPage/index";
 import DetailProductPage from "./pages/DetailProductPage/index";
 import HistoryPage from "./pages/HistoryPage/index";
 import ProtectedPage from "./pages/ProtectedPage/index";
+import UploadProductPage from "./pages/UploadProductPage/index";
 
 function Layout() {
   return (
