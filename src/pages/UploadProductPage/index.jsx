@@ -72,6 +72,8 @@ const UploadProductPage = () => {
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+
+
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="상품 이미지"
@@ -82,6 +84,8 @@ const UploadProductPage = () => {
             </label>
             <FileUpload images={images} onImageChange={handleImages} />
           </div>
+
+
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="상품명"

@@ -99,6 +99,11 @@ const ProductInfo = ({ product }) => {
         >
           {Math.floor(product.price / product.attend)}원으로 참여하기
         </button>
+        <button
+          onClick={handleClick}
+          className="w-[200px] h-10 text-[14px] font-semibold border border-gray-900">
+            찜하기
+        </button>
       </div>
     </div>
   );

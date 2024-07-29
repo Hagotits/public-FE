@@ -1,9 +1,14 @@
 import React from "react";
 import Dropzone from "react-dropzone";
 import axiosInstance from "../utils/axios";
+import { BsImages } from "react-icons/bs";
 
 const FileUpload = ({ onImageChange, images }) => {
   const handleDrop = async (files) => {
+    if (images.length >= 10) {
+      alert("이미지는 최대 10장까지 업로드 가능합니다.");
+      return;
+    }
     let formData = new FormData();
 
     const config = {
@@ -38,28 +43,37 @@ const FileUpload = ({ onImageChange, images }) => {
           <div
             {...getRootProps()}
             style={{
-              border: "1px solid gray",
+              border: "1px solid lightgray",
               padding: "10px",
               cursor: "pointer",
               borderRadius: "10px",
-              backgroundColor: "rgb(230, 230, 230)",
-              width: "200px",
+              width: "150px",
               height: "150px",
               marginTop: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
             }}
           >
             <input {...getInputProps()} />
-            <p>이미지를 드래그하거나 클릭하여 업로드하세요.</p>
+            <BsImages
+              style={{
+                width: "40%",
+                height: "40%",
+                color:"lightgray",
+              }}
+            />
           </div>
         )}
       </Dropzone>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {images.map((image) => (
-          <div
+          <div className="overflow-hidden"
             key={image}
             onClick={() => handleDelete(image)}
-            style={{ margin: "10px", cursor: "pointer" }}
+            style={{ border: "1px dashed gray", borderRadius: "5px", marginTop: "10px", marginRight: "10px", cursor: "pointer" }}
           >
             <img
               src={`http://localhost:4000/${image}`}
