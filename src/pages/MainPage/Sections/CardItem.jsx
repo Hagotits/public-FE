@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/thunkFunctions";
+dayjs.extend(duration);
 
 const CardItem = ({ product }) => {
+  const dispatch = useDispatch();
+  const [remainTime, setRemainTime] = useState("");
+
+  const handleClick = () => {
+    dispatch(addToCart({ productId: product.id }));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const remainTime = calculateRemainTime(product.receptTime);
+      setRemainTime(remainTime);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [product]);
+
+  const calculateRemainTime = (endTime) => {
+    const end = dayjs(endTime);
+    const now = dayjs();
+
+    const timeDiff = end.diff(now);
+    if (timeDiff <= 0) {
+      return "시간종료";
+    }
+
+    const duration = dayjs.duration(timeDiff);
+    const days = duration.days();
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const seconds = duration.seconds();
+
+    return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 남음`;
+  };
+
   return (
     <div className="rounded-[2px] border-[1px] border-gray-300 overflow-hidden">
       <Link to={`/products/${product.id}`}>
@@ -14,17 +53,16 @@ const CardItem = ({ product }) => {
           <p className="p-1">{product.title}</p>
           <p className="p-1 text-xs text-gray-500">{product.price}원</p>
           <p className="p-1">{product.place}</p>
-          <p className="p-1 text-xs text-gray-500">
-            {product.attend - 1}명 남음
-          </p>
-          <p className="p-1 text-xs text-gray-500">
-            {dayjs(product.receptTime).format("YYYY-MM-DD HH:mm:ss")}
-          </p>
+          <p className="p-1 text-xs text-gray-500">{product.attend}명 남음</p>
+          <p className="p-1 text-xs text-gray-500">{remainTime}</p>
         </div>
       </Link>
 
       <div className="w-full mt-2.5">
-        <button className="w-[50%] h-10 text-sm font-semibold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]">
+        <button
+          onClick={handleClick}
+          className="w-[80%]  h-10 text-xs px-3 font-semibold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
+        >
           {product.price / product.attend}원으로 참여하기
         </button>
       </div>

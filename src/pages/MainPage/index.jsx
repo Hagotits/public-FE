@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SearchInput from "./Sections/SearchInput";
 import axiosInstance from "../../utils/axios";
 import CardItem from "./Sections/CardItem";
+import debounce from "lodash/debounce";
 
 const MainPage = () => {
   const limit = 4;
@@ -9,9 +10,6 @@ const MainPage = () => {
   const [products, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
-  const [filters, setFilters] = useState({
-    places: [],
-  });
 
   useEffect(() => {
     fetchProducts({ skip, limit });
@@ -21,13 +19,11 @@ const MainPage = () => {
     skip,
     limit,
     loadMore = false,
-    filters = {},
     searchTerm = "",
   }) => {
     const params = {
       skip,
       limit,
-      filters,
       searchTerm,
     };
 
@@ -35,7 +31,10 @@ const MainPage = () => {
       const response = await axiosInstance.get("/products", { params });
 
       if (loadMore) {
-        setProducts([...products, ...response.data.products]);
+        setProducts((prevProducts) => [
+          ...prevProducts,
+          ...response.data.products,
+        ]);
       } else {
         setProducts(response.data.products);
       }
@@ -50,23 +49,25 @@ const MainPage = () => {
       skip: skip + limit,
       limit,
       loadMore: true,
-      filters,
       searchTerm,
     };
     fetchProducts(body);
     setSkip(skip + limit);
   };
 
+  // 디바운스된 검색어 처리 함수
+  const debouncedFetchProducts = useCallback(
+    debounce((searchTerm) => {
+      fetchProducts({ skip: 0, limit, searchTerm });
+      setSkip(0);
+    }, 300),
+    []
+  );
+
   const handleSearchTerm = (event) => {
-    const body = {
-      skip: 0,
-      limit,
-      filters,
-      searchTerm: event.target.value,
-    };
-    fetchProducts(body);
-    setSearchTerm(event.target.value);
-    setSkip(0);
+    const { value } = event.target;
+    setSearchTerm(value);
+    debouncedFetchProducts(value);
   };
 
   return (
