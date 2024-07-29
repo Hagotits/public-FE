@@ -33,7 +33,7 @@ const DetailProductPage = () => {
         <div key={product.id} className="relative w-[700px] h-[90%]">
           <div
             id="이미지"
-            className="w-full h-[400px] rounded-[15px] border border-[#c5c5c5]"
+            className="w-full h-[400px] rounded-[15px] border border-[#c5c5c5] overflow-hidden"
           >
             <ProductImage product={product} />
           </div>

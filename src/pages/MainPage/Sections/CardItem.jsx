@@ -5,10 +5,10 @@ import dayjs from "dayjs";
 
 const CardItem = ({ product }) => {
   return (
-    <div className="border-[1px] border-gray-300">
+    <div className="rounded-[2px] border-[1px] border-gray-300 overflow-hidden">
       <Link to={`/products/${product.id}`}>
         <div>
-          <div className="image h-48 bg-gray-100">
+          <div className="image h-48 bg-gray-100 overflow-hidden">
             <ImageSlider images={product.images || []} />
           </div>
           <p className="p-1">{product.title}</p>
