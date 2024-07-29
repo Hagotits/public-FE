@@ -44,7 +44,7 @@ const CardItem = ({ product }) => {
   };
 
   return (
-    <div className="rounded-[2px] border-[1px] border-gray-300 overflow-hidden">
+    <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
       <Link to={`/products/${product.id}`}>
         <div>
           <div className="image h-48 bg-gray-100 overflow-hidden">
