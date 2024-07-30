@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getCartItems,
-  removeCartItem,
-} from "../../redux/thunkFunctions";
+import { getCartItems, removeCartItem } from "../../redux/thunkFunctions";
 import CartTable from "./Sections/CartTable";
 
 const CartPage = () => {
   const userData = useSelector((state) => state.user?.userData);
   const cartDetail = useSelector((state) => state.user?.cartDetail || []);
   const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     let cartItemIds = [];
@@ -29,10 +27,19 @@ const CartPage = () => {
     }
   }, [dispatch, userData]);
 
+  useEffect(() => {
+    calculateTotal(cartDetail);
+  }, [cartDetail]);
+
+  const calculateTotal = (cartItems) => {
+    let total = 0;
+    cartItems.map((item) => (total += item.price * item.quantity));
+    setTotal(total);
+  };
+
   const handleRemoveCartItem = (productId) => {
     dispatch(removeCartItem(productId));
   };
-
 
   return (
     <section>

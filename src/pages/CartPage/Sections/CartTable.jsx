@@ -4,8 +4,9 @@ const CartTable = ({ products, onRemoveItem }) => {
   const renderCartImage = (images) => {
     if (images.length > 0) {
       let image = images[0];
-      return `${import.meta.env.SERVER_URL}/${image}`;
+      return `http://localhost:4000/${image}`;
     }
+    return null;
   };
 
   const renderItems =

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/thunkFunctions";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { FaRegHeart } from "react-icons/fa";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
@@ -13,7 +13,7 @@ const routes = [
     to: "/user/cart",
     name: "cart",
     auth: true,
-    icon: <AiOutlineShoppingCart style={{ fontSize: "1.4rem" }} />,
+    icon: <FaRegHeart style={{ fontSize: "1.4rem" }} />,
   },
   { to: "/history", name: "주문목록", auth: true },
   { to: "", name: "로그아웃", auth: true },
@@ -24,6 +24,7 @@ const HeaderItem = ({ mobile }) => {
   const cart = useSelector((state) => state.user?.userData?.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // console.log(userData);
 
   const handleLogout = async () => {
     try {
