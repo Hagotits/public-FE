@@ -106,7 +106,7 @@ export const removeCartItem = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data || error.message);
     }
   }
