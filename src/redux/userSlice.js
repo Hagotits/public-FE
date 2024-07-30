@@ -1,39 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  registerUser,
-  loginUser,
-  authUser,
-  logoutUser,
   addToCart,
+  authUser,
   getCartItems,
-  removeCartItem,
+  loginUser,
+  logoutUser,
   payProducts,
+  registerUser,
+  removeCartItem,
 } from "./thunkFunctions";
 import { toast } from "react-toastify";
 
 const initialState = {
   userData: {
+    id: "",
     email: "",
     name: "",
+    role: 0,
+    image: "",
+    cart: [], // cart 초기값 추가
+    hishoty: [],
   },
   isAuth: false,
   isLoading: false,
   error: "",
+  // cartDetail: [], // cartDetail 초기값 추가
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    setuser: (state, action) => {
-      state.userData = action.payload;
-      state.isAuth = true;
-    },
-    clearUser: (state) => {
-      state.userData = initialState.userData;
-      state.isAuth = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -48,20 +45,22 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.userData = action.payload.user;
+        state.userData = action.payload;
         state.isAuth = true;
-        toast.info("로그인에 성공하였습니다.");
         localStorage.setItem("accessToken", action.payload.accessToken);
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = true;
-        toast.error(action.payload || "로그인에 실패했습니다.");
+        state.isLoading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
       })
+
       .addCase(authUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -77,14 +76,14 @@ const userSlice = createSlice({
         state.isAuth = false;
         localStorage.removeItem("accessToken");
       })
+
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(logoutUser.fulfilled, (state) => {
+      .addCase(logoutUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.userData = initialState.userData;
         state.isAuth = false;
-        toast.info("로그아웃을 완료했습니다.");
         localStorage.removeItem("accessToken");
       })
       .addCase(logoutUser.rejected, (state, action) => {
@@ -92,6 +91,7 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+
       .addCase(addToCart.pending, (state) => {
         state.isLoading = true;
       })
@@ -105,6 +105,7 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+
       .addCase(getCartItems.pending, (state) => {
         state.isLoading = true;
       })
@@ -117,6 +118,7 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+
       .addCase(removeCartItem.pending, (state) => {
         state.isLoading = true;
       })
@@ -131,6 +133,7 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+
       .addCase(payProducts.pending, (state) => {
         state.isLoading = true;
       })

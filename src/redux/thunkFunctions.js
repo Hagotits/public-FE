@@ -58,7 +58,6 @@ export const addToCart = createAsyncThunk(
   async (body, thunkAPI) => {
     try {
       const response = await axiosInstance.post(`/users/cart`, body);
-
       return response.data;
     } catch (error) {
       console.log(error);
@@ -109,7 +108,7 @@ export const removeCartItem = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return thunkAPI.rejectWithValue(error.response.data || error.message);
     }
   }
