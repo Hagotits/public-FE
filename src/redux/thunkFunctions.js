@@ -94,9 +94,7 @@ export const removeCartItem = createAsyncThunk(
   "user/removeCartItem",
   async (productId, thunkAPI) => {
     try {
-      const response = await axiosInstance.delete(
-        `/users/cart?productId=${productId}`
-      );
+      const response = await axiosInstance.put(`/users/cart`, { productId });
 
       response.data.cart.forEach((cartItem) => {
         response.data.productInfo.forEach((productDetail, index) => {
