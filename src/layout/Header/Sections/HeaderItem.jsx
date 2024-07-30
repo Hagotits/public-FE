@@ -3,12 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/thunkFunctions";
 import { FaRegHeart } from "react-icons/fa";
+import { CiCirclePlus } from "react-icons/ci";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
   { to: "/mypage", name: "마이페이지", auth: true },
-  { to: "/product/upload", name: "업로드", auth: true },
+  { 
+    to: "/product/upload",
+    auth: true,
+    icons: <CiCirclePlus style={{ fontSize: "2rem" }}/>,
+  },
   {
     to: "/user/cart",
     name: "cart",
@@ -41,7 +46,7 @@ const HeaderItem = ({ mobile }) => {
       className={`text-md leading-7 justify-center w-full flex gap-4 items-center
                   ${mobile && "flex-col bg-gray-900 h-full"} items-center`}
     >
-      {routes.map(({ to, name, auth, icon }) => {
+      {routes.map(({ to, name, auth, icon, icons }) => {
         if (isAuth !== auth) return null;
         if (name === "로그아웃") {
           return (
@@ -66,7 +71,7 @@ const HeaderItem = ({ mobile }) => {
               </Link>
             </li>
           );
-        } else {
+        } else if(name) {
           return (
             <li
               key={name}
@@ -75,6 +80,13 @@ const HeaderItem = ({ mobile }) => {
               <Link to={to}>{name}</Link>
             </li>
           );
+        } else {
+          return (
+            <li key={icons}
+              className="py-2 text-center border-b-4 cursor-pointer">
+                <Link to={to}>{icons}</Link>
+            </li>
+          )
         }
       })}
     </ul>

@@ -58,6 +58,9 @@ const CardItem = ({ product }) => {
   return (
     <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
       <div className="image h-48 bg-gray-100 overflow-hidden relative">
+        <div>
+          <ImageSlider images={product.images || []} />
+        </div>
         <div className="w-[24px] h-[24px] absolute top-1 right-1 cursor-pointer"
              onClick={handleIconClick}
         >
@@ -69,16 +72,12 @@ const CardItem = ({ product }) => {
             />
           )}
         </div>
-        <div onClick={handleIconClick}>
-          ㅁ
-          <ImageSlider images={product.images || []} />
-        </div>
       </div>
       
       <Link to={`/products/${product.id}`}>
         <div>
           <p className="p-1">{product.title}</p>
-          <p className="p-1 text-xs text-gray-500">{product.price}원</p>
+          <p className="p-1 text-s text-black font-bold">{product.price / product.attend}원</p>
           <p className="p-1">{product.place}</p>
         </div>
       </Link>

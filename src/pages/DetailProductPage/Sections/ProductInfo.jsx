@@ -80,7 +80,7 @@ const ProductInfo = ({ product }) => {
       <div className="relative flex justify-end flex-row items-end mt-[50px]">
         <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
           <div id="남은 인원" className="text-[12px] text-[rgb(182, 182, 182)]">
-            {product.attend}명 남음
+            {product.attend -1}명 남음
           </div>
           <div
             id="남은 시간"
