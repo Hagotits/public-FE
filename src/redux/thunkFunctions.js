@@ -77,7 +77,7 @@ export const getCartItems = createAsyncThunk(
 
       userCart.forEach((cartItem) => {
         response.data.forEach((productDetail, index) => {
-          if (cartItem.id === productDetail._id) {
+          if (cartItem.id === productDetail.id) {
             response.data[index].quantity = cartItem.quantity;
           }
         });
@@ -101,7 +101,7 @@ export const removeCartItem = createAsyncThunk(
 
       response.data.cart.forEach((cartItem) => {
         response.data.productInfo.forEach((productDetail, index) => {
-          if (cartItem.id === productDetail._id) {
+          if (cartItem.id === productDetail.id) {
             response.data.productInfo[index].quantity = cartItem.quantity;
           }
         });

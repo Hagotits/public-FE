@@ -1,10 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
 import { IoHeartOutline } from "react-icons/io5";
 
 const CardItem = ({ product }) => {
+  const dispatch = useDispatch();
+  const [remainTime, setRemainTime] = useState("");
+
+  const handleClick = () => {
+    dispatch(addToCart({ productId: product.id }));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const remainTime = calculateRemainTime(product.receptTime);
+      setRemainTime(remainTime);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [product]);
+
+  const calculateRemainTime = (endTime) => {
+    const end = dayjs(endTime);
+    const now = dayjs();
+
+    const timeDiff = end.diff(now);
+    if (timeDiff <= 0) {
+      return "시간종료";
+    }
+
+    const duration = dayjs.duration(timeDiff);
+    const days = duration.days();
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const seconds = duration.seconds();
+
+    return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 남음`;
+  };
+
   return (
     <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
       <Link to={`/products/${product.id}`}>
