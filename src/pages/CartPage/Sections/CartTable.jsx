@@ -20,8 +20,8 @@ const CartTable = ({ products, onRemoveItem }) => {
             src={renderCartImage(product.images)}
           />
         </td>
-        <td>{product.quantity} 개</td>
-        <td>{product.price} 원</td>
+        <td>{product.quantity} 명</td>
+        <td>{product.price}원</td>
         <td>
           <button onClick={() => onRemoveItem(product.id)}>지우기</button>
         </td>
@@ -33,7 +33,7 @@ const CartTable = ({ products, onRemoveItem }) => {
       <thead>
         <tr>
           <th>사진</th>
-          <th>개수</th>
+          <th>인원</th>
           <th>가격</th>
           <th>삭제</th>
         </tr>
