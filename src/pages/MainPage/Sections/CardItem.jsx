@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../../../redux/thunkFunctions";
+import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
-import { IoHeartOutline } from "react-icons/io5";
 import duration from "dayjs/plugin/duration";
-import { addToCart } from "../../../redux/thunkFunctions";
 dayjs.extend(duration);
 
 const CardItem = ({ product }) => {
   const dispatch = useDispatch();
   const [remainTime, setRemainTime] = useState("");
+  const [like, setLike] = useState(false); //찜 상태 관리
 
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
+  };
+
+  const toggleLike = () => {
+    setLike(!like);
+  };
+
+  const handleIconClick = () => {
+    handleClick();
+    toggleLike();
   };
 
   useEffect(() => {
@@ -47,18 +57,26 @@ const CardItem = ({ product }) => {
 
   return (
     <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
+      <div className="image h-48 bg-gray-100 overflow-hidden relative">
+        <div className="w-[24px] h-[24px] absolute top-1 right-1 cursor-pointer"
+             onClick={handleIconClick}
+        >
+          {like ? (
+            <IoHeart style={{ width: "100%", height: "100%", color: "red"}} />
+          ) : (
+            <IoHeartOutline
+              style={{ width: "100%", height: "100%", color: "grey"}}
+            />
+          )}
+        </div>
+        <div onClick={handleIconClick}>
+          ㅁ
+          <ImageSlider images={product.images || []} />
+        </div>
+      </div>
+      
       <Link to={`/products/${product.id}`}>
         <div>
-          <div className="image h-48 bg-gray-100 overflow-hidden">
-            <IoHeartOutline
-              style={{
-                width: "15%",
-                height: "15%",
-                color:"gray",
-              }}
-            />
-            <ImageSlider images={product.images || []} />
-          </div>
           <p className="p-1">{product.title}</p>
           <p className="p-1 text-xs text-gray-500">{product.price}원</p>
           <p className="p-1">{product.place}</p>
@@ -72,12 +90,6 @@ const CardItem = ({ product }) => {
           </p>
           <p className="p-1 text-[10px] text-gray-500">{remainTime}</p>
         </div>
-        <button
-          onClick={handleClick}
-          className="w-[55%] h-10 text-xs font-semibold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
-        >
-          {product.price / product.attend}원으로 참여하기
-        </button>
       </div>
     </div>
   );

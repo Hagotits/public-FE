@@ -98,7 +98,7 @@ const userSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false;
         state.userData.cart = action.payload;
-        toast.info("장바구니에 추가되었습니다.");
+        toast.info("찜 목록에 추가되었습니다.");
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.isLoading = false;
@@ -124,7 +124,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.cartDetail = action.payload.productInfo;
         state.userData.cart = action.payload.cart;
-        toast.info("상품이 장바구니에서 제거되었습니다.");
+        toast.info("찜 목록에서 제거되었습니다.");
       })
       .addCase(removeCartItem.rejected, (state, action) => {
         state.isLoading = false;
