@@ -1,8 +1,12 @@
 .DropdownToggle {
   cursor: pointer; /* 커서 포인터 모양으로 변경 */
+  background: none;
+  border: none;
+  outline: none;
 }
 
 .DropdownMenu {
+  position: absolute;
   background-color: #f8f9fa;
   border: 1.5px solid #d8d8d8;
   border-radius: 5px;
