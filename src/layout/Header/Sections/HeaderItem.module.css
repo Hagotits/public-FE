@@ -1,0 +1,32 @@
+.DropdownToggle {
+  cursor: pointer; /* 커서 포인터 모양으로 변경 */
+}
+
+.DropdownMenu {
+  background-color: #f8f9fa;
+  border: 1.5px solid #d8d8d8;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DropdownItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem; /* 위아래 0.5, 좌우 1rem으로 설정 */
+  color: #343a40;
+  text-align: left;
+  &:hover {
+    width: 100%;
+    background-color: #e9ecef;
+    color: #212529;
+  };
+}
+
+.DropdownItemIcon {
+  margin-right: 0.5rem; /* 아이콘과 항목 텍스트 사이 간격 */
+}
