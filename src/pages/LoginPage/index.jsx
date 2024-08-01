@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/thunkFunctions";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const {
@@ -20,6 +21,7 @@ const Login = () => {
       dispatch(loginUser(body));
       navigate("/");
       reset();
+      toast.info("로그인에 성공하였습니다.");
     } catch (err) {
       console.log(err);
     }

@@ -23,7 +23,7 @@ const CardItem = ({ product }) => {
 
   const handleIconClick = () => {
     handleClick();
-    toggleLike();
+    toggleLike(true);
   };
 
   useEffect(() => {
@@ -54,30 +54,32 @@ const CardItem = ({ product }) => {
     return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 남음`;
   };
 
-
   return (
     <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
       <div className="image h-48 bg-gray-100 overflow-hidden relative">
         <div>
           <ImageSlider images={product.images || []} />
         </div>
-        <div className="w-[24px] h-[24px] absolute top-1 right-1 cursor-pointer"
-             onClick={handleIconClick}
+        <div
+          className="w-[24px] h-[24px] absolute top-1 right-1 cursor-pointer"
+          onClick={handleIconClick}
         >
           {like ? (
-            <IoHeart style={{ width: "100%", height: "100%", color: "red"}} />
+            <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
           ) : (
             <IoHeartOutline
-              style={{ width: "100%", height: "100%", color: "grey"}}
+              style={{ width: "100%", height: "100%", color: "grey" }}
             />
           )}
         </div>
       </div>
-      
+
       <Link to={`/products/${product.id}`}>
         <div>
           <p className="p-1">{product.title}</p>
-          <p className="p-1 text-s text-black font-bold">{product.price / product.attend}원</p>
+          <p className="p-1 text-s text-black font-bold">
+            {product.price / product.attend}원
+          </p>
           <p className="p-1">{product.place}</p>
         </div>
       </Link>
