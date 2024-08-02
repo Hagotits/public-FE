@@ -54,17 +54,17 @@ const ProductInfo = ({ product }) => {
     <div>
       <div
         id="글쓴 회원 정보"
-        className="w-full h-[100px] border-b border-gray-500 relative flex py-[10px]"
+        className="w-full h-[100px] border-b border-gray-500 relative flex py-[10px] items-center"
       >
         <div
           id="프로필 이미지"
-          className="w-[80px] h-full rounded-full border-2 border-[#c1c1c1]"
+          className="w-[60px] h-[60px] rounded-full border-2 border-[#c1c1c1]"
         ></div>
         <div className="h-full flex flex-col justify-center items-start ml-[20px]">
-          <div id="닉네임" className="mb-[5px]">
+          <div id="닉네임" className="text-[16px] font-semibold mb-[5px]">
             {product.userName}
           </div>
-          <div id="거래 장소">{product.places}</div>
+          <div id="거래 장소" className="text-[14px]">{product.places}</div>
         </div>
       </div>
 

@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../../redux/thunkFunctions";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
+import { CiUser } from "react-icons/ci";
+import { IoTimeOutline } from "react-icons/io5";
 import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -70,14 +72,14 @@ const CardItem = ({ product }) => {
           <ImageSlider images={product.images || []} />
         </div>
         <div
-          className="w-[24px] h-[24px] absolute top-1 right-1 cursor-pointer"
+          className="w-[28px] h-[28px] absolute top-1 right-1 cursor-pointer"
           onClick={handleIconClick}
         >
           {like ? (
             <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
           ) : (
             <IoHeartOutline
-              style={{ width: "100%", height: "100%", color: "grey" }}
+              style={{ width: "100%", height: "100%", color: "white" }}
             />
           )}
         </div>
@@ -85,22 +87,29 @@ const CardItem = ({ product }) => {
 
       <Link to={`/products/${product.id}`}>
         <div>
-          <p className="p-1">{product.title}</p>
-          <p className="p-1 text-s text-black font-bold">
+          <p className="p-1 text-[18px]">{product.title}</p>
+          <p className="p-1 text-[18px] text-black font-bold">
             {product.price / product.attend}원
           </p>
           <p className="p-1">{product.place}</p>
         </div>
-      </Link>
-
-      <div className="flex w-full mt-2.5">
+        <div className="flex w-full mt-2.5">
         <div className="flex-1 flex-col justify-end text-right">
-          <p className="p-1 text-[10px] text-gray-500">
-            {product.attend - 1}명 남음
-          </p>
-          <p className="p-1 text-[10px] text-gray-500">{remainTime}</p>
+          <div className="flex p-1 items-center text-[14px] text-gray-500">
+            <CiUser />
+            <span className="text-red-500 font-medium ml-[2px]">{product.attend -1}</span>
+            <span>명</span>
+            <span className="ml-[3px]">남음</span>
+          </div>
+          <div className="flex relative">
+            <div className="flex p-1 items-center text-[14px] text-gray-500">
+              <IoTimeOutline />
+              <span className="ml-0.5">{remainTime}</span>
+            </div>
+          </div>
         </div>
       </div>
+      </Link>
     </div>
   );
 };
