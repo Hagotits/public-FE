@@ -51,7 +51,16 @@ const CardItem = ({ product }) => {
     const minutes = duration.minutes();
     const seconds = duration.seconds();
 
-    return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 남음`;
+    return (
+      <div>
+        {
+        days < 1
+          ? `${hours}시간 ${minutes}분 ${seconds}초 남음`
+          : `${days}일 남음`
+        
+        }
+      </div>
+    );
   };
 
   return (
