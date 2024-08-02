@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../../../redux/thunkFunctions";
+import { addToCart, removeCartItem } from "../../../redux/thunkFunctions"; // Import removeCartItem
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { IoTimeOutline } from "react-icons/io5";
@@ -15,17 +15,32 @@ const CardItem = ({ product }) => {
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
+  // Load the initial like state from localStorage
+  useEffect(() => {
+    const savedLikeState = localStorage.getItem(`like-${product.id}`);
+    if (savedLikeState !== null) {
+      setLike(JSON.parse(savedLikeState));
+    }
+  }, [product.id]);
+
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
   };
 
-  const toggleLike = () => {
-    setLike(!like);
+  const handleRemoveCartItem = (productId) => {
+    dispatch(removeCartItem(productId));
   };
 
-  const handleIconClick = () => {
-    handleClick();
-    toggleLike(true);
+  const toggleLike = () => {
+    const newLikeState = !like;
+    setLike(newLikeState);
+    // Save the new like state to localStorage
+    localStorage.setItem(`like-${product.id}`, JSON.stringify(newLikeState));
+    if (newLikeState) {
+      handleClick();
+    } else {
+      handleRemoveCartItem(product.id);
+    }
   };
 
   useEffect(() => {
@@ -55,12 +70,9 @@ const CardItem = ({ product }) => {
 
     return (
       <div>
-        {
-        days < 1
+        {days < 1
           ? `${hours}시간 ${minutes}분 ${seconds}초 남음`
-          : `${days}일 남음`
-        
-        }
+          : `${days}일 남음`}
       </div>
     );
   };
@@ -73,7 +85,7 @@ const CardItem = ({ product }) => {
         </div>
         <div
           className="w-[28px] h-[28px] absolute top-1 right-1 cursor-pointer"
-          onClick={handleIconClick}
+          onClick={toggleLike} // Update this to use toggleLike directly
         >
           {like ? (
             <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
@@ -94,21 +106,23 @@ const CardItem = ({ product }) => {
           <p className="p-1">{product.place}</p>
         </div>
         <div className="flex w-full mt-2.5">
-        <div className="flex-1 flex-col justify-end text-right">
-          <div className="flex p-1 items-center text-[14px] text-gray-500">
-            <CiUser />
-            <span className="text-red-500 font-medium ml-[2px]">{product.attend -1}</span>
-            <span>명</span>
-            <span className="ml-[3px]">남음</span>
-          </div>
-          <div className="flex relative">
+          <div className="flex-1 flex-col justify-end text-right">
             <div className="flex p-1 items-center text-[14px] text-gray-500">
-              <IoTimeOutline />
-              <span className="ml-0.5">{remainTime}</span>
+              <CiUser />
+              <span className="text-red-500 font-medium ml-[2px]">
+                {product.attend - 1}
+              </span>
+              <span>명</span>
+              <span className="ml-[3px]">남음</span>
+            </div>
+            <div className="flex relative">
+              <div className="flex p-1 items-center text-[14px] text-gray-500">
+                <IoTimeOutline />
+                <span className="ml-0.5">{remainTime}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </Link>
     </div>
   );

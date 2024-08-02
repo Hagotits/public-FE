@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/thunkFunctions";
+import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
@@ -8,9 +9,19 @@ dayjs.extend(duration);
 const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
   const [remainTime, setRemainTime] = useState("");
+  const [like, setLike] = useState(false); //찜 상태 관리
 
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
+  };
+
+  const toggleLike = () => {
+    setLike(!like);
+  };
+
+  const handleIconClick = () => {
+    handleClick();
+    toggleLike(true);
   };
 
   useEffect(() => {
@@ -64,14 +75,29 @@ const ProductInfo = ({ product }) => {
           <div id="닉네임" className="text-[16px] font-semibold mb-[5px]">
             {product.userName}
           </div>
-          <div id="거래 장소" className="text-[14px]">{product.places}</div>
+          <div id="거래 장소" className="text-[14px]">{product.places}
+            <div className="">
+              {/* <button className="absolute right-1">수정 / 삭제</button> */}
+              <button className="flex absolute right-1">
+                <div className="flex items-center space-x-1 text-gray-500">
+                  <div className="flex">수정 /</div>
+                  <div className="flex">삭제</div>
+                </div>
+              </button>
+              {/* <button className="flex flex-row absolute right-1 space-x-3">
+                <div className="flex">수정</div>
+                <div className="flex">삭제</div>
+              </button> */}
+            </div>
+          </div>
+
         </div>
       </div>
 
       <div>
         <div
           id="제목"
-          className="w-full h-[50px] text-[25px] font-normal mt-[30px] mb-[10px]"
+          className="w-full h-[50px] text-[23px] font-normal mt-[30px] mb-[10px]"
         >
           {product.title}
         </div>
@@ -98,18 +124,27 @@ const ProductInfo = ({ product }) => {
             {remainTime}
           </div>
         </div>
-        <button
-          id="참여 버튼"
-          className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
-          onClick={handleClick}
-        >
-          {Math.floor(product.price / product.attend)}원으로 참여하기
-        </button>
-        <button
-          onClick={handleClick}
-          className="w-[200px] h-10 text-[14px] font-semibold border border-gray-900">
-            찜하기
-        </button>
+        <div>
+          <button
+            id="참여 버튼"
+            className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
+            onClick={handleClick}
+          >
+            {Math.floor(product.price / product.attend)}원으로 참여하기
+          </button>
+          <div
+            className="w-[28px] h-[28px] absolute top-[7px] left-[57%] cursor-pointer"
+            onClick={handleIconClick}
+          >
+            {like ? (
+              <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
+            ) : (
+              <IoHeartOutline
+                style={{ width: "100%", height: "100%", color: "grey" }}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
