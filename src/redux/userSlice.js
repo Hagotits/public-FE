@@ -16,15 +16,13 @@ const initialState = {
     id: "",
     email: "",
     name: "",
-    role: 0,
     image: "",
-    cart: [], // cart 초기값 추가
-    hishoty: [],
+    cart: [],
+    history: [],
   },
   isAuth: false,
   isLoading: false,
   error: "",
-  // cartDetail: [], // cartDetail 초기값 추가
 };
 
 const userSlice = createSlice({
@@ -54,6 +52,7 @@ const userSlice = createSlice({
         state.userData = action.payload;
         state.isAuth = true;
         localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -75,6 +74,7 @@ const userSlice = createSlice({
         state.userData = initialState.userData;
         state.isAuth = false;
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       })
 
       .addCase(logoutUser.pending, (state) => {
@@ -85,6 +85,7 @@ const userSlice = createSlice({
         state.userData = initialState.userData;
         state.isAuth = false;
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
