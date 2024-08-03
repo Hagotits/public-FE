@@ -126,7 +126,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.cartDetail = action.payload.productInfo;
         state.userData.cart = action.payload.cart;
-        toast.info("찜 목록에서 제거되었습니다.");
+        toast.info("찜 목록이 없습니다.");
       })
       .addCase(removeCartItem.rejected, (state, action) => {
         state.isLoading = false;

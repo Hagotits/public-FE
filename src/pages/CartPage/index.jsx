@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItems, removeCartItem } from "../../redux/thunkFunctions";
 import CartTable from "./Sections/CartTable";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const userData = useSelector((state) => state.user?.userData);
@@ -28,6 +29,8 @@ const CartPage = () => {
 
   const handleRemoveCartItem = (productId) => {
     dispatch(removeCartItem(productId));
+    localStorage.removeItem(`like-${productId}`);
+    toast.info("찜 목록에서 제거되었습니다.");
   };
 
   return (

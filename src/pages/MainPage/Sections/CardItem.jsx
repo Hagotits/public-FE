@@ -15,31 +15,29 @@ const CardItem = ({ product }) => {
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
-  // Load the initial like state from localStorage
-  useEffect(() => {
-    const savedLikeState = localStorage.getItem(`like-${product.id}`);
-    if (savedLikeState !== null) {
-      setLike(JSON.parse(savedLikeState));
-    }
-  }, [product.id]);
-
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
   };
 
-  const handleRemoveCartItem = (productId) => {
-    dispatch(removeCartItem(productId));
-  };
+  // 저장
+  useEffect(() => {
+    const savedLikeState = localStorage.getItem(`like-${product.id}`);
+    if (savedLikeState !== null) {
+      setLike(JSON.parse(savedLikeState));
+      // parse는 적절한 객체로 바꿔주는 함수..(bool값이니까 true/false로 나타냄)
+    }
+  }, [product.id]);
 
+  // 삭제
   const toggleLike = () => {
-    const newLikeState = !like;
-    setLike(newLikeState);
-    // Save the new like state to localStorage
-    localStorage.setItem(`like-${product.id}`, JSON.stringify(newLikeState));
-    if (newLikeState) {
+    const state = !like; // 반전시킴
+    setLike(state);
+    localStorage.setItem(`like-${product.id}`, JSON.stringify(state));
+    if (state) {
       handleClick();
     } else {
-      handleRemoveCartItem(product.id);
+      dispatch(removeCartItem(product.id));
+      localStorage.removeItem(`like-${product.id}`);
     }
   };
 
