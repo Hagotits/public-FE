@@ -61,6 +61,10 @@ const ProductInfo = ({ product }) => {
   };
   // console.log(product)
 
+  const Price = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <div>
       <div
@@ -76,19 +80,12 @@ const ProductInfo = ({ product }) => {
             {product.userName}
           </div>
           <div id="거래 장소" className="text-[14px]">{product.places}
-            <div className="">
-              {/* <button className="absolute right-1">수정 / 삭제</button> */}
-              <button className="flex absolute right-1">
-                <div className="flex items-center space-x-1 text-gray-500">
-                  <div className="flex">수정 /</div>
-                  <div className="flex">삭제</div>
-                </div>
-              </button>
-              {/* <button className="flex flex-row absolute right-1 space-x-3">
-                <div className="flex">수정</div>
+            <button className="flex absolute right-1">
+              <div className="flex items-center space-x-1 text-gray-500">
+                <div className="flex">수정 /</div>
                 <div className="flex">삭제</div>
-              </button> */}
-            </div>
+              </div>
+            </button>
           </div>
 
         </div>
@@ -105,7 +102,7 @@ const ProductInfo = ({ product }) => {
           id="가격"
           className="w-full h-[40px] text-[20px] font-bold mb-[10px]"
         >
-          {product.price}원
+          {Price(product.price)}원
         </div>
         <div id="설명" className="text-[16px]">
           {product.content}
@@ -130,7 +127,7 @@ const ProductInfo = ({ product }) => {
             className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
             onClick={handleClick}
           >
-            {Math.floor(product.price / product.attend)}원으로 참여하기
+            {Price(Math.floor(product.price / product.attend))}원으로 참여하기
           </button>
           <div
             className="w-[28px] h-[28px] absolute top-[7px] left-[57%] cursor-pointer"
