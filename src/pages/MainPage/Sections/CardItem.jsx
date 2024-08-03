@@ -51,6 +51,10 @@ const CardItem = ({ product }) => {
     };
   }, [product]);
 
+  const Price = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const calculateRemainTime = (endTime) => {
     const end = dayjs(endTime);
     const now = dayjs();
@@ -99,7 +103,7 @@ const CardItem = ({ product }) => {
         <div>
           <p className="p-1 text-[18px]">{product.title}</p>
           <p className="p-1 text-[18px] text-black font-bold">
-            {product.price / product.attend}원
+            {Price(product.price / product.attend)}원
           </p>
           <p className="p-1">{product.place}</p>
         </div>
