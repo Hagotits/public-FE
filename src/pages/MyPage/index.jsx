@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartPage from "../CartPage/index";
 import SelledItem from "./Sections/SelledItem";
 import EndDeal from "./Sections/EndDeal";
 import Review from "./Sections/Review";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../utils/axios";
 
 const MyPage = () => {
   const [activeCategory, setActiveCategory] = useState("판매 물품");
+  const userId = useSelector((state) => state.user?.userData.id);
+  const [name, setName] = useState("");
+  console.log(userId);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axiosInstance.get(`users/mypage/${userId}`);
+        setName(response.data.user.name);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUserInfo();
+  }, [userId]);
 
   return (
     <div
@@ -23,7 +40,7 @@ const MyPage = () => {
           />
           <div className="w-4/5">
             <div id="회원 이름" className="w-full h-1/2 mb-1 text-lg my-10">
-              하가형
+              {name}
             </div>
             <div className="w-full h-1/2">
               <button

@@ -52,7 +52,6 @@ const userSlice = createSlice({
         state.userData = action.payload;
         state.isAuth = true;
         localStorage.setItem("accessToken", action.payload.accessToken);
-        localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -74,7 +73,6 @@ const userSlice = createSlice({
         state.userData = initialState.userData;
         state.isAuth = false;
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
       })
 
       .addCase(logoutUser.pending, (state) => {
@@ -85,7 +83,6 @@ const userSlice = createSlice({
         state.userData = initialState.userData;
         state.isAuth = false;
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
