@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/thunkFunctions";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import axiosInstance from "../../../utils/axios";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
+  const userId =  useSelector(state => state.user?.userData.id);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
+
+  console.log(product.userId === userId)
 
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
@@ -65,6 +71,22 @@ const ProductInfo = ({ product }) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  // 게시글 삭제
+  const Delete = async () => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      try {
+        const response = await axiosInstance.delete(`/products/${product.id}`, {userId})
+        if(response.status === 200) {
+          alert("삭제되었습니다.");
+          navigate("/");
+        };
+      } catch (error) {
+        console.error("게시글 삭제 중 오류가 발생했습니다:", error);
+        alert("게시글 삭제 중 오류가 발생했습니다. 다시 시도해주세요");
+      }
+    }
+  };
+
   return (
     <div>
       <div
@@ -80,14 +102,13 @@ const ProductInfo = ({ product }) => {
             {product.userName}
           </div>
           <div id="거래 장소" className="text-[14px]">{product.places}
-            <button className="flex absolute right-1">
+            <div className="flex absolute right-1">
               <div className="flex items-center space-x-1 text-gray-500">
-                <div className="flex">수정 /</div>
-                <div className="flex">삭제</div>
+                <button className="flex">수정 /</button>
+                <button className="flex" onClick={Delete}>삭제</button>
               </div>
-            </button>
+            </div>
           </div>
-
         </div>
       </div>
 
