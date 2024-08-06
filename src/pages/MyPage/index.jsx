@@ -1,63 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CartPage from "../CartPage/index";
 import SelledItem from "./Sections/SelledItem";
 import EndDeal from "./Sections/EndDeal";
 import Review from "./Sections/Review";
-import { useSelector } from "react-redux";
-import axiosInstance from "../../utils/axios";
+import Profile from "./Sections/Profile";
 
 const MyPage = () => {
   const [activeCategory, setActiveCategory] = useState("판매 물품");
-  const userId = useSelector((state) => state.user?.userData.id);
-  const [name, setName] = useState("");
-  console.log(userId);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await axiosInstance.get(`users/mypage/${userId}`);
-        setName(response.data.user.name);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchUserInfo();
-  }, [userId]);
 
   return (
     <div
       id="전체"
-      className="w-full h-screen bg-white flex justify-center items-center"
+      className="w-full h-screen bg-white flex flex-col items-center"
     >
-      <div className="w-full h-full bg-white">
-        <div
-          id="프로필 & 수정 & 탈퇴"
-          className="w-full h-15 shadow-md flex items-center"
-        >
-          <div
-            id="프로필 사진"
-            className="w-24 h-24 object-cover border-2 border-gray-300 rounded-full mx-14 block"
-          />
-          <div className="w-4/5">
-            <div id="회원 이름" className="w-full h-1/2 mb-1 text-lg my-10">
-              {name}
-            </div>
-            <div className="w-full h-1/2">
-              <button
-                id="프로필 수정"
-                className="w-24 h-8 mr-5 text-sm font-semibold bg-white border border-gray-300 rounded-md hover:bg-indigo-200"
-              >
-                프로필 수정
-              </button>
-              <button
-                id="회원 탈퇴"
-                className="w-24 h-8 text-sm font-semibold bg-white border border-gray-300 rounded-md hover:bg-indigo-200 mb-16"
-              >
-                회원 탈퇴
-              </button>
-            </div>
-          </div>
-        </div>
+      <div className="w-full">
+        <Profile />
+      </div>
+      <div className="w-full">
         <div
           id="나의 거래활동"
           className="w-full flex flex-row justify-between mt-2.5 mb-5 border-b border-gray-300 "
