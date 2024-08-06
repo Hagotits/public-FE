@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../utils/axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const userId = useSelector((state) => state.user?.userData.id);
   const [name, setName] = useState("");
+  const navigate = useNavigate();
   console.log(userId);
 
   useEffect(() => {
@@ -33,7 +36,8 @@ const Profile = () => {
       try {
         const response = await axiosInstance.post(`users/delete/${userId}`);
         console.log("회원 탈퇴 완료", response.data);
-        <window href="/"></window>;
+        toast.info("회원 탈퇴가 완료되었습니다.");
+        navigate("/");
       } catch (err) {
         console.error(err);
       }
