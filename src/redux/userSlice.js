@@ -16,15 +16,13 @@ const initialState = {
     id: "",
     email: "",
     name: "",
-    role: 0,
     image: "",
-    cart: [], // cart 초기값 추가
-    hishoty: [],
+    cart: [],
+    history: [],
   },
   isAuth: false,
   isLoading: false,
   error: "",
-  // cartDetail: [], // cartDetail 초기값 추가
 };
 
 const userSlice = createSlice({
