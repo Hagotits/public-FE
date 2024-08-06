@@ -35,12 +35,19 @@ const SignUp = () => {
 
   const sendAuNum = async (email) => {
     try {
-      await axiosInstance.post("/auth/verify", { email });
-      console.log(email);
-      alert("인증번호가 이메일로 전송되었습니다.");
+      const response = await axiosInstance.post("/auth/verify", { email });
+      if (response.status === 200) {
+        alert("인증번호가 이메일로 전송되었습니다.");
+      } else {
+        alert("중복된 이메일입니다.");
+      }
     } catch (err) {
       console.error(err);
-      alert("인증번호 전송에 실패했습니다.");
+      if (err.response && err.response.status === 400) {
+        alert("중복된 이메일입니다.");
+      } else {
+        alert("인증번호 전송에 실패했습니다.");
+      }
     }
   };
 
