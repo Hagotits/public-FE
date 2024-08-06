@@ -9,13 +9,13 @@ import axiosInstance from "../../../utils/axios";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
-  const userId =  useSelector(state => state.user?.userData.id);
+  const userId = useSelector((state) => state.user?.userData.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
-  console.log(product.userId === userId)
+  // console.log(product.userId === userId);
 
   const handleClick = () => {
     dispatch(addToCart({ productId: product.id }));
@@ -56,30 +56,30 @@ const ProductInfo = ({ product }) => {
 
     return (
       <div>
-        {
-        days < 1
+        {days < 1
           ? `${hours}시간 ${minutes}분 ${seconds}초 남음`
-          : `${days}일 남음`
-        
-        }
+          : `${days}일 남음`}
       </div>
     );
   };
   // console.log(product)
 
+  // 이건 뭐야?
   const Price = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  };
 
   // 게시글 삭제
   const Delete = async () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        const response = await axiosInstance.delete(`/products/${product.id}`, {userId})
-        if(response.status === 200) {
+        const response = await axiosInstance.delete(`/products/${product.id}`, {
+          params: { userId: userId },
+        });
+        if (response.status === 200) {
           alert("삭제되었습니다.");
           navigate("/");
-        };
+        }
       } catch (error) {
         console.error("게시글 삭제 중 오류가 발생했습니다:", error);
         alert("게시글 삭제 중 오류가 발생했습니다. 다시 시도해주세요");
@@ -101,11 +101,14 @@ const ProductInfo = ({ product }) => {
           <div id="닉네임" className="text-[16px] font-semibold mb-[5px]">
             {product.userName}
           </div>
-          <div id="거래 장소" className="text-[14px]">{product.places}
+          <div id="거래 장소" className="text-[14px]">
+            {product.places}
             <div className="flex absolute right-1">
               <div className="flex items-center space-x-1 text-gray-500">
                 <button className="flex">수정 /</button>
-                <button className="flex" onClick={Delete}>삭제</button>
+                <button className="flex" onClick={Delete}>
+                  삭제
+                </button>
               </div>
             </div>
           </div>
@@ -133,7 +136,7 @@ const ProductInfo = ({ product }) => {
       <div className="relative flex justify-end flex-row items-end mt-[50px]">
         <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
           <div id="남은 인원" className="text-[12px] text-[rgb(182, 182, 182)]">
-            {product.attend -1}명 남음
+            {product.attend - 1}명 남음
           </div>
           <div
             id="남은 시간"
@@ -155,7 +158,9 @@ const ProductInfo = ({ product }) => {
             onClick={handleIconClick}
           >
             {like ? (
-              <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
+              <IoHeart
+                style={{ width: "100%", height: "100%", color: "red" }}
+              />
             ) : (
               <IoHeartOutline
                 style={{ width: "100%", height: "100%", color: "grey" }}
