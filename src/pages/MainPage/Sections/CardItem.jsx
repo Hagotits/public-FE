@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart, removeCartItem } from "../../../redux/thunkFunctions"; // Import removeCartItem
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
@@ -12,32 +12,36 @@ dayjs.extend(duration);
 
 const CardItem = ({ product }) => {
   const dispatch = useDispatch();
+
+  // userId === product.userId가 일치하면 담지 않도록 만들기
+  const userId = useSelector((state) => state.user?.userData.id);
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
-  const handleClick = () => {
-    dispatch(addToCart({ productId: product.id }));
-  };
-
   // 저장
   useEffect(() => {
-    const savedLikeState = localStorage.getItem(`like-${product.id}`);
+    const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
     if (savedLikeState !== null) {
       setLike(JSON.parse(savedLikeState));
       // parse는 적절한 객체로 바꿔주는 함수..(bool값이니까 true/false로 나타냄)
     }
-  }, [product.id]);
+  }, [product.id, userId]);
 
   // 삭제
   const toggleLike = () => {
+    if (userId === product.userId) {
+      alert("본인의 상품은 찜할 수 없습니다.");
+      return;
+    }
+
     const state = !like; // 반전시킴
     setLike(state);
-    localStorage.setItem(`like-${product.id}`, JSON.stringify(state));
+    localStorage.setItem(`like-${userId}-${product.id}`, JSON.stringify(state));
+
     if (state) {
-      handleClick();
+      dispatch(addToCart({ productId: product.id }));
     } else {
       dispatch(removeCartItem(product.id));
-      localStorage.removeItem(`like-${product.id}`);
     }
   };
 
@@ -53,7 +57,7 @@ const CardItem = ({ product }) => {
 
   const Price = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  };
 
   const calculateRemainTime = (endTime) => {
     const end = dayjs(endTime);

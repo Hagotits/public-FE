@@ -17,17 +17,17 @@ const ProductInfo = ({ product }) => {
 
   // console.log(product.userId === userId);
 
-  const handleClick = () => {
-    dispatch(addToCart({ productId: product.id }));
-  };
-
   const toggleLike = () => {
     setLike(!like);
   };
 
-  const handleIconClick = () => {
-    handleClick();
-    toggleLike(true);
+  const handleClick = () => {
+    if (userId === product.userId) {
+      alert("본인의 상품은 찜할 수 없습니다.");
+    } else {
+      dispatch(addToCart({ productId: product.id }));
+      toggleLike(true);
+    }
   };
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const ProductInfo = ({ product }) => {
           </button>
           <div
             className="w-[28px] h-[28px] absolute top-[7px] left-[57%] cursor-pointer"
-            onClick={handleIconClick}
+            onClick={handleClick}
           >
             {like ? (
               <IoHeart
