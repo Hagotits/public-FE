@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 import dayjs from "dayjs";
+import KakaoMapAPI from "../../components/KakaoMap";
 
 const UploadProductPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
   const userData = useSelector((state) => state.user.userData);
@@ -17,6 +19,7 @@ const UploadProductPage = () => {
   const [images, setImages] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [mapLocation, setMapLocaiton] = useState(null);
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -28,6 +31,7 @@ const UploadProductPage = () => {
       userName: userData.name,
       ...data,
       images,
+      location: mapLocation,
     };
 
     try {
@@ -46,13 +50,19 @@ const UploadProductPage = () => {
     setSelectedTime(value);
 
     if (!value) {
-      setErrorMessage(productReceptTimeChange, required);
+      setErrorMessage("수령 날짜를 선택해주세요");
     } else if (dayjs(value).isBefore(dayjs())) {
       setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
     } else {
       setErrorMessage("");
     }
   };
+
+  useEffect(() => {
+    if (mapLocation) {
+      setValue("places", mapLocation.address);
+    }
+  }, [mapLocation, setValue]);
 
   const productTitle = {
     required: "필수 항목입니다.",
@@ -68,11 +78,13 @@ const UploadProductPage = () => {
 
   const productPrice = {
     required: "필수 항목입니다.",
+    minPrice: 1,
   };
 
   const productAttend = {
     required: "필수 항목입니다.",
     maxLength: 4,
+    minLength: 1,
   };
 
   const productReceptTime = {
@@ -202,6 +214,7 @@ const UploadProductPage = () => {
               거래 장소
             </label>
             <div className="w-full">
+              <KakaoMapAPI onLocationChange={setMapLocaiton} />
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="places"

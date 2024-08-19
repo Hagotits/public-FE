@@ -74,7 +74,7 @@ const App = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/user/cart" element={<CartPage />} />
           <Route path="/history" element={<HistoryPage />} />
-          <Route path="/edit/:productId" element={<EditProductPage />} /> 
+          <Route path="/edit/:productId" element={<EditProductPage />} />
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}

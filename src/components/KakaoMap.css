@@ -1,0 +1,17 @@
+/* CSS 스타일링 */
+.overlay-container {
+  position: relative;
+}
+
+.overlay-content {
+  position: absolute;
+  z-index: 1000; /* 버튼과 CustomOverlayMap의 zIndex를 일치시킵니다 */
+}
+
+.overlay-content button {
+  pointer-events: all; /* 버튼에 대한 클릭 이벤트 허용 */
+}
+
+.map {
+  pointer-events: none; /* 지도의 클릭 이벤트 차단 */
+}
