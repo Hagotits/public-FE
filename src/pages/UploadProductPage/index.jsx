@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
+import dayjs from "dayjs";
 
 const UploadProductPage = () => {
   const {
@@ -14,6 +15,8 @@ const UploadProductPage = () => {
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -31,10 +34,23 @@ const UploadProductPage = () => {
       const response = await axiosInstance.post("/products", body);
       const newProductId = response.data.productId;
       if (response.data) {
-        await navigate(`/products/${newProductId}`);
+        navigate(`/products/${newProductId}`);
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleTimeChange = (e) => {
+    const value = e.target.value;
+    setSelectedTime(value);
+
+    if (!value) {
+      setErrorMessage(productReceptTimeChange, required);
+    } else if (dayjs(value).isBefore(dayjs())) {
+      setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
+    } else {
+      setErrorMessage("");
     }
   };
 
@@ -56,10 +72,12 @@ const UploadProductPage = () => {
 
   const productAttend = {
     required: "필수 항목입니다.",
+    maxLength: 4,
   };
 
   const productReceptTime = {
     required: "필수 항목입니다.",
+    minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
   };
 
   return (
@@ -72,8 +90,6 @@ const UploadProductPage = () => {
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-
-
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="상품 이미지"
@@ -84,7 +100,6 @@ const UploadProductPage = () => {
             </label>
             <FileUpload images={images} onImageChange={handleImages} />
           </div>
-
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
@@ -212,6 +227,8 @@ const UploadProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="datetime-local"
                 name="receptTime"
+                onChange={handleTimeChange}
+                min={productReceptTime.minLength}
                 {...register("receptTime", productReceptTime)}
               />
               {errors.receptTime && (

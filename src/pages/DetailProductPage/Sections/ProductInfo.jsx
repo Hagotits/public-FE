@@ -15,19 +15,31 @@ const ProductInfo = ({ product }) => {
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
-  // console.log(product.userId === userId);
+  // 저장
+  useEffect(() => {
+    const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
+    if (savedLikeState !== null) {
+      setLike(JSON.parse(savedLikeState));
+      // parse는 적절한 객체로 바꿔주는 함수..(bool값이니까 true/false로 나타냄)
+    }
+  }, [product.id, userId]);
 
-  const handleClick = () => {
-    dispatch(addToCart({ productId: product.id }));
-  };
-
+  // 삭제
   const toggleLike = () => {
-    setLike(!like);
-  };
+    if (userId === product.userId) {
+      alert("본인의 상품은 찜할 수 없습니다.");
+      return;
+    }
 
-  const handleIconClick = () => {
-    handleClick();
-    toggleLike(true);
+    const state = !like; // 반전시킴
+    setLike(state);
+    localStorage.setItem(`like-${userId}-${product.id}`, JSON.stringify(state));
+
+    if (state) {
+      dispatch(addToCart({ productId: product.id }));
+    } else {
+      dispatch(removeCartItem(product.id));
+    }
   };
 
   useEffect(() => {
@@ -156,13 +168,13 @@ const ProductInfo = ({ product }) => {
           <button
             id="참여 버튼"
             className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
-            onClick={handleClick}
+            onClick={toggleLike}
           >
             {Price(Math.floor(product.price / product.attend))}원으로 참여하기
           </button>
           <div
             className="w-[28px] h-[28px] absolute top-[7px] left-[57%] cursor-pointer"
-            onClick={handleIconClick}
+            onClick={toggleLike}
           >
             {like ? (
               <IoHeart
