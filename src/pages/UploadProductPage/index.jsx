@@ -83,6 +83,7 @@ const UploadProductPage = () => {
   const productAttend = {
     required: "필수 항목입니다.",
     maxLength: 4,
+    minLength: 1,
   };
 
   const productReceptTime = {
