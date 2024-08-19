@@ -132,7 +132,7 @@ const UploadProductPage = () => {
               설명
             </label>
             <div className="w-full">
-              <input
+              <textarea
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
                 name="content"
                 {...register("content", productContent)}
