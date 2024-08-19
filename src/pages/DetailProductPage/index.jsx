@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import ProductImage from "./Sections/ProductImage";
 import ProductInfo from "./Sections/ProductInfo";
 
 const DetailProductPage = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
@@ -27,6 +28,10 @@ const DetailProductPage = () => {
 
   if (!product) return null;
 
+  const handleEdit = () => {
+    navigate(`/edit/${productId}`, { state : { product} });
+  };
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
       {product && (
@@ -40,7 +45,6 @@ const DetailProductPage = () => {
           <div>
             <ProductInfo product={product} />
           </div>
-          
         </div>
       )}
     </div>

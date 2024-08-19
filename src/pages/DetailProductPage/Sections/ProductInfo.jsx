@@ -64,14 +64,14 @@ const ProductInfo = ({ product }) => {
   };
   // console.log(product)
 
-  // 이건 뭐야?
+  // 금액 1000원 단위로 , 나타나도록
   const Price = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   // 게시글 삭제
   const Delete = async () => {
-    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+    if (window.confirm("해당 게시글을 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.")) {
       try {
         const response = await axiosInstance.delete(`/products/${product.id}`, {
           params: { userId: userId },
@@ -85,6 +85,11 @@ const ProductInfo = ({ product }) => {
         alert("게시글 삭제 중 오류가 발생했습니다. 다시 시도해주세요");
       }
     }
+  };
+
+  // 게시글 수정
+  const Edit = async () => {
+    navigate(`/edit/${product.id}`, { state: { product } });
   };
 
   return (
@@ -105,7 +110,9 @@ const ProductInfo = ({ product }) => {
             {product.places}
             <div className="flex absolute right-1">
               <div className="flex items-center space-x-1 text-gray-500">
-                <button className="flex">수정 /</button>
+                <button className="flex" onClick={Edit}>
+                  수정 /
+                </button>
                 <button className="flex" onClick={Delete}>
                   삭제
                 </button>

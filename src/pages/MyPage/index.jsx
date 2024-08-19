@@ -67,10 +67,10 @@ const MyPage = () => {
           </button>
         </div>
         <div className="w-full mt-8">
-          {activeCategory === "판매 물품" && <SelledItem>판매 물품</SelledItem>}
+          {activeCategory === "판매 물품" && <SelledItem />}
           {activeCategory === "관심 목록" && <CartPage />}
-          {activeCategory === "거래 완료" && <EndDeal>거래 완료</EndDeal>}
-          {activeCategory === "거래 후기" && <Review>거래 후기</Review>}
+          {activeCategory === "거래 완료" && <EndDeal />}
+          {activeCategory === "거래 후기" && <Review />}
         </div>
       </div>
     </div>

@@ -26,6 +26,7 @@ import DetailProductPage from "./pages/DetailProductPage/index";
 import HistoryPage from "./pages/HistoryPage/index";
 import ProtectedPage from "./pages/ProtectedPage/index";
 import UploadProductPage from "./pages/UploadProductPage/index";
+import EditProductPage from "./pages/EditProductPage";
 
 function Layout() {
   return (
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/user/cart" element={<CartPage />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/edit/:productId" element={<EditProductPage />} /> 
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}

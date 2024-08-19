@@ -22,6 +22,7 @@ const CartTable = ({ products, onRemoveItem }) => {
         </td>
         <td>{product.quantity} 명</td>
         <td>{product.price}원</td>
+        
         <td>
           <button onClick={() => onRemoveItem(product.id)}>지우기</button>
         </td>
@@ -30,15 +31,6 @@ const CartTable = ({ products, onRemoveItem }) => {
 
   return (
     <table>
-      <thead>
-        <tr>
-          <th>사진</th>
-          <th>인원</th>
-          <th>가격</th>
-          <th>삭제</th>
-        </tr>
-      </thead>
-
       <tbody>{renderItems}</tbody>
     </table>
   );
