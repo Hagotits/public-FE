@@ -78,6 +78,7 @@ const UploadProductPage = () => {
 
   const productPrice = {
     required: "필수 항목입니다.",
+    minPrice: 1,
   };
 
   const productAttend = {
