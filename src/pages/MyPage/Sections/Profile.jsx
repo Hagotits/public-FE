@@ -8,7 +8,6 @@ const Profile = () => {
   const userId = useSelector((state) => state.user?.userData.id);
   const [name, setName] = useState("");
   const navigate = useNavigate();
-  console.log(userId);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
