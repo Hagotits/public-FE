@@ -122,6 +122,20 @@ const ProductInfo = ({ product }) => {
           </div>
           <div id="거래 장소" className="text-[14px]">
             {product.places}
+            <div
+            className="w-[28px] h-[28px] absolute top-[26px] left-[95%] cursor-pointer"
+            onClick={toggleLike}
+          >
+            {like ? (
+              <IoHeart
+                style={{ width: "100%", height: "100%", color: "red" }}
+              />
+            ) : (
+              <IoHeartOutline
+                style={{ width: "100%", height: "100%", color: "grey" }}
+              />
+            )}
+          </div>
             <div className="flex absolute right-1">
               <div className="flex items-center space-x-1 text-gray-500">
                 <button className="flex" onClick={Edit}>
@@ -174,20 +188,6 @@ const ProductInfo = ({ product }) => {
           >
             {Price(Math.floor(product.price / product.attend))}원으로 참여하기
           </button>
-          <div
-            className="w-[28px] h-[28px] absolute top-[7px] left-[57%] cursor-pointer"
-            onClick={toggleLike}
-          >
-            {like ? (
-              <IoHeart
-                style={{ width: "100%", height: "100%", color: "red" }}
-              />
-            ) : (
-              <IoHeartOutline
-                style={{ width: "100%", height: "100%", color: "grey" }}
-              />
-            )}
-          </div>
         </div>
       </div>
     </div>
