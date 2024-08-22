@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Map, CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
-import "./KakaoMap.css";
 
 const KakaoMapAPI = ({ detailLocation, onLocationChange }) => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
