@@ -28,10 +28,6 @@ const DetailProductPage = () => {
 
   if (!product) return null;
 
-  const handleEdit = () => {
-    navigate(`/edit/${productId}`, { state : { product} });
-  };
-
   return (
     <div className="w-full h-screen flex justify-center items-center">
       {product && (

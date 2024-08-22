@@ -216,7 +216,7 @@ const UploadProductPage = () => {
             <div className="w-full">
               <KakaoMapAPI onLocationChange={setMapLocaiton} />
               <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 hidden"
                 name="places"
                 {...register("places", productPlaces)}
               />
