@@ -8,6 +8,8 @@ import { IoLogOutSharp } from "react-icons/io5";
 import { CiCirclePlus } from "react-icons/ci";
 import styles from "./HeaderItem.module.css";
 import { toast } from "react-toastify";
+import { GoBell } from "react-icons/go";
+import Alert from "./Alert";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
@@ -15,13 +17,18 @@ const routes = [
   {
     to: "/product/upload",
     auth: true,
-    icons: <CiCirclePlus style={{ fontSize: "2rem" }} />,
+    uploadIcon: <CiCirclePlus style={{ fontSize: "2rem" }} />,
   },
   {
     to: "",
     auth: true,
-    iconss: <HiOutlineUserCircle style={{ fontSize: "2rem" }} />,
+    userIcon: <HiOutlineUserCircle style={{ fontSize: "2rem" }} />,
   },
+  {
+    to: "",
+    auth: true,
+    bellIcon: <GoBell style={{ fontSize: "1.7rem" }} />,
+  }
 ];
 
 const HeaderItem = ({ mobile }) => {
@@ -31,6 +38,7 @@ const HeaderItem = ({ mobile }) => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -61,7 +69,7 @@ const HeaderItem = ({ mobile }) => {
       className={`text-md leading-7 justify-center w-full flex gap-4 items-center
                   ${mobile && "flex-col bg-gray-900 h-full"} items-center`}
     >
-      {routes.map(({ to, name, auth, icon, icons, iconss }, index) => {
+      {routes.map(({ to, name, auth, icon, bellIcon, uploadIcon, userIcon }, index) => {
         if (isAuth !== auth) return null;
         if (name === "로그아웃") {
           return (
@@ -95,26 +103,26 @@ const HeaderItem = ({ mobile }) => {
               <Link to={to}>{name}</Link>
             </li>
           );
-        } else if (icons) {
+        } else if (uploadIcon) {
           return (
             <li
-              key={`icons-${index}`}
+              key={`uploadIcon-${index}`}
               className="py-2 text-center cursor-pointer"
             >
-              <Link to={to}>{icons}</Link>
+              <Link to={to}>{uploadIcon}</Link>
             </li>
           );
-        } else if (iconss) {
+        } else if (userIcon) {
           return (
             <li
-              key={`iconss-${index}`}
-              className="relative py-2 text-center cursor-pointer"
+              key={`userIcon-${index}`}
+              className="relative py-2 text-center cursor-pointe mt-[7px]"
             >
               <button
                 onClick={() => setDropdownOpen((prev) => !prev)}
                 className={styles.DropdownToggle}
               >
-                {iconss}
+                {userIcon}
               </button>
               {dropdownOpen && (
                 <div className={styles.DropdownMenu} ref={dropdownRef}>
@@ -134,6 +142,21 @@ const HeaderItem = ({ mobile }) => {
               )}
             </li>
           );
+        } else if (bellIcon) {
+          return (
+            <li
+              key={`bellIcon-${index}`}
+              className="relative py-2 text-center cursor-pointer mt-[7px]"
+            >
+              <button
+                onClick={() => {setAlert(!alert)}}>
+                {bellIcon}
+              </button>
+              {alert && (
+                <Alert />
+              )}
+            </li>
+          )
         }
         return null;
       })}
