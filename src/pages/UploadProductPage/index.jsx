@@ -89,7 +89,7 @@ const UploadProductPage = () => {
 
   const productReceptTime = {
     required: "필수 항목입니다.",
-    minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
+    minLength: dayjs().format("YYYY-MM-DD, HH:mm"),
   };
 
   return (
@@ -110,7 +110,7 @@ const UploadProductPage = () => {
             >
               상품 이미지
             </label>
-            <FileUpload images={images} onImageChange={handleImages} />
+            <FileUpload images={images} handleImagesSave={handleImages} />
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">

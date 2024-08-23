@@ -103,6 +103,7 @@ const ProductInfo = ({ product }) => {
 
   // 게시글 수정
   const Edit = async () => {
+    // 유저와 게시글 만든 유저가 동일한 경우에만 삭제하기
     navigate(`/edit/${product.id}`, { state: { product } });
   };
 
@@ -123,19 +124,19 @@ const ProductInfo = ({ product }) => {
           <div id="거래 장소" className="text-[14px]">
             {product.places}
             <div
-            className="w-[28px] h-[28px] absolute top-[26px] left-[95%] cursor-pointer"
-            onClick={toggleLike}
-          >
-            {like ? (
-              <IoHeart
-                style={{ width: "100%", height: "100%", color: "red" }}
-              />
-            ) : (
-              <IoHeartOutline
-                style={{ width: "100%", height: "100%", color: "grey" }}
-              />
-            )}
-          </div>
+              className="w-[28px] h-[28px] absolute top-[26px] left-[95%] cursor-pointer"
+              onClick={toggleLike}
+            >
+              {like ? (
+                <IoHeart
+                  style={{ width: "100%", height: "100%", color: "red" }}
+                />
+              ) : (
+                <IoHeartOutline
+                  style={{ width: "100%", height: "100%", color: "grey" }}
+                />
+              )}
+            </div>
             <div className="flex absolute right-1">
               <div className="flex items-center space-x-1 text-gray-500">
                 <button className="flex" onClick={Edit}>

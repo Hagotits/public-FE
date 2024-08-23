@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import FileUpload from "../../components/FileUpload";
 import { TiDelete } from "react-icons/ti";
 
 const EditProductPage = () => {
   const { productId } = useParams(); // URL에서 productId를 가져옴
+  const userId = useSelector((state) => state.user?.userData?.id); // userId
   const navigate = useNavigate();
   const [product, setProduct] = useState(null); // product 상태 초기화
   const [newImages, setNewImages] = useState([]); // 새로 추가한 이미지 저장
@@ -13,10 +15,13 @@ const EditProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axiosInstance.get(`/products/${productId}?type=single`);
-        const productData = Array.isArray(response.data) ? response.data[0] : response.data;
-        setProduct(productData); // API에서 받은 제품 데이터를 상태로 설정
-        setNewImages([]);
+        const response = await axiosInstance.get(
+          `/products/${productId}?type=single`
+        );
+        const productData = Object(response.data[0]);
+        setProduct(productData);
+        // useState에 객체 등록, product.뭐시기 쓰면 객체에서 체인 메소드 사용가능
+        setNewImages(productData.images || []); // 사용 예시
       } catch (error) {
         console.error("상품 정보를 가져오는 중 오류 발생:", error);
       }
@@ -26,26 +31,39 @@ const EditProductPage = () => {
 
   const handleEdit = async () => {
     try {
+      const uniqueImages = Array.from(
+        new Set([...product.images, ...newImages].map((image) => image.id))
+      ).map((id) => {
+        return [...product.images, ...newImages].find(
+          (image) => image.id === id
+        );
+      });
+
       const updateProduct = {
         ...product,
-        images: [...(product.images || []), ...newImages], // 기존 이미지와 새로 추가한 이미지 병합
+        images: uniqueImages,
+        productId: productId,
       };
-      await axiosInstance.put(`/products/${productId}`, updateProduct); // 제품 정보 수정
+      await axiosInstance.put(
+        `/products/${productId}?userId${userId}`,
+        updateProduct
+      ); // 제품 정보 수정
+
       navigate(`/products/${productId}`); // 수정 후 상세 페이지로 리다이렉트
     } catch (error) {
       console.error("상품 정보를 수정하는 중 오류 발생:", error);
     }
   };
 
-  // 새 이미지 저장
-  const handleImagesSave = (updatedImages) => {
-    setNewImages(updatedImages);
-  };
-
   const handleImagesDelete = (index) => {
-    const updatedImages = [...product.images];
-    updatedImages.splice(index, 1); // 이미지 삭제
-    setProduct({...product, images: updatedImages });
+    const updatedImages = product.images.filter(
+      (_, imgIndex) => imgIndex !== index
+    );
+
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      images: updatedImages,
+    }));
   };
 
   if (!product) return <div>로딩 중...</div>; // 제품 정보가 로드되지 않았을 때 로딩 중 표시
@@ -53,7 +71,9 @@ const EditProductPage = () => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
       <div className="relative w-[60%] flex flex-col justify-center items-start border-b border-gray-300 mb-8">
-        <h1 id="상품 정보" className="text-2xl">상품 정보 수정</h1>
+        <h1 id="상품 정보" className="text-2xl">
+          상품 정보 수정
+        </h1>
       </div>
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
@@ -67,17 +87,14 @@ const EditProductPage = () => {
               상품 이미지
             </label>
             <div className="w-full">
-              <FileUpload images={newImages} handleImagesSave={handleImagesSave} />
+              <FileUpload
+                images={newImages}
+                handleImagesSave={(e) => setNewImages(e)}
+              />
               {product.images && product.images.length > 0 && (
                 <div className="flex flex-wrap mt-2">
                   {product.images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                      key={index}
-                      src={`http://localhost:4000/${image}`}
-                      className="w-[103px] h-[103px] object-cover rounded-md mr-2"
-                      alt={`상품 이미지 ${index + 1}`}
-                      />
+                    <div key={image.id || index} className="relative">
                       <button
                         type="button"
                         onClick={() => handleImagesDelete(index)}
@@ -112,8 +129,10 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.title}
-                onChange={(e) => setProduct({ ...product, title: e.target.value })}
+                value={product.title || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, title: e.target.value })
+                }
               />
             </div>
           </div>
@@ -130,8 +149,10 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.content}
-                onChange={(e) => setProduct({ ...product, content: e.target.value })}
+                value={product.content || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, content: e.target.value })
+                }
               />
             </div>
           </div>
@@ -148,8 +169,10 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.price}
-                onChange={(e) => setProduct({ ...product, price: e.target.value })}
+                value={product.price || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, price: e.target.value })
+                }
               />
             </div>
           </div>
@@ -166,8 +189,10 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.attend}
-                onChange={(e) => setProduct({ ...product, attend: e.target.value })}
+                value={product.attend || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, attend: e.target.value })
+                }
               />
             </div>
           </div>
@@ -184,8 +209,10 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.places}
-                onChange={(e) => setProduct({ ...product, places: e.target.value })}
+                value={product.places || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, places: e.target.value })
+                }
               />
             </div>
           </div>
@@ -202,16 +229,16 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="datetime-local"
-                value={product.receptTime}
-                onChange={(e) => setProduct({ ...product, receptTime: e.target.value })}
+                value={product.receptTime || ""}
+                onChange={(e) =>
+                  setProduct({ ...product, receptTime: e.target.value })
+                }
               />
             </div>
           </div>
 
-  
-
           <div className="w-full">
-            <button 
+            <button
               className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
               type="button"
               onClick={handleEdit}
