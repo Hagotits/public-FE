@@ -28,9 +28,7 @@ const HistoryPage = () => {
                 <td>{item.id}</td>
                 <td>{item.price}</td>
                 <td>{item.quantity}</td>
-                <td>
-                  {dayjs(item.dateOfPurchase).format("YYYY-MM-DD HH:mm:ss")}
-                </td>
+                <td>{dayjs(item.dateOfPurchase).format("YYYY-MM-DDTHH:mm")}</td>
               </tr>
             ))
           ) : (

@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axios";
 import FileUpload from "../../components/FileUpload";
 import { TiDelete } from "react-icons/ti";
+import dayjs from "dayjs";
+import KakaoMapAPI from "../../components/KakaoMap";
 
 const EditProductPage = () => {
-  const { productId } = useParams(); // URL에서 productId를 가져옴
-  const userId = useSelector((state) => state.user?.userData?.id); // userId
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
   const [product, setProduct] = useState(null); // product 상태 초기화
-  const [newImages, setNewImages] = useState([]); // 새로 추가한 이미지 저장
+  const [images, setImages] = useState([]); // 새로 추가한 이미지 저장
+  const [selectedTime, setSelectedTime] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [mapLocation, setMapLocation] = useState(null);
+  const navigate = useNavigate();
+  const { productId } = useParams(); // URL에서 productId를 가져옴
+  const userData = useSelector((state) => state.user?.userData);
+
+  const handleImages = (newImages) => {
+    setImages(newImages);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,7 +38,7 @@ const EditProductPage = () => {
         const productData = Object(response.data[0]);
         setProduct(productData);
         // useState에 객체 등록, product.뭐시기 쓰면 객체에서 체인 메소드 사용가능
-        setNewImages(productData.images || []); // 사용 예시
+        setImages(productData.images || []); // 사용 예시
       } catch (error) {
         console.error("상품 정보를 가져오는 중 오류 발생:", error);
       }
@@ -29,27 +46,27 @@ const EditProductPage = () => {
     fetchProduct(); // 컴포넌트가 마운트되면 제품 정보를 가져옴
   }, [productId]);
 
-  const handleEdit = async () => {
+  const onEdit = async (data) => {
+    const uniqueImages = Array.from(
+      new Set([...product.images, ...images].map((image) => image.id))
+    ).map((id) => {
+      return [...product.images, ...images].find((image) => image.id === id);
+    });
+
+    const body = {
+      userId: userData.id,
+      userName: userData.name,
+      images: uniqueImages,
+      productId: productId,
+      ...data,
+      location: mapLocation,
+    };
+
     try {
-      const uniqueImages = Array.from(
-        new Set([...product.images, ...newImages].map((image) => image.id))
-      ).map((id) => {
-        return [...product.images, ...newImages].find(
-          (image) => image.id === id
-        );
-      });
-
-      const updateProduct = {
-        ...product,
-        images: uniqueImages,
-        productId: productId,
-      };
-      await axiosInstance.put(
-        `/products/${productId}?userId${userId}`,
-        updateProduct
-      ); // 제품 정보 수정
-
-      navigate(`/products/${productId}`); // 수정 후 상세 페이지로 리다이렉트
+      const response = await axiosInstance.put(`/products/${productId}`, body); // 제품 정보 수정
+      if (response.data) {
+        navigate(`/products/${productId}`); // 수정 후 상세 페이지로 리다이렉트
+      }
     } catch (error) {
       console.error("상품 정보를 수정하는 중 오류 발생:", error);
     }
@@ -66,6 +83,64 @@ const EditProductPage = () => {
     }));
   };
 
+  const handleTimeChange = (e) => {
+    const value = e.target.value;
+    setSelectedTime(value);
+
+    if (!value) {
+      setErrorMessage("수령 날짜를 선택해주세요");
+    } else if (dayjs(value).isBefore(dayjs())) {
+      setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
+    } else {
+      setErrorMessage("");
+      setValue("receptTime", value);
+    }
+  };
+
+  useEffect(() => {
+    if (product?.receptTime) {
+      const formattedTime = dayjs(product.receptTime).format(
+        "YYYY-MM-DDTHH:mm"
+      );
+      setSelectedTime(formattedTime);
+      setValue("receptTime", formattedTime);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (mapLocation) {
+      setValue("places", mapLocation.address);
+    }
+  }, [mapLocation]);
+
+  const productTitle = {
+    required: "필수 항목입니다.",
+  };
+
+  const productContent = {
+    required: "필수 항목입니다.",
+  };
+
+  const productPlaces = {
+    required: "필수 항목입니다.",
+  };
+
+  const productPrice = {
+    required: "필수 항목입니다.",
+    minPrice: 1,
+  };
+
+  const productAttend = {
+    required: "필수 항목입니다.",
+    maxLength: 4,
+    minLength: 1,
+  };
+
+  const productReceptTime = {
+    required: "필수 항목입니다.",
+    minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
+  };
+
   if (!product) return <div>로딩 중...</div>; // 제품 정보가 로드되지 않았을 때 로딩 중 표시
 
   return (
@@ -77,7 +152,7 @@ const EditProductPage = () => {
       </div>
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
-        <form className="w-full">
+        <form onSubmit={handleSubmit(onEdit)} className="w-full">
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="상품 이미지"
@@ -87,10 +162,7 @@ const EditProductPage = () => {
               상품 이미지
             </label>
             <div className="w-full">
-              <FileUpload
-                images={newImages}
-                handleImagesSave={(e) => setNewImages(e)}
-              />
+              <FileUpload images={images} handleImagesSave={handleImages} />
               {product.images && product.images.length > 0 && (
                 <div className="flex flex-wrap mt-2">
                   {product.images.map((image, index) => (
@@ -130,10 +202,13 @@ const EditProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
                 value={product.title || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, title: e.target.value })
-                }
+                {...register("title", productTitle)}
               />
+              {errors.title && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.title.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -150,10 +225,13 @@ const EditProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
                 value={product.content || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, content: e.target.value })
-                }
+                {...register("content", productContent)}
               />
+              {errors.content && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.content.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -170,10 +248,13 @@ const EditProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
                 value={product.price || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, price: e.target.value })
-                }
+                {...register("price", productPrice)}
               />
+              {errors.price && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.price.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -190,10 +271,13 @@ const EditProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
                 value={product.attend || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, attend: e.target.value })
-                }
+                {...register("attend", productAttend)}
               />
+              {errors.attend && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.attend.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -206,14 +290,17 @@ const EditProductPage = () => {
               거래 장소
             </label>
             <div className="w-full">
+              <KakaoMapAPI onLocationChange={setMapLocation} />
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-                type="text"
                 value={product.places || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, places: e.target.value })
-                }
+                {...register("places", productPlaces)}
               />
+              {errors.places && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.places.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -229,19 +316,22 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="datetime-local"
-                value={product.receptTime || ""}
-                onChange={(e) =>
-                  setProduct({ ...product, receptTime: e.target.value })
-                }
+                onChange={handleTimeChange}
+                min={productReceptTime.minLength}
+                {...register("receptTime", productReceptTime)}
               />
+              {errors.receptTime && (
+                <div className="mt-1 text-red-500 text-sm">
+                  <span>{errors.receptTime.message}</span>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="w-full">
             <button
               className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
-              type="button"
-              onClick={handleEdit}
+              type="submit"
             >
               수정하기
             </button>

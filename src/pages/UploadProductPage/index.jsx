@@ -14,12 +14,13 @@ const UploadProductPage = () => {
     setValue,
     formState: { errors },
   } = useForm();
+
+  const [selectedTime, setSelectedTime] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [mapLocation, setMapLocation] = useState(null);
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
-  const [selectedTime, setSelectedTime] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [mapLocation, setMapLocaiton] = useState(null);
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -55,6 +56,7 @@ const UploadProductPage = () => {
       setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
     } else {
       setErrorMessage("");
+      setValue("receptTime", value);
     }
   };
 
@@ -89,7 +91,7 @@ const UploadProductPage = () => {
 
   const productReceptTime = {
     required: "필수 항목입니다.",
-    minLength: dayjs().format("YYYY-MM-DD, HH:mm"),
+    minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
   };
 
   return (
@@ -214,7 +216,7 @@ const UploadProductPage = () => {
               거래 장소
             </label>
             <div className="w-full">
-              <KakaoMapAPI onLocationChange={setMapLocaiton} />
+              <KakaoMapAPI onLocationChange={setMapLocation} />
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 hidden"
                 name="places"
