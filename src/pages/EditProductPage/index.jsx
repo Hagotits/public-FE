@@ -330,6 +330,12 @@ const EditProductPage = () => {
 
           <div className="w-full">
             <button
+              className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#a9a9a9] rounded-md text-white hover:bg-[#585858]"
+              type="submit"
+            >
+              수정 취소
+            </button>
+            <button
               className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
               type="submit"
             >

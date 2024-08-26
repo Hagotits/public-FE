@@ -8,6 +8,7 @@ const Profile = () => {
   const userId = useSelector((state) => state.user?.userData.id);
   const [name, setName] = useState("");
   const navigate = useNavigate();
+  const [quitModal, setQuitModal] = useState(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -28,20 +29,19 @@ const Profile = () => {
   //   }
   // }
 
+  // 회원 탈퇴
   const deleteUser = async () => {
-    const confirmDelete = window.confirm("회원 탈퇴를 진행하시겠습니까?");
-    // 탈퇴를 진행하면, localStorage에 있는 데이터 있나 보고 있으면 지우고, 로그아웃 처리 & 리다이렉트 로직 진행해준다. 그리고 백엔드에서 로그인은 되면서 동시에 아이디가 없습니다가 나오니까 이 부분도 해결해야함
-    if (confirmDelete) {
-      try {
-        const response = await axiosInstance.post(`users/delete/${userId}`);
+    try {
+      const response = await axiosInstance.post(`users/delete/${userId}`);
+      if (response.status === 200) {
         console.log("회원 탈퇴 완료", response.data);
         toast.info("회원 탈퇴가 완료되었습니다.");
         navigate("/");
-      } catch (err) {
-        console.error(err);
       }
+    } catch (error) {
+      console.error(err)
     }
-  };
+  }
 
   return (
     <div className="w-full h-full bg-white">
@@ -67,10 +67,42 @@ const Profile = () => {
             <button
               id="회원 탈퇴"
               className="w-24 h-8 text-sm font-semibold bg-white border border-gray-300 rounded-md hover:bg-indigo-200 mb-16"
-              onClick={deleteUser}
+              onClick={() => setQuitModal(true)} // 모달 열기
             >
               회원 탈퇴
             </button>
+
+            { quitModal && (
+              <div
+                className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50"
+              >
+                <div className="bg-white w-[250px] h-[150px] p-4 rounded-lg shadow-lg flex flex-col justify-between">
+                  <div>
+                    <p className="text-sm font-semibold">정말 탈퇴하시겠습니까?</p>
+                    <p className="text-xs text-red-500 mt-2">탈퇴하면 회원에 관련된 모든 데이터는 삭제됩니다.</p>
+                  </div>
+                  <div className="flex justify-end space-x-2 mt-4">
+                    <button
+                      className="bg-[#2B0585] text-white py-1 px-3 rounded hover:bg-blue-700"
+                      onClick={() => {
+                        deleteUser();
+                        setQuitModal(false); // 모달 닫기
+                      }}
+                      >
+                        확인
+                    </button>
+                    <button
+                      className=" bg-gray-300 text-black py-1 px-3 rounded hover:bg-gray-400"
+                      onClick={() => setQuitModal(false)}
+                    >
+                      취소
+                    </button>
+                  </div>
+
+                </div>
+                
+              </div>
+            )}
           </div>
         </div>
       </div>
