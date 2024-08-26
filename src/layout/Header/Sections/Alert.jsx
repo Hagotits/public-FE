@@ -16,7 +16,6 @@ const Alert = () => {
     <div className="absolute top-full right-0 mt-2 w-[400px] text-center bg-gray-300 rounded-lg">
       <div className="text-[20px] mt-6 mb-6 font-extrabold">알림</div>
 
-  
       {/* 글쓴이에게 */}
       {/* 사용자가 가상계좌에 송금까지 완료한 경우 */}
       <ul className="flex flex-col m-3 mx-3 p-4 rounded-md bg-white">
@@ -26,23 +25,22 @@ const Alert = () => {
               className="mr-2 text-[17px]"
               style={{color: "blue"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">ㅁㅁㅁ님이 거래에 참여했습니다.</li>
+              <li className="font-bold">(userId)님이 거래에 참여했습니다.</li>
             </div>
           </div>
           <li className="text-gray-500 text-xs text-right">n분전</li>
         </div>
       </ul>
 
-
-      {/* 24시간 이내로 남았을 경우 - 가격 제안 알림 */}
-      <ul className="flex flex-col m-3 mx-3 p-4 rounded-md bg-white">
+       {/* 24시간 이내로 남았을 경우 - 가격 제안 알림 */}
+       <ul className="flex flex-col m-3 mx-3 p-4 rounded-md bg-white">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <FaCommentDollar
               className="mr-2 mb-[28px] text-[17px]"
               style={{color: "blue"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">ㅁㅁㅁ님이 가격을 제안했습니다.</li>
+              <li className="font-bold">(userId)님이 가격을 제안했습니다.</li>
               <li>(스위스티켓 100만원 -- 50만원)</li>
             </div>
           </div>
@@ -53,8 +51,6 @@ const Alert = () => {
           <button className="text-[10px] p-1 rounded-md bg-[#2B0585] text-white">제안 거절</button>
         </div>
       </ul>
-
-
 
       {/* 참여자에게 */}
       {/* 글쓴이가 가격 제안을 수락한 경우 --> 가격 제인을 한 사람에게 */}
@@ -129,5 +125,3 @@ const Alert = () => {
 };
 
 export default Alert;
-
-// right-0 : 종 모양 아이콘 오른쪽 끝에 위치시키기

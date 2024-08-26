@@ -6,6 +6,8 @@ import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import axiosInstance from "../../../utils/axios";
+import Alert from '../../../layout/Header/Sections/Alert';
+import Modal from "./Modal";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
@@ -14,6 +16,8 @@ const ProductInfo = ({ product }) => {
   const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
+  const [deleteModal, setDeleteModal] = useState(false); // 게시글 삭제 모달
+  const [deleteSuccessModal, setDeleteSuccessModal] = useState(false); // 게시글 삭제 성공 모달
 
   // 저장
   useEffect(() => {
@@ -75,29 +79,23 @@ const ProductInfo = ({ product }) => {
     );
   };
 
+  // 가격 1000원 단위 , 나타나도록
   const Price = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   // 게시글 삭제
   const Delete = async () => {
-    if (
-      window.confirm(
-        "해당 게시글을 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다."
-      )
-    ) {
-      try {
-        const response = await axiosInstance.delete(`/products/${product.id}`, {
-          params: { userId: userId },
-        });
-        if (response.status === 200) {
-          alert("삭제되었습니다.");
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("게시글 삭제 중 오류가 발생했습니다:", error);
-        alert("게시글 삭제 중 오류가 발생했습니다. 다시 시도해주세요");
+    try {
+      const response = await axiosInstance.delete(`/products/${product.id}`, {
+        params: { userId: userId },
+      });
+      if (response.status === 200) {
+        setDeleteSuccessModal(true);
       }
+    } catch (error) {
+      console.error("게시글 삭제 중 오류가 발생했습니다: ", error);
+      alert("게시글 삭제 중 오류가 발생했습니다. 다시 시도해주세요");
     }
   };
 
@@ -142,10 +140,29 @@ const ProductInfo = ({ product }) => {
                 <button className="flex" onClick={Edit}>
                   수정 /
                 </button>
-                <button className="flex" onClick={Delete}>
+                <button className="flex justify-center" onClick={() => setDeleteModal(true)}>
                   삭제
                 </button>
               </div>
+
+              <Modal
+                isOpen={deleteModal}
+                onClose={() => setDeleteModal(false)}
+                onConfirm={Delete}
+                title="해당 게시글을 삭제하시겠습니까?"
+                message="삭제된 데이터는 복구할 수 없습니다."
+              />
+
+              <Modal
+                isOpen={deleteSuccessModal}
+                onClose={() => {
+                  setDeleteSuccessModal(false); // 모달창 닫은 뒤
+                  navigate("/"); // 페이지 이동
+                }}
+                title="삭제되었습니다."
+                message=""
+                confirmText="확인"
+              />
             </div>
           </div>
         </div>
@@ -170,6 +187,8 @@ const ProductInfo = ({ product }) => {
       </div>
 
       <div className="relative flex justify-end flex-row items-end mt-[50px]">
+
+        
         <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
           <div id="남은 인원" className="text-[12px] text-[rgb(182, 182, 182)]">
             {product.attend - 1}명 남음
@@ -185,7 +204,7 @@ const ProductInfo = ({ product }) => {
           <button
             id="참여 버튼"
             className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
-            onClick={toggleLike}
+            // onClick={}
           >
             {Price(Math.floor(product.price / product.attend))}원으로 참여하기
           </button>

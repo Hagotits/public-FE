@@ -39,6 +39,27 @@ const HeaderItem = ({ mobile }) => {
   const dropdownRef = useRef(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [alert, setAlert] = useState(false);
+  // const [notification, setNotification] = useState([]);
+
+  // WebSocket 연결 및 알림 처리
+  // useEffect(() => {
+  //   let ws;
+  //   if (isAuth) {
+  //     ws = new WebSocket("ws://localhost:4000");
+
+  //     ws.onmessage = (event) => {
+  //       const newNotification = JSON.parse(event.data);
+  //       setNotification((prevNotification) => [...prevNotification, newNotification]);
+  //       setAlert(true); // 알림 받을 때마다 Alert 창 띄우도록
+  //     };
+  //     ws.onclose = () => {
+  //       console.log("WebSocket closed");
+  //     };
+  //   }
+  //   return () => {
+  //     if (ws) ws.close();
+  //   };
+  // }, [isAuth]);
 
   const handleLogout = async () => {
     try {
@@ -154,6 +175,7 @@ const HeaderItem = ({ mobile }) => {
               </button>
               {alert && (
                 <Alert />
+                // <Alert notification={notification}/>
               )}
             </li>
           )
