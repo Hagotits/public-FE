@@ -68,7 +68,7 @@ const EditProductPage = () => {
   }, [productId, setValue]);
 
   const onEdit = async (data) => {
-    if (images.length < 0) {
+    if (images.length === 0) {
       setError("images", {
         type: "manual",
         message: "상품 이미지는 필수입니다.",
@@ -159,6 +159,9 @@ const EditProductPage = () => {
             </label>
             <div className="w-full">
               <FileUpload images={images} handleImagesSave={handleImages} />
+              {errors.images && (
+                <p className="text-red-500">{errors.images.message}</p>
+              )}
               {images.length > 0 && (
                 <div className="flex flex-wrap mt-2">
                   {product.images.map((image, index) => (
@@ -173,6 +176,12 @@ const EditProductPage = () => {
                           borderRadius: "50%",
                           color: "white",
                           cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          const newImages = images.filter(
+                            (_, i) => i !== index
+                          );
+                          handleImages(newImages);
                         }}
                       >
                         <TiDelete size={25} />
