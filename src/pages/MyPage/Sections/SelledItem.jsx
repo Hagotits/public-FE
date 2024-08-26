@@ -57,7 +57,7 @@ const SelledItem = () => {
     const minutes = duration.minutes();
     const seconds = duration.seconds();
     return days < 1
-      ? `${hours}시간 ${minutes}분 ${seconds}초 남음`ㄴ
+      ? `${hours}시간 ${minutes}분 ${seconds}초 남음`
       : `${days}일 남음`;
   };
 
