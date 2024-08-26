@@ -30,9 +30,14 @@ const FileUpload = ({ handleImagesSave, images }) => {
   };
 
   // 이미지 삭제 함수
-  const handleDelete = (image) => {
-    const updatedImages = images.filter((img) => img !== image);
-    handleImagesSave(updatedImages);
+  const handleDelete = async (image) => {
+    try {
+      await axiosInstance.delete(`products/image/${image}`);
+      const updatedImages = images.filter((img) => img !== image);
+      handleImagesSave(updatedImages);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

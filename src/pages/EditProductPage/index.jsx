@@ -36,21 +36,31 @@ const EditProductPage = () => {
           `/products/${productId}?type=single`
         );
         const productData = Object(response.data[0]);
+
+        setValue("title", productData.title);
+        setValue("content", productData.content);
+        setValue("price", productData.price);
+        setValue("attend", productData.attend);
+        setValue("places", productData.places);
+
+        const formattedTime = dayjs(productData.receptTime).format(
+          "YYYY-MM-DDTHH:mm"
+        );
+        setSelectedTime(formattedTime);
         setProduct(productData);
-        // useState에 객체 등록, product.뭐시기 쓰면 객체에서 체인 메소드 사용가능
-        setImages(productData.images || []); // 사용 예시
+        setImages(productData.images || []);
       } catch (error) {
         console.error("상품 정보를 가져오는 중 오류 발생:", error);
       }
     };
     fetchProduct(); // 컴포넌트가 마운트되면 제품 정보를 가져옴
-  }, [productId]);
+  }, [productId, setValue]);
 
   const onEdit = async (data) => {
     const uniqueImages = Array.from(
-      new Set([...product.images, ...images].map((image) => image.id))
+      new Set([...images].map((image) => image.id))
     ).map((id) => {
-      return [...product.images, ...images].find((image) => image.id === id);
+      return images.find((image) => image.id === id);
     });
 
     const body = {
@@ -72,15 +82,20 @@ const EditProductPage = () => {
     }
   };
 
-  const handleImagesDelete = (index) => {
-    const updatedImages = product.images.filter(
-      (_, imgIndex) => imgIndex !== index
-    );
+  const handleImagesDelete = async (index) => {
+    const imageToDelete = product.images[index];
+    try {
+      const response = await axiosInstance.delete(
+        `/images/${imageToDelete.id}?productId=${productId}`
+      );
 
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      images: updatedImages,
-    }));
+      const updatedImages = product.images.filter(
+        (_, imgIndex) => imgIndex !== index
+      );
+      handleImages(updatedImages);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleTimeChange = (e) => {
@@ -98,20 +113,10 @@ const EditProductPage = () => {
   };
 
   useEffect(() => {
-    if (product?.receptTime) {
-      const formattedTime = dayjs(product.receptTime).format(
-        "YYYY-MM-DDTHH:mm"
-      );
-      setSelectedTime(formattedTime);
-      setValue("receptTime", formattedTime);
-    }
-  }, [product]);
-
-  useEffect(() => {
     if (mapLocation) {
       setValue("places", mapLocation.address);
     }
-  }, [mapLocation]);
+  }, [mapLocation, setValue]);
 
   const productTitle = {
     required: "필수 항목입니다.",
@@ -141,8 +146,6 @@ const EditProductPage = () => {
     minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
   };
 
-  if (!product) return <div>로딩 중...</div>; // 제품 정보가 로드되지 않았을 때 로딩 중 표시
-
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
       <div className="relative w-[60%] flex flex-col justify-center items-start border-b border-gray-300 mb-8">
@@ -163,7 +166,7 @@ const EditProductPage = () => {
             </label>
             <div className="w-full">
               <FileUpload images={images} handleImagesSave={handleImages} />
-              {product.images && product.images.length > 0 && (
+              {images.length > 0 && (
                 <div className="flex flex-wrap mt-2">
                   {product.images.map((image, index) => (
                     <div key={image.id || index} className="relative">
@@ -201,7 +204,6 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.title || ""}
                 {...register("title", productTitle)}
               />
               {errors.title && (
@@ -224,7 +226,6 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.content || ""}
                 {...register("content", productContent)}
               />
               {errors.content && (
@@ -247,7 +248,6 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.price || ""}
                 {...register("price", productPrice)}
               />
               {errors.price && (
@@ -270,7 +270,6 @@ const EditProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="text"
-                value={product.attend || ""}
                 {...register("attend", productAttend)}
               />
               {errors.attend && (
@@ -293,7 +292,6 @@ const EditProductPage = () => {
               <KakaoMapAPI onLocationChange={setMapLocation} />
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-                value={product.places || ""}
                 {...register("places", productPlaces)}
               />
               {errors.places && (
