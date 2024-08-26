@@ -315,9 +315,10 @@ const EditProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 type="datetime-local"
                 onChange={handleTimeChange}
-                min={productReceptTime.minLength}
+                defaultValue={selectedTime}
                 {...register("receptTime", productReceptTime)}
               />
+
               {errors.receptTime && (
                 <div className="mt-1 text-red-500 text-sm">
                   <span>{errors.receptTime.message}</span>
