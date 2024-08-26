@@ -147,8 +147,8 @@ const EditProductPage = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
-      <div className="relative w-[60%] flex flex-col justify-center items-start border-b border-gray-300 mb-8">
+    <div className="w-full h-auto flex flex-col justify-center items-center">
+      <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
         <h1 id="상품 정보" className="text-2xl">
           상품 정보 수정
         </h1>
