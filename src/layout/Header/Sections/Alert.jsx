@@ -22,10 +22,10 @@ const Alert = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <RiUserReceivedLine
-              className="mr-2 text-[17px]"
+              className="mr-2 text-[25px]"
               style={{color: "blue"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">(userId)님이 거래에 참여했습니다.</li>
+              <li className="text-[16.5px] font-bold">(userId)님이 거래에 참여했습니다.</li>
             </div>
           </div>
           <li className="text-gray-500 text-xs text-right">n분전</li>
@@ -37,10 +37,10 @@ const Alert = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <FaCommentDollar
-              className="mr-2 mb-[28px] text-[17px]"
+              className="mr-2 mb-[28px] text-[25px]"
               style={{color: "blue"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">(userId)님이 가격을 제안했습니다.</li>
+              <li className="text-[16.5px] font-bold">(userId)님이 가격을 제안했습니다.</li>
               <li>(스위스티켓 100만원 -- 50만원)</li>
             </div>
           </div>
@@ -58,10 +58,10 @@ const Alert = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <FaCheckCircle
-              className="mr-2 mb-[25px] text-[17px]"
+              className="mr-2 mb-[25px] text-[25px]"
               style={{color: "rgb(86, 190, 56)"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">(userId)님이 제안을 승낙했습니다.</li>
+              <li className="text-[16.5px] font-bold">(userId)님이 제안을 승낙했습니다.</li>
               <li>(스위스티켓 100만원 -- 50만원)</li>
             </div>
           </div>
@@ -77,9 +77,9 @@ const Alert = () => {
       <ul className="flex m-3 mx-3 p-4 rounded-md bg-white justify-between items-center">
         <div className="flex justify-between items-center">
           <TbXboxXFilled
-            className="mr-2 text-[20px]"
+            className="mr-2 text-[28px]"
             style={{ color: "rgb(216, 46, 32)"}}/>
-          <li className="font-bold">(userId)님이 제안을 거절했습니다.</li>
+          <li className="text-[16.5px] font-bold">(userId)님이 제안을 거절했습니다.</li>
         </div>
         
         <li className="text-gray-500 text-xs text-right">n분전</li>
@@ -90,11 +90,11 @@ const Alert = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <FaUsers
-              className="mr-2 mb-[30px] text-[17px]"
+              className="mr-2 mb-[30px] text-[25px]"
               style={{color: "rgb(86, 190, 56)"}} />
             <div className="flex flex-col text-left">
-              <li className="font-bold">거래 인원이 충족되었습니다.</li>
-              <li className="font-bold">시간과 장소 확인 후 거래에 참여하세요!</li>
+              <li className="text-[16.5px] font-bold">거래 인원이 충족되었습니다.</li>
+              <li className="text-[16.5px] font-bold">시간과 장소 확인 후 거래에 참여하세요!</li>
             </div>
           </div>
           <li className="text-gray-500 text-xs text-right">n분전</li>
@@ -106,10 +106,10 @@ const Alert = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <FaUsersSlash
-              className="mr-2 text-[17px]"
+              className="mr-2 text-[25px]"
               style={{ color: "rgb(216, 46, 32)"}}/>
             <div className="flex flex-col text-left">
-              <li className="font-bold">거래 인원이 충족되지 않았습니다.</li>
+              <li className="text-[16.5px] font-bold">거래 인원이 충족되지 않았습니다.</li>
             </div>
           </div>
           <li className="text-gray-500 text-xs text-right">n분전</li>

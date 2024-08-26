@@ -5,6 +5,7 @@ import CartTable from "./Sections/CartTable";
 import { toast } from "react-toastify";
 
 const CartPage = () => {
+    
   const userData = useSelector((state) => state.user?.userData);
   const cartDetail = useSelector((state) => state.user?.cartDetail || []);
   const dispatch = useDispatch();
@@ -34,11 +35,7 @@ const CartPage = () => {
   };
 
   return (
-    <section>
-      <div className="text-center m-7">
-        <h2 className="text-2xl">찜 목록</h2>
-      </div>
-
+    <div>
       {cartDetail.length > 0 ? (
         <>
           <CartTable
@@ -47,9 +44,9 @@ const CartPage = () => {
           />
         </>
       ) : (
-        <p>찜목록이 없습니다.</p>
+        <p>관심 목록이 없습니다.</p>
       )}
-    </section>
+    </div>
   );
 };
 
