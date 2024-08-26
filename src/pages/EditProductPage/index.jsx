@@ -14,12 +14,13 @@ const EditProductPage = () => {
     handleSubmit,
     setValue,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm();
 
   const [product, setProduct] = useState(null); // product 상태 초기화
   const [images, setImages] = useState([]); // 새로 추가한 이미지 저장
   const [selectedTime, setSelectedTime] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [mapLocation, setMapLocation] = useState(null);
   const navigate = useNavigate();
   const { productId } = useParams(); // URL에서 productId를 가져옴
@@ -27,6 +28,15 @@ const EditProductPage = () => {
 
   const handleImages = (newImages) => {
     setImages(newImages);
+
+    if (newImages.length === 0) {
+      setError("images", {
+        type: "manual",
+        message: "상품 이미지는 필수입니다.",
+      });
+    } else {
+      clearErrors("images");
+    }
   };
 
   useEffect(() => {
@@ -49,6 +59,7 @@ const EditProductPage = () => {
         setSelectedTime(formattedTime);
         setProduct(productData);
         setImages(productData.images || []);
+        setValue("receptTime", formattedTime);
       } catch (error) {
         console.error("상품 정보를 가져오는 중 오류 발생:", error);
       }
@@ -57,16 +68,18 @@ const EditProductPage = () => {
   }, [productId, setValue]);
 
   const onEdit = async (data) => {
-    const uniqueImages = Array.from(
-      new Set([...images].map((image) => image.id))
-    ).map((id) => {
-      return images.find((image) => image.id === id);
-    });
+    if (images.length < 0) {
+      setError("images", {
+        type: "manual",
+        message: "상품 이미지는 필수입니다.",
+      });
+      return;
+    }
 
     const body = {
       userId: userData.id,
       userName: userData.name,
-      images: uniqueImages,
+      images: images,
       productId: productId,
       ...data,
       location: mapLocation,
@@ -82,34 +95,10 @@ const EditProductPage = () => {
     }
   };
 
-  const handleImagesDelete = async (index) => {
-    const imageToDelete = product.images[index];
-    try {
-      const response = await axiosInstance.delete(
-        `/images/${imageToDelete.id}?productId=${productId}`
-      );
-
-      const updatedImages = product.images.filter(
-        (_, imgIndex) => imgIndex !== index
-      );
-      handleImages(updatedImages);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleTimeChange = (e) => {
     const value = e.target.value;
     setSelectedTime(value);
-
-    if (!value) {
-      setErrorMessage("수령 날짜를 선택해주세요");
-    } else if (dayjs(value).isBefore(dayjs())) {
-      setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
-    } else {
-      setErrorMessage("");
-      setValue("receptTime", value);
-    }
+    setValue("receptTime", value);
   };
 
   useEffect(() => {
@@ -119,6 +108,10 @@ const EditProductPage = () => {
   }, [mapLocation, setValue]);
 
   const productTitle = {
+    required: "필수 항목입니다.",
+  };
+
+  const productImage = {
     required: "필수 항목입니다.",
   };
 
@@ -172,7 +165,6 @@ const EditProductPage = () => {
                     <div key={image.id || index} className="relative">
                       <button
                         type="button"
-                        onClick={() => handleImagesDelete(index)}
                         style={{
                           position: "absolute",
                           top: "1px",
@@ -316,7 +308,7 @@ const EditProductPage = () => {
                 type="datetime-local"
                 onChange={handleTimeChange}
                 defaultValue={selectedTime}
-                {...register("receptTime", productReceptTime)}
+                {...register("receptTime")}
               />
 
               {errors.receptTime && (
