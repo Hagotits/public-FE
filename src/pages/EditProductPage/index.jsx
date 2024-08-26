@@ -140,8 +140,8 @@ const EditProductPage = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
-      <div className="relative w-[60%] flex flex-col justify-center items-start border-b border-gray-300 mb-8">
+    <div className="w-full h-auto flex flex-col justify-center items-center">
+      <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
         <h1 id="상품 정보" className="text-2xl">
           상품 정보 수정
         </h1>
@@ -320,6 +320,12 @@ const EditProductPage = () => {
           </div>
 
           <div className="w-full">
+            <button
+              className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#a9a9a9] rounded-md text-white hover:bg-[#585858]"
+              type="submit"
+            >
+              수정 취소
+            </button>
             <button
               className="mt-12 ml-8 w-[40%] h-12 border-none text-base font-bold bg-[#2B0585] rounded-md text-white hover:bg-[#8186CB]"
               type="submit"
