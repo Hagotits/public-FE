@@ -10,6 +10,7 @@ import styles from "./HeaderItem.module.css";
 import { toast } from "react-toastify";
 import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
+import { TiDelete } from "react-icons/ti";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
@@ -38,28 +39,8 @@ const HeaderItem = ({ mobile }) => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
-  // const [notification, setNotification] = useState([]);
-
-  // WebSocket 연결 및 알림 처리
-  // useEffect(() => {
-  //   let ws;
-  //   if (isAuth) {
-  //     ws = new WebSocket("ws://localhost:4000");
-
-  //     ws.onmessage = (event) => {
-  //       const newNotification = JSON.parse(event.data);
-  //       setNotification((prevNotification) => [...prevNotification, newNotification]);
-  //       setAlert(true); // 알림 받을 때마다 Alert 창 띄우도록
-  //     };
-  //     ws.onclose = () => {
-  //       console.log("WebSocket closed");
-  //     };
-  //   }
-  //   return () => {
-  //     if (ws) ws.close();
-  //   };
-  // }, [isAuth]);
+  const [alert, setAlert] = useState(false); // 알림창
+  const bellBackground = useRef(); // 알림창 배경 누르면 사라지게 하기 위함
 
   const handleLogout = async () => {
     try {
@@ -169,14 +150,37 @@ const HeaderItem = ({ mobile }) => {
               key={`bellIcon-${index}`}
               className="relative py-2 text-center cursor-pointer mt-[7px]"
             >
-              <button
-                onClick={() => {setAlert(!alert)}}>
-                {bellIcon}
-              </button>
-              {alert && (
-                <Alert />
-                // <Alert notification={notification}/>
-              )}
+              <div>
+                <button
+                  onClick={() => setAlert(true)}>
+                  {bellIcon}
+                </button>
+              </div>
+              {
+                alert && 
+                <div
+                  className="fixed inset-0 bg-black bg-opacity-50"
+                  ref={bellBackground}
+                  onClick={(e) => {
+                    if (e.target === bellBackground.current) {
+                      setAlert(false);
+                    }
+                  }}
+                >
+                  <div className="absolute right-10">
+                    <div className="relative">
+                      <button
+                        // style={fontSize: 2rem}
+                        className="absolute right-1 mt-3 z-50"
+                        onClick={() => setAlert(false)}
+                      >
+                        <TiDelete style={{ fontSize: "1.5rem" }}/>
+                      </button>
+                      <Alert />
+                    </div>
+                  </div>
+                </div>
+              }
             </li>
           )
         }
