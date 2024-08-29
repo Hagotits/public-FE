@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
+import SearchInput from "../../../pages/MainPage/Sections/SearchInput";
+import MainPage from '../../../pages/MainPage/index';
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
@@ -167,7 +169,7 @@ const HeaderItem = ({ mobile }) => {
                     }
                   }}
                 >
-                  <div className="absolute right-10">
+                  <div className="absolute right-10 mt-12">
                     <div className="relative">
                       <button
                         // style={fontSize: 2rem}
@@ -184,7 +186,7 @@ const HeaderItem = ({ mobile }) => {
             </li>
           )
         }
-        return null;
+        return <SearchInput />;
       })}
     </ul>
   );
