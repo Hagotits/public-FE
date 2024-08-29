@@ -190,12 +190,12 @@ const ProductInfo = ({ product }) => {
 
         
         <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
-          <div id="남은 인원" className="text-[12px] text-[rgb(182, 182, 182)]">
+          <div id="남은 인원" className="text-[14px] text-[rgb(182, 182, 182)]">
             {product.attend - 1}명 남음
           </div>
           <div
             id="남은 시간"
-            className="text-[12px] text-[rgb(182, 182, 182)] mt-[3px]"
+            className="text-[14px] text-[rgb(182, 182, 182)] mt-[3px]"
           >
             {remainTime}
           </div>
@@ -203,7 +203,7 @@ const ProductInfo = ({ product }) => {
         <div>
           <button
             id="참여 버튼"
-            className="w-[200px] h-10 text-[14px] font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
+            className="w-[250px] h-12 text-[16px] ml-2 font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
             // onClick={}
           >
             {Price(Math.floor(product.price / product.attend))}원으로 참여하기
