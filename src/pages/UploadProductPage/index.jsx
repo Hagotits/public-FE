@@ -21,6 +21,7 @@ const UploadProductPage = () => {
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [num, setNum] = useState(0);
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -94,6 +95,18 @@ const UploadProductPage = () => {
     minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
   };
 
+  const inputPrice = (str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^d]+/g, "");
+    };
+    return comma(uncomma(str));
+  }
+;
   return (
     <div className="w-full h-auto flex flex-col justify-center items-center">
       <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
@@ -171,7 +184,10 @@ const UploadProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="price"
-                type="number"
+                // type="number"
+                type="text"
+                value={num}
+                onChange={(e) => setNum(inputPrice(e.target.value))}
                 placeholder="물건의 원가를 작성해주세요."
                 {...register("price", productPrice)}
               />

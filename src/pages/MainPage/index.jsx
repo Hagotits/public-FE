@@ -72,6 +72,7 @@ const MainPage = () => {
 
   return (
     <div className="w-[60%] p-3 sm:p-5 mx-auto">
+      {/* max-w-screen-sm */}
       <div className="flex justify-end mb-3">
         <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
