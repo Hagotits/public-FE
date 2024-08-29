@@ -159,7 +159,7 @@ const UploadProductPage = () => {
               설명
             </label>
             <div className="w-full">
-              <textarea
+              <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
                 name="content"
                 {...register("content", productContent)}
@@ -211,7 +211,7 @@ const UploadProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="attend"
-                type="number"
+                type="text"
                 placeholder="(본인 포함) 몇 명이서 나눠가지고 싶은가요?"
                 {...register("attend", productAttend)}
               />
