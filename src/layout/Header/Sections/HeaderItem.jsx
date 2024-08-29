@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/thunkFunctions";
@@ -11,12 +11,19 @@ import { toast } from "react-toastify";
 import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
-import SearchInput from "../../../pages/MainPage/Sections/SearchInput";
-import MainPage from '../../../pages/MainPage/index';
+import { CiSearch } from "react-icons/ci";
+import SearchInput from '../../../pages/MainPage/Sections/SearchInput';
+import axiosInstance from "../../../utils/axios";
+import debounce from "lodash/debounce";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
+  {
+    to: "",
+    auth: true,
+    searchIcon: <CiSearch style={{ fontSize: "2rem" }} />,
+  },
   {
     to: "/product/upload",
     auth: true,
@@ -31,7 +38,7 @@ const routes = [
     to: "",
     auth: true,
     bellIcon: <GoBell style={{ fontSize: "1.7rem" }} />,
-  }
+  },
 ];
 
 const HeaderItem = ({ mobile }) => {
@@ -42,7 +49,11 @@ const HeaderItem = ({ mobile }) => {
   const dropdownRef = useRef(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [alert, setAlert] = useState(false); // 알림창
-  const bellBackground = useRef(); // 알림창 배경 누르면 사라지게 하기 위함
+  const modalBackground = useRef(); // 모달창 이외의 배경 누르면 사라지게 하기 위함
+  const [search, setSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState([]);
+  const limit = 4;
 
   const handleLogout = async () => {
     try {
@@ -73,7 +84,7 @@ const HeaderItem = ({ mobile }) => {
       className={`text-md leading-7 justify-center w-full flex gap-4 items-center
                   ${mobile && "flex-col bg-gray-900 h-full"} items-center`}
     >
-      {routes.map(({ to, name, auth, icon, bellIcon, uploadIcon, userIcon }, index) => {
+      {routes.map(({ to, name, auth, icon, searchIcon, bellIcon, uploadIcon, userIcon }, index) => {
         if (isAuth !== auth) return null;
         if (name === "로그아웃") {
           return (
@@ -162,9 +173,9 @@ const HeaderItem = ({ mobile }) => {
                 alert && 
                 <div
                   className="fixed inset-0 bg-black bg-opacity-50"
-                  ref={bellBackground}
+                  ref={modalBackground}
                   onClick={(e) => {
-                    if (e.target === bellBackground.current) {
+                    if (e.target === modalBackground.current) {
                       setAlert(false);
                     }
                   }}
@@ -172,7 +183,6 @@ const HeaderItem = ({ mobile }) => {
                   <div className="absolute right-10 mt-12">
                     <div className="relative">
                       <button
-                        // style={fontSize: 2rem}
                         className="absolute right-1 mt-3 z-50"
                         onClick={() => setAlert(false)}
                       >
@@ -185,8 +195,46 @@ const HeaderItem = ({ mobile }) => {
               }
             </li>
           )
+        } else if (searchIcon) {
+          return (
+            <li
+              key={`searchIcon-${index}`}
+              className="relative py-2 text-center cursor-pointer mt-[7px]"
+            >
+              <div>
+                <button
+                  onClick={() => setSearch(true)}>
+                  {searchIcon}
+                </button>
+              </div>
+              {
+                search && 
+                <div
+                  className="fixed inset-0"
+                  ref={modalBackground}
+                  onClick={(e) => {
+                    if (e.target === modalBackground.current) {
+                      setSearch(false);
+                    }
+                  }}
+                >
+                  <div className="absolute right-56 mt-2">
+                    <div className="relative">
+                      {/* <button
+                        className="absolute right-1 mt-3 z-50"
+                        onClick={() => setSearch(false)}
+                      >
+                        <CiSearch style={{ fontSize: "1.5rem" }}/>
+                      </button> */}
+                      <SearchInput />
+                    </div>
+                  </div>
+                </div>
+              }
+            </li>
+          )
         }
-        return <SearchInput />;
+        return null;
       })}
     </ul>
   );
