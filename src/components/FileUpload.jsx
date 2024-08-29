@@ -46,8 +46,8 @@ const FileUpload = ({ handleImagesSave, images }) => {
               padding: "10px",
               cursor: "pointer",
               borderRadius: "10px",
-              width: "150px",
-              height: "150px",
+              width: "250px",
+              height: "250px",
               marginTop: "20px",
               display: "flex",
               justifyContent: "center",
@@ -73,6 +73,8 @@ const FileUpload = ({ handleImagesSave, images }) => {
             key={image}
             style={{
               position: "relative",
+              width: "146px",
+              height: "146px",
               marginTop: "10px",
               marginRight: "10px",
               border: "1px dashed gray",
@@ -84,7 +86,7 @@ const FileUpload = ({ handleImagesSave, images }) => {
             <img
               src={images ? `http://localhost:4000/${image}` : []}
               alt={image}
-              style={{ width: "100px", height: "100px" }}
+              style={{ width: "100%", height: "100%" }}
             />
             <button
               onClick={(e) => {

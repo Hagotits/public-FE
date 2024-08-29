@@ -21,7 +21,7 @@ const UploadProductPage = () => {
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState("");
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -98,15 +98,33 @@ const UploadProductPage = () => {
   const inputPrice = (str) => {
     const comma = (str) => {
       str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+      return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     const uncomma = (str) => {
       str = String(str);
-      return str.replace(/[^d]+/g, "");
+      return str.replace(/[^\d]/g, ""); // 숫자가 아닌 모든 문자 제거
     };
     return comma(uncomma(str));
-  }
-;
+  };
+
+  const handlePriceChange = (e) => {
+    setNum(inputPrice(e.target.value)); // input 값을 업데이트
+  };
+
+  const selectOption = [
+    {value: "zero", name: "몇 명에게 판매하고 싶은가요?"},
+    {value: "one", name: "1"},
+    {value: "two", name: "2"},
+    {value: "three", name: "3"},
+    {value: "four", name: "4"},
+    {value: "five", name: "5"},
+  ];
+  const [select, setSelect] = useState("몇 명에게 판매하고 싶은가요?");
+
+  const handleSelect = (e) => {
+    setSelect(e.target.value);
+  };
+
   return (
     <div className="w-full h-auto flex flex-col justify-center items-center">
       <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
@@ -117,7 +135,7 @@ const UploadProductPage = () => {
 
       <div className="w-[80%] max-w-4xl flex flex-col justify-center items-start p-1.5">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="상품 이미지"
               htmlFor="Img"
@@ -128,7 +146,7 @@ const UploadProductPage = () => {
             <FileUpload images={images} handleImagesSave={handleImages} />
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="상품명"
               htmlFor="title"
@@ -150,7 +168,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="상품 설명"
               htmlFor="content"
@@ -159,8 +177,8 @@ const UploadProductPage = () => {
               설명
             </label>
             <div className="w-full">
-              <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
+              <textarea
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[150px] border border-gray-400"
                 name="content"
                 {...register("content", productContent)}
               />
@@ -172,7 +190,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="상품 가격"
               htmlFor="price"
@@ -184,12 +202,12 @@ const UploadProductPage = () => {
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="price"
-                // type="number"
                 type="text"
                 value={num}
-                onChange={(e) => setNum(inputPrice(e.target.value))}
-                placeholder="물건의 원가를 작성해주세요."
+                onChange={handlePriceChange}
+                placeholder="얼마에 판매하고 싶은가요?"
                 {...register("price", productPrice)}
+                // 바로 윗 줄만 주석처리하면 입력할 때도 , 나타나는데 그럼 가격 입력안해도 글 등록돼서 일단 둠
               />
               {errors.price && (
                 <div className="mt-1 text-red-500 text-sm">
@@ -199,7 +217,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="거래 인원"
               htmlFor="attend"
@@ -208,13 +226,20 @@ const UploadProductPage = () => {
               거래 인원
             </label>
             <div className="w-full">
-              <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-                name="attend"
-                type="text"
-                placeholder="(본인 포함) 몇 명이서 나눠가지고 싶은가요?"
+              <select
+                className="w-full text-sm font-normal text-gray-400 p-2.5 rounded-md border border-gray-400"
                 {...register("attend", productAttend)}
-              />
+              >
+                {selectOption.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+              <div className="text-sm text-blue-700">
+                <p>* 60구 계란을 파는 경우 - 6명을 선택하면 인당 10개씩 가지는 것</p>
+                <p>* 총 5명에게 인당 10개씩 총 50개를 판매하고 나머지 10개는 본인이 사용</p>
+              </div>
               {errors.attend && (
                 <div className="mt-1 text-red-500 text-sm">
                   <span>{errors.attend.message}</span>
@@ -223,7 +248,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="거래 장소"
               htmlFor="places"
@@ -246,7 +271,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-[100px_1fr] items-center mb-5">
+          <div className="grid grid-cols-[100px_1fr] items-center mb-10">
             <label
               id="수령 날짜"
               className="text-base font-medium text-left pr-2.5"
