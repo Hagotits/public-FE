@@ -12,6 +12,7 @@ import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
 import { CiSearch } from "react-icons/ci";
+import { FaBell } from "react-icons/fa6";
 import SearchInput from '../../../pages/MainPage/Sections/SearchInput';
 import axiosInstance from "../../../utils/axios";
 import debounce from "lodash/debounce";
@@ -145,6 +146,14 @@ const HeaderItem = ({ mobile }) => {
                     <FaUser className={styles.DropdownItemIcon} />
                     MyPage
                   </Link>
+                  <hr />
+                  <button
+                    onClick={() => setAlert(true)}
+                    className={styles.DropdownItem}
+                  >
+                    <FaBell className={styles.DropdownItemIcon} />
+                    Alert
+                  </button>
                   <hr />
                   <button
                     onClick={handleLogout}
