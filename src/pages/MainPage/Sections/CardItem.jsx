@@ -105,8 +105,8 @@ const CardItem = ({ product }) => {
 
       <Link to={`/products/${product.id}`}>
         <div>
-          <p className="p-1 text-[18px]">{product.title}</p>
-          <p className="p-1 text-[18px] text-black font-bold">
+          <p className="p-1 text-[21px]">{product.title}</p>
+          <p className="p-1 text-[16px] text-black font-bold">
             {Price(product.price / product.attend)}원
           </p>
           <p className="p-1">{product.place}</p>
