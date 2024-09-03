@@ -8,6 +8,7 @@ import duration from "dayjs/plugin/duration";
 import axiosInstance from "../../../utils/axios";
 import Alert from '../../../layout/Header/Sections/Alert';
 import Modal from "./Modal";
+import PopularityPost from "./PopularityPost";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
@@ -109,7 +110,7 @@ const ProductInfo = ({ product }) => {
     <div>
       <div
         id="글쓴 회원 정보"
-        className="w-full h-[100px] border-b border-gray-500 relative flex py-[10px] items-center"
+        className="w-full h-[100px] border-b border-gray-300 relative flex py-[10px] items-center"
       >
         <div
           id="프로필 이미지"
@@ -168,10 +169,10 @@ const ProductInfo = ({ product }) => {
         </div>
       </div>
 
-      <div>
+      <div className="w-full border-b border-gray-300 py-[40px]">
         <div
           id="제목"
-          className="w-full h-[50px] text-[23px] font-normal mt-[30px] mb-[10px]"
+          className="w-full h-[50px] text-[23px] font-normal mb-[10px]"
         >
           {product.title}
         </div>
@@ -184,31 +185,32 @@ const ProductInfo = ({ product }) => {
         <div id="설명" className="text-[16px]">
           {product.content}
         </div>
+
+        <div className="relative flex justify-end flex-row items-end mt-[50px]">
+          <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
+            <div id="남은 인원" className="text-[14px] text-[rgb(182, 182, 182)]">
+              {product.attend - 1}명 남음
+            </div>
+            <div
+              id="남은 시간"
+              className="text-[14px] text-[rgb(182, 182, 182)] mt-[3px]"
+            >
+              {remainTime}
+            </div>
+          </div>
+          <div>
+            <button
+              id="참여 버튼"
+              className="w-[250px] h-12 text-[16px] ml-2 font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
+              // onClick={}
+            >
+              {Price(Math.floor(product.price / product.attend))}원으로 참여하기
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div className="relative flex justify-end flex-row items-end mt-[50px]">
-
-        
-        <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
-          <div id="남은 인원" className="text-[14px] text-[rgb(182, 182, 182)]">
-            {product.attend - 1}명 남음
-          </div>
-          <div
-            id="남은 시간"
-            className="text-[14px] text-[rgb(182, 182, 182)] mt-[3px]"
-          >
-            {remainTime}
-          </div>
-        </div>
-        <div>
-          <button
-            id="참여 버튼"
-            className="w-[250px] h-12 text-[16px] ml-2 font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
-            // onClick={}
-          >
-            {Price(Math.floor(product.price / product.attend))}원으로 참여하기
-          </button>
-        </div>
+      <div>
+        <PopularityPost />
       </div>
     </div>
   );

@@ -20,11 +20,11 @@ import debounce from "lodash/debounce";
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
-  {
-    to: "",
-    auth: true,
-    searchIcon: <CiSearch style={{ fontSize: "2rem" }} />,
-  },
+  // {
+  //   to: "",
+  //   auth: true,
+  //   searchIcon: <CiSearch style={{ fontSize: "2rem" }} />,
+  // },
   {
     to: "/product/upload",
     auth: true,
