@@ -22,7 +22,7 @@ const SignUp = () => {
       email,
       name,
       password,
-      image: `https://via.placeholder.com/600x400?text=no+user+image`,
+      image: `/images/user.png`,
     };
     try {
       dispatch(registerUser(body));

@@ -19,7 +19,6 @@ const SelledItem = () => {
           `/users/mypage/sale/${userId}`
         );
         setProduct(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error(err);
       }

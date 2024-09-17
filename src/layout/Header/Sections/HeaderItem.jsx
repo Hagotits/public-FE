@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
-import { CiSearch } from "react-icons/ci";
 import { FaBell } from "react-icons/fa6";
 import SearchInput from "../../../pages/MainPage/Sections/SearchInput";
 
