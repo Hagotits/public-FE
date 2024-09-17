@@ -3,7 +3,6 @@ import CartPage from "../CartPage/index";
 import SelledItem from "./Sections/SelledItem";
 import EndDeal from "./Sections/EndDeal";
 import ReceiveReview from "./Sections/ReceiveReview";
-import SendReview from "./Sections/SendReview";
 import Profile from "./Sections/Profile";
 
 const MyPage = () => {

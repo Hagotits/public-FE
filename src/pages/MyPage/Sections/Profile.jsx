@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { FaCamera } from "react-icons/fa";
 import ProfileModify from "./ProfileModal/ProfileModify";
 import UserQuit from "./ProfileModal/UserQuit";
-import { BiSolidPencil } from "react-icons/bi";
 
 const Profile = () => {
   const userId = useSelector((state) => state.user?.userData.id);
@@ -30,8 +29,14 @@ const Profile = () => {
 
   return (
     <div className="w-full h-[170px] bg-white">
-      <div id="프로필 & 수정 & 탈퇴" className="w-full h-full shadow-md flex items-center justify-start">
-        <div id="프로필 사진" className="w-24 h-24 relative object-cover border-2 border-gray-300 rounded-full mx-14 block">
+      <div
+        id="프로필 & 수정 & 탈퇴"
+        className="w-full h-full shadow-md flex items-center justify-start"
+      >
+        <div
+          id="프로필 사진"
+          className="w-24 h-24 relative object-cover border-2 border-gray-300 rounded-full mx-14 block"
+        >
           <div className="w-7 h-7 absolute rounded-full bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center">
             <FaCamera style={{ fontSize: "1rem" }} />
           </div>
