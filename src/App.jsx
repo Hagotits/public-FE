@@ -28,7 +28,6 @@ import ProtectedPage from "./pages/ProtectedPage/index";
 import UploadProductPage from "./pages/UploadProductPage/index";
 import EditProductPage from "./pages/EditProductPage";
 import SendReview from "./pages/MyPage/Sections/SendReview";
-import PayProduct from "./pages/Creditpage/PayProduct";
 
 function Layout() {
   return (

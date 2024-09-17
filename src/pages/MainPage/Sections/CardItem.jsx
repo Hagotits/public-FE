@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart, removeCartItem } from "../../../redux/thunkFunctions"; // Import removeCartItem
+import { addToCart, removeCartItem } from "../../../redux/thunkFunctions";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { IoTimeOutline } from "react-icons/io5";
@@ -14,29 +14,37 @@ const CardItem = ({ product }) => {
   const dispatch = useDispatch();
 
   // userId === product.userId가 일치하면 담지 않도록 만들기
-  const userId = useSelector((state) => state.user?.userData.id);
+  const userId = useSelector((state) => state.user?.userData?.id); // Optional chaining 사용
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false); //찜 상태 관리
 
   // 저장
   useEffect(() => {
-    const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
-    if (savedLikeState !== null) {
-      setLike(JSON.parse(savedLikeState));
-      // parse는 적절한 객체로 바꿔주는 함수..(bool값이니까 true/false로 나타냄)
+    if (userId && product?.id) {
+      const savedLikeState = localStorage.getItem(
+        `like-${userId}-${product.id}`
+      );
+      if (savedLikeState !== null) {
+        setLike(JSON.parse(savedLikeState));
+      }
     }
-  }, [product.id, userId]);
+  }, [product?.id, userId]);
 
   // 삭제
   const toggleLike = () => {
-    if (userId === product.userId) {
+    if (userId === product?.userId) {
       alert("본인의 상품은 찜할 수 없습니다.");
       return;
     }
 
     const state = !like; // 반전시킴
     setLike(state);
-    localStorage.setItem(`like-${userId}-${product.id}`, JSON.stringify(state));
+    if (product?.id && userId) {
+      localStorage.setItem(
+        `like-${userId}-${product.id}`,
+        JSON.stringify(state)
+      );
+    }
 
     if (state) {
       dispatch(addToCart({ productId: product.id }));
@@ -47,8 +55,10 @@ const CardItem = ({ product }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const remainTime = calculateRemainTime(product.receptTime);
-      setRemainTime(remainTime);
+      if (product?.receptTime) {
+        const remainTime = calculateRemainTime(product.receptTime);
+        setRemainTime(remainTime);
+      }
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -56,7 +66,7 @@ const CardItem = ({ product }) => {
   }, [product]);
 
   const Price = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return price ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "";
   };
 
   const calculateRemainTime = (endTime) => {
@@ -83,15 +93,19 @@ const CardItem = ({ product }) => {
     );
   };
 
+  // `product`가 존재하는지 확인한 후 렌더링
+  if (!product) return null;
+
   return (
     <div className="rounded-[10px] border-[1px] border-gray-300 overflow-hidden">
       <div className="image h-48 bg-gray-100 overflow-hidden relative">
         <div>
-          <ImageSlider images={product.images || []} />
+          <ImageSlider images={product?.images || []} />{" "}
+          {/* 이미지가 있는지 확인 */}
         </div>
         <div
           className="w-[28px] h-[28px] absolute top-1 right-1 cursor-pointer"
-          onClick={toggleLike} // Update this to use toggleLike directly
+          onClick={toggleLike}
         >
           {like ? (
             <IoHeart style={{ width: "100%", height: "100%", color: "red" }} />
