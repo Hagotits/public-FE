@@ -15,7 +15,12 @@ const Header = () => {
         <div className="flex items-center justify-between mx-5 sm:mx-10 lg:mx-20">
           {/* Logo */}
           <div className="flex items-center text-xl text-[rgb(80,81,255)] font-bold h-14">
-            <Link to="/" className="text-inherit no-underline visited:text-inherit">PUBLICK MARKET</Link>
+            <Link
+              to="/"
+              className="text-inherit no-underline visited:text-inherit"
+            >
+              PUBLICK MARKET
+            </Link>
           </div>
 
           {/* Div  */}
@@ -32,7 +37,7 @@ const Header = () => {
 
           {/* Small Header  */}
           <div className="block sm:hidden">
-          {/* {`${menu ? "block" : "hidden"}`} */}
+            {/* {`${menu ? "block" : "hidden"}`} */}
             {menu && <HeaderItem mobile />}
           </div>
         </div>
