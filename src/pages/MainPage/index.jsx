@@ -76,7 +76,7 @@ const MainPage = () => {
       <div className="flex justify-end mb-3">
         <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
-      <div className="w-full h-auto grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="w-full h-auto grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
           <CardItem product={product} key={product.id} />
         ))}
