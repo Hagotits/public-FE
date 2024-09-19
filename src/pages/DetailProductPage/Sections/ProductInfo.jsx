@@ -124,7 +124,7 @@ const ProductInfo = ({ product }) => {
         {/* 유저 아바타 이미지 표시 */}
         <img
           id="프로필 이미지"
-          className="w-[60px] h-[60px] rounded-full border-2 border-[#c1c1c1]"
+          className="w-[60px] h-[60px] rounded-full "
           src={formatAvatarUrl(userAvatar)}
           alt="User Avatar"
         />
