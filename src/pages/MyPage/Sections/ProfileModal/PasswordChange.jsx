@@ -48,7 +48,7 @@ const PassWordChange = ({ passwordModal, setPasswordModal, email }) => {
             <h2 className="flex justify-center font-semibold text-[20px] py-4">
               비밀번호 변경
             </h2>
-            
+
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* 현재 비밀번호 입력 */}
@@ -95,26 +95,26 @@ const PassWordChange = ({ passwordModal, setPasswordModal, email }) => {
                     </div>
                   )}
                 </div>
+                {/* 버튼 섹션 */}
+                <div className="flex justify-end space-x-2">
+                  <button
+                    className="text-white w-[30%] py-2 rounded bg-[#2B0585] hover:bg-gray-300"
+                    type="submit"
+                  >
+                    변경 저장
+                  </button>
+                  <button
+                    className="text-black w-[20%] py-2 rounded bg-gray-200 hover:bg-gray-300"
+                    onClick={() => {
+                      setPasswordModal(false); // 모달 닫기
+                    }}
+                  >
+                    취소
+                  </button>
+                </div>
               </form>
             </div>
 
-            {/* 버튼 섹션 */}
-            <div className="flex justify-end space-x-2">
-              <button
-                className="text-white w-[30%] py-2 rounded bg-[#2B0585] hover:bg-gray-300"
-                type="submit"
-              >
-                변경 저장
-              </button>
-              <button
-                className="text-black w-[20%] py-2 rounded bg-gray-200 hover:bg-gray-300"
-                onClick={() => {
-                  setPasswordModal(false); // 모달 닫기
-                }}
-              >
-                취소
-              </button>
-            </div>
           </div>
         </div>
       )}

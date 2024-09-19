@@ -60,11 +60,11 @@ const ProfileModify = ({
               onSubmit={handleSubmit(profileModify)}
               className="flex-1 flex flex-col">
               {/* 프로필 이미지 업로드 */}
-              <div className="flex flex-col items-center mb-6">
+              <div className="flex flex-col items-center">
                 <label className="text-[22px] font-semibold text-gray-800 mb-4">
-                  프로필 설정
+                  프로필 수정
                 </label>
-                <div className="relative w-32 h-32 bg-red-200 rounded-full mt-4">
+                <div className="relative w-32 h-32 bg-gray-300 rounded-full mt-4">
                   {errors.image && (
                     <p className="text-sm text-red-500">{errors.image.message}</p>
                   )}
@@ -85,6 +85,12 @@ const ProfileModify = ({
                   className="hidden"
                   ref={fileInputRef} // 파일 입력 참조
                 />
+              </div>
+              <div
+                className="flex justify-end mb-7 text-[15px] text-gray-300 cursor-pointer"
+                // onClick={} 클릭하면 현재 올라와있는 이미지 삭제시키기
+              >
+                프로필 이미지 삭제
               </div>
 
               {/* 사용자 이름 변경 */}
@@ -111,7 +117,7 @@ const ProfileModify = ({
                 </label>
                 <button
                   type="button"
-                  className="ml-auto w-[80px] bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400"
+                  className="ml-auto w-[80px] text-gray-700 px-4 py-2 rounded-[20px] hover:bg-gray-200"
                   onClick={() => setPasswordModal(true)}
                 >
                   변경
