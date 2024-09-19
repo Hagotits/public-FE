@@ -11,127 +11,146 @@ const ProfileModify = ({
   updateUserData, // 상위 컴포넌트에서 받은 함수
 }) => {
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const [passwordModal, setPasswordModal] = useState(false); // 비밀번호 변경 모달 상태
+  const [imagePreview, setImagePreview] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  );
+  const [name, setName] = useState(null); // 이름 상태 초기값을 null로 설정
+  const fileInput = useRef(null);
   const fileInputRef = useRef(null); // 파일 입력 참조
 
+  // 이미지 미리보기 처리 함수
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
+    }
+  };
+
   // 프로필 수정 함수
-  const profileModify = async (data) => {
+  const profileModify = async () => {
     const formData = new FormData();
-    formData.append("name", data.name); // 이름 추가
-    if (data.image && data.image.length > 0) {
-      formData.append("image", data.image[0]); // 이미지 추가
+
+    // 이름이 있으면 추가, 없으면 추가하지 않음
+    if (name) {
+      formData.append("name", name);
+    }
+
+    // 이미지 파일이 있으면 추가
+    if (fileInput.current && fileInput.current.files[0]) {
+      formData.append("avatar", fileInput.current.files[0]);
     }
 
     try {
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.patch(
         `users/mypage/update/${userId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (response.status === 200) {
-        updateUserData(response.data.user); // 수정된 사용자 정보를 상위 컴포넌트로 전달
-        setModifyModal(false);
+        updateUserData(response.data.user);
+        setModifyModal(false); // 모달 닫기
       }
     } catch (error) {
-      console.error("프로필 수정 중 오류:", error);
+      console.error(error);
     }
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   return (
     modifyModal && (
-      <div>
-        <div className="fixed left-0 inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="relative bg-white w-[500px] h-[650px] p-16 rounded-lg shadow-xl flex flex-col">
-            {/* 닫기 버튼 */}
-            <button
-              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
-              onClick={() => setModifyModal(false)}
-            >
-              ✕
-            </button>
+      <div className="fixed left-0 inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div className="relative bg-white w-[500px] h-[550px] p-16 rounded-lg shadow-xl flex flex-col">
+          {/* 닫기 버튼 */}
+          <button
+            className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+            onClick={() => setModifyModal(false)}
+          >
+            ✕
+          </button>
 
-            {/* 프로필 수정 폼 */}
-            <form
-              onSubmit={handleSubmit(profileModify)}
-              className="flex-1 flex flex-col">
-              {/* 프로필 이미지 업로드 */}
-              <div className="flex flex-col items-center">
-                <label className="text-[22px] font-semibold text-gray-800 mb-4">
-                  프로필 수정
-                </label>
-                <div className="relative w-32 h-32 bg-gray-300 rounded-full mt-4">
-                  {errors.image && (
-                    <p className="text-sm text-red-500">{errors.image.message}</p>
-                  )}
-                  <img
-                    // className="w-full h-full rounded-full bg-gray-200 object-cover"
-                  />
-                  <div
-                    className="w-10 h-10 absolute bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center rounded-full"
-                    onClick={() => fileInputRef.current.click()} // 카메라 아이콘 클릭하면 파일 선택하도록
-                  >
-                    <FaCamera style={{ fontSize: "1.4rem" }} />
-                  </div>
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  {...register("image")} // 파일 업로드 필드 등록
-                  className="hidden"
-                  ref={fileInputRef} // 파일 입력 참조
-                />
-              </div>
-              <div
-                className="flex justify-end mb-7 text-[15px] text-gray-300 cursor-pointer"
-                // onClick={} 클릭하면 현재 올라와있는 이미지 삭제시키기
-              >
-                프로필 이미지 삭제
-              </div>
+          {/* 프로필 이미지 미리보기 */}
+          <div className="flex justify-center mb-4">
+            <img
+              src={imagePreview}
+              alt="Profile Preview"
+              className="w-32 h-32 rounded-full object-cover"
+              onClick={() => fileInput.current.click()}
+            />
+          </div>
 
-              {/* 사용자 이름 변경 */}
-              <div className="grid grid-cols-[100px_1fr] items-center border-b-[1px] border-gray-300 py-3">
-                <label className="text-base font-medium text-gray-800">
-                  이름
-                </label>
-                <input
-                  className="w-full text-sm font-normal text-gray-800 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-                  placeholder="새로운 사용자 이름을 입력하세요"
-                  {...register("name", { required: "이름을 입력해주세요." })} // 이름 필드 등록
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-500 mt-2">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
-
-              {/* 비밀번호 변경 */}
-              <div className="grid grid-cols-[100px_1fr] items-center border-b-[1px] border-gray-300 py-3">
-                <label className="text-base font-medium text-gray-800">
-                  비밀번호
-                </label>
-                <button
-                  type="button"
-                  className="ml-auto w-[80px] text-gray-700 px-4 py-2 rounded-[20px] hover:bg-gray-200"
-                  onClick={() => setPasswordModal(true)}
-                >
-                  변경
-                </button>
-              </div>
-
-              {/* 비밀번호 변경 모달 */}
-              {passwordModal && (
-                <PassWordChange
-                  passwordModal={passwordModal}
-                  setPasswordModal={setPasswordModal}
-                />
+          {/* 프로필 수정 폼 */}
+          <form onSubmit={handleSubmit(profileModify)}>
+            {/* 프로필 이미지 업로드 */}
+            <div className="flex flex-col items-center mb-6">
+              <label className="text-lg font-semibold text-gray-800 mb-4">
+                프로필 사진 변경
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInput}
+                onChange={handleImageChange}
+                className="hidden"
+              />
+              {errors.avatar && (
+                <p className="text-sm text-red-500">{errors.avatar.message}</p>
               )}
-            </form>
+            </div>
+
+            {/* 사용자 이름 변경 */}
+            <div className="grid grid-cols-[100px_1fr] items-center border-b-[1px] border-gray-300 py-3">
+              <label className="text-base font-medium text-gray-800">
+                이름
+              </label>
+              <input
+                className="w-full text-sm font-normal text-gray-800 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
+                placeholder="새로운 사용자 이름을 입력하세요"
+                onChange={handleNameChange}
+              />
+              {errors.name && (
+                <p className="text-sm text-red-500 mt-2">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+
+            {/* 비밀번호 변경 */}
+            <div className="grid grid-cols-[100px_1fr] items-center border-b-[1px] border-gray-300 py-3">
+              <label className="text-base font-medium text-gray-800">
+                비밀번호
+              </label>
+              <button
+                type="button"
+                className="ml-auto w-[80px] text-gray-700 px-4 py-2 rounded-[20px] hover:bg-gray-200"
+                onClick={() => setPasswordModal(true)}
+              >
+                변경
+              </button>
+            </div>
+
+            {/* 비밀번호 변경 모달 */}
+            {passwordModal && (
+              <PassWordChange
+                passwordModal={passwordModal}
+                setPasswordModal={setPasswordModal}
+              />
+            )}
 
             {/* 버튼 섹션 */}
             <div className="flex justify-end space-x-3 mt-6">
@@ -149,7 +168,7 @@ const ProfileModify = ({
                 취소
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     )

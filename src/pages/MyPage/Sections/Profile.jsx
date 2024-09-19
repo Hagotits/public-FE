@@ -19,6 +19,7 @@ const Profile = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axiosInstance.get(`users/mypage/${userId}`);
+        console.log(response.data);
         setName(response.data.user.name);
         setAvatar(response.data.user.avatar);
       } catch (err) {
