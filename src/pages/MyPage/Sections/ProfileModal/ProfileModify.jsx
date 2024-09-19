@@ -78,7 +78,7 @@ const ProfileModify = ({
           )}`
         );
       }
-      window.location.reload();
+      // window.location.reload(); 새로고침 해야지 변경된다.
     } catch (error) {
       console.error("프로필 수정 중 오류 발생:", error);
     }

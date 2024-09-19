@@ -13,12 +13,24 @@ dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
   const userId = useSelector((state) => state.user?.userData.id);
+  const userAvatar = useSelector((state) => state.user?.userData?.avatar);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+
+  // 이미지 경로 형식 지정
+  const formatAvatarUrl = (avatar) => {
+    if (!avatar) {
+      // 기본 이미지 URL 설정
+      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+    }
+    return avatar.startsWith('"') && avatar.endsWith('"')
+      ? `http://localhost:4000/${avatar.replace(/(^"|"$)/g, "")}`
+      : `http://localhost:4000/${avatar}`;
+  };
 
   useEffect(() => {
     const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
@@ -109,10 +121,14 @@ const ProductInfo = ({ product }) => {
         id="글쓴 회원 정보"
         className="w-full h-[100px] border-b border-gray-300 relative flex py-[10px] items-center"
       >
-        <div
+        {/* 유저 아바타 이미지 표시 */}
+        <img
           id="프로필 이미지"
           className="w-[60px] h-[60px] rounded-full border-2 border-[#c1c1c1]"
-        ></div>
+          src={formatAvatarUrl(userAvatar)}
+          alt="User Avatar"
+        />
+
         <div className="h-full flex flex-col justify-center items-start ml-[20px]">
           <div id="닉네임" className="text-[16px] font-semibold mb-[5px]">
             {product.userName}

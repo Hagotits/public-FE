@@ -18,7 +18,7 @@ const DetailProductPage = () => {
         const productData = Object(response.data)
           ? response.data[0]
           : response.data;
-        console.log(productData);
+        // console.log(productData);
         setProduct(productData);
       } catch (error) {
         console.error(error);
