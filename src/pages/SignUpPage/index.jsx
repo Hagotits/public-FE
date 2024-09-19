@@ -22,7 +22,7 @@ const SignUp = () => {
       email,
       name,
       password,
-      image: `/images/user.png`,
+      image: `[/images/user.png]`,
     };
     try {
       dispatch(registerUser(body));

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import CartPage from "../CartPage/index";
 import SelledItem from "./Sections/SelledItem";
 import EndDeal from "./Sections/EndDeal";
@@ -6,6 +7,8 @@ import ReceiveReview from "./Sections/ReceiveReview";
 import Profile from "./Sections/Profile";
 
 const MyPage = () => {
+  const userData = useSelector((state) => state.user?.userData);
+  console.log(userData);
   const [activeCategory, setActiveCategory] = useState("판매 물품");
 
   return (
