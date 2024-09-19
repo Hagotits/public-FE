@@ -27,6 +27,7 @@ import HistoryPage from "./pages/HistoryPage/index";
 import ProtectedPage from "./pages/ProtectedPage/index";
 import UploadProductPage from "./pages/UploadProductPage/index";
 import EditProductPage from "./pages/EditProductPage";
+import SendReview from "./pages/MyPage/Sections/SendReview";
 
 function Layout() {
   return (
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/user/cart" element={<CartPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/edit/:productId" element={<EditProductPage />} />
+          <Route path="/review/:productId" element={<SendReview />} />
         </Route>
 
         {/* 로그인 한 사람은 갈 수 없는 경로 */}

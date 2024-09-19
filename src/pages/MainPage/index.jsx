@@ -5,7 +5,7 @@ import CardItem from "./Sections/CardItem";
 import debounce from "lodash/debounce";
 
 const MainPage = () => {
-  const limit = 4;
+  const limit = 3;
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);

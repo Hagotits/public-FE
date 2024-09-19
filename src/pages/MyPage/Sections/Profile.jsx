@@ -6,21 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { FaCamera } from "react-icons/fa";
 import ProfileModify from "./ProfileModal/ProfileModify";
 import UserQuit from "./ProfileModal/UserQuit";
-import { BiSolidPencil } from "react-icons/bi";
 
 const Profile = () => {
+  const userData = useSelector((state) => state.user?.userData);
   const userId = useSelector((state) => state.user?.userData.id);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(""); // 사용자 이름 상태
+  const [avatar, setAvatar] = useState(""); // 프로필 이미지 상태
   const navigate = useNavigate();
   const [modifyModal, setModifyModal] = useState(false); // 프로필 수정 모달
   const [quitModal, setQuitModal] = useState(false); // 회원 탈퇴 모달
-  const [passwordModal, setPasswordModal] = useState(false); // 비밀번호 변경 모달
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const response = await axiosInstance.get(`users/mypage/${userId}`);
         setName(response.data.user.name);
+        setAvatar(response.data.user.avatar);
       } catch (err) {
         console.error(err);
       }
@@ -28,10 +29,27 @@ const Profile = () => {
     fetchUserInfo();
   }, [userId]);
 
+  // 사용자 정보 업데이트 함수 (프로필 수정 후 호출)
+  const updateUserData = (updatedUser) => {
+    setName(updatedUser.name);
+    setAvatar(updatedUser.avatar); // 기본 이미지 설정
+  };
+
   return (
     <div className="w-full h-[170px] bg-white">
-      <div id="프로필 & 수정 & 탈퇴" className="w-full h-full shadow-md flex items-center justify-start">
-        <div id="프로필 사진" className="w-24 h-24 relative object-cover border-2 border-gray-300 rounded-full mx-14 block">
+      <div
+        id="프로필 & 수정 & 탈퇴"
+        className="w-full h-full shadow-md flex items-center justify-start"
+      >
+        <div
+          id="프로필 사진"
+          className="w-24 h-24 relative object-cover border-2 border-gray-300 rounded-full mx-14 block"
+        >
+          <img
+            src={avatar} // 기본 이미지 처리
+            alt="프로필"
+            className="w-full h-full rounded-full object-cover"
+          />
           <div className="w-7 h-7 absolute rounded-full bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center">
             <FaCamera style={{ fontSize: "1rem" }} />
           </div>
@@ -53,6 +71,7 @@ const Profile = () => {
               modifyModal={modifyModal}
               setModifyModal={setModifyModal}
               userId={userId}
+              updateUserData={updateUserData} // 사용자 정보 업데이트 함수 전달
               axiosInstance={axiosInstance}
               toast={toast}
               navigate={navigate}

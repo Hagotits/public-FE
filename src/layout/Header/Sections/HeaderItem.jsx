@@ -11,20 +11,12 @@ import { toast } from "react-toastify";
 import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
-import { CiSearch } from "react-icons/ci";
 import { FaBell } from "react-icons/fa6";
-import SearchInput from '../../../pages/MainPage/Sections/SearchInput';
-import axiosInstance from "../../../utils/axios";
-import debounce from "lodash/debounce";
+import SearchInput from "../../../pages/MainPage/Sections/SearchInput";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
   { to: "/login", name: "로그인", auth: false },
-  // {
-  //   to: "",
-  //   auth: true,
-  //   searchIcon: <CiSearch style={{ fontSize: "2rem" }} />,
-  // },
   {
     to: "/product/upload",
     auth: true,
@@ -85,166 +77,163 @@ const HeaderItem = ({ mobile }) => {
       className={`text-md leading-7 justify-center w-full flex gap-4 items-center
                   ${mobile && "flex-col bg-gray-900 h-full"} items-center`}
     >
-      {routes.map(({ to, name, auth, icon, searchIcon, bellIcon, uploadIcon, userIcon }, index) => {
-        if (isAuth !== auth) return null;
-        if (name === "로그아웃") {
-          return (
-            <li
-              key={`logout-${index}`}
-              className="py-2 text-center border-b-4 cursor-pointer"
-            >
-              <Link onClick={handleLogout}>{name}</Link>
-            </li>
-          );
-        } else if (icon) {
-          return (
-            <li
-              key={`icon-${index}`}
-              className="relative py-2 text-center border-b-4 cursor-pointer"
-            >
-              <Link to={to}>
-                {icon}
-                <span className="absolute top-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -right-3">
-                  {cart?.length}
-                </span>
-              </Link>
-            </li>
-          );
-        } else if (name) {
-          return (
-            <li
-              key={`name-${index}`}
-              className="py-2 text-center border-b-4 cursor-pointer"
-            >
-              <Link to={to}>{name}</Link>
-            </li>
-          );
-        } else if (uploadIcon) {
-          return (
-            <li
-              key={`uploadIcon-${index}`}
-              className="py-2 text-center cursor-pointer"
-            >
-              <Link to={to}>{uploadIcon}</Link>
-            </li>
-          );
-        } else if (userIcon) {
-          return (
-            <li
-              key={`userIcon-${index}`}
-              className="relative py-2 text-center cursor-pointe mt-[7px]"
-            >
-              <button
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                className={styles.DropdownToggle}
+      {routes.map(
+        (
+          { to, name, auth, icon, searchIcon, bellIcon, uploadIcon, userIcon },
+          index
+        ) => {
+          if (isAuth !== auth) return null;
+          if (name === "로그아웃") {
+            return (
+              <li
+                key={`logout-${index}`}
+                className="py-2 text-center border-b-4 cursor-pointer"
               >
-                {userIcon}
-              </button>
-              {dropdownOpen && (
-                <div className={styles.DropdownMenu} ref={dropdownRef}>
-                  <Link to="/mypage" className={styles.DropdownItem}>
-                    <FaUser className={styles.DropdownItemIcon} />
-                    MyPage
-                  </Link>
-                  <hr />
-                  <button
-                    onClick={() => setAlert(true)}
-                    className={styles.DropdownItem}
-                  >
-                    <FaBell className={styles.DropdownItemIcon} />
-                    Alert
-                  </button>
-                  <hr />
-                  <button
-                    onClick={handleLogout}
-                    className={styles.DropdownItem}
-                  >
-                    <IoLogOutSharp className={styles.DropdownItemIcon} />
-                    Log out
-                  </button>
-                </div>
-              )}
-            </li>
-          );
-        } else if (bellIcon) {
-          return (
-            <li
-              key={`bellIcon-${index}`}
-              className="relative py-2 text-center cursor-pointer mt-[7px]"
-            >
-              <div>
+                <Link onClick={handleLogout}>{name}</Link>
+              </li>
+            );
+          } else if (icon) {
+            return (
+              <li
+                key={`icon-${index}`}
+                className="relative py-2 text-center border-b-4 cursor-pointer"
+              >
+                <Link to={to}>
+                  {icon}
+                  <span className="absolute top-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -right-3">
+                    {cart?.length}
+                  </span>
+                </Link>
+              </li>
+            );
+          } else if (name) {
+            return (
+              <li
+                key={`name-${index}`}
+                className="py-2 text-center border-b-4 cursor-pointer"
+              >
+                <Link to={to}>{name}</Link>
+              </li>
+            );
+          } else if (uploadIcon) {
+            return (
+              <li
+                key={`uploadIcon-${index}`}
+                className="py-2 text-center cursor-pointer"
+              >
+                <Link to={to}>{uploadIcon}</Link>
+              </li>
+            );
+          } else if (userIcon) {
+            return (
+              <li
+                key={`userIcon-${index}`}
+                className="relative py-2 text-center cursor-pointe mt-[7px]"
+              >
                 <button
-                  onClick={() => setAlert(true)}>
-                  {bellIcon}
-                </button>
-              </div>
-              {
-                alert && 
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-50"
-                  ref={modalBackground}
-                  onClick={(e) => {
-                    if (e.target === modalBackground.current) {
-                      setAlert(false);
-                    }
-                  }}
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                  className={styles.DropdownToggle}
                 >
-                  <div className="absolute right-10 mt-12">
-                    <div className="relative">
-                      <button
-                        className="absolute right-1 mt-3 z-50"
-                        onClick={() => setAlert(false)}
-                      >
-                        <TiDelete style={{ fontSize: "1.5rem" }}/>
-                      </button>
-                      <Alert />
+                  {userIcon}
+                </button>
+                {dropdownOpen && (
+                  <div className={styles.DropdownMenu} ref={dropdownRef}>
+                    <Link to="/mypage" className={styles.DropdownItem}>
+                      <FaUser className={styles.DropdownItemIcon} />
+                      MyPage
+                    </Link>
+                    <hr />
+                    <button
+                      onClick={() => setAlert(true)}
+                      className={styles.DropdownItem}
+                    >
+                      <FaBell className={styles.DropdownItemIcon} />
+                      Alert
+                    </button>
+                    <hr />
+                    <button
+                      onClick={handleLogout}
+                      className={styles.DropdownItem}
+                    >
+                      <IoLogOutSharp className={styles.DropdownItemIcon} />
+                      Log out
+                    </button>
+                  </div>
+                )}
+              </li>
+            );
+          } else if (bellIcon) {
+            return (
+              <li
+                key={`bellIcon-${index}`}
+                className="relative py-2 text-center cursor-pointer mt-[7px]"
+              >
+                <div>
+                  <button onClick={() => setAlert(true)}>{bellIcon}</button>
+                </div>
+                {alert && (
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-50"
+                    ref={modalBackground}
+                    onClick={(e) => {
+                      if (e.target === modalBackground.current) {
+                        setAlert(false);
+                      }
+                    }}
+                  >
+                    <div className="absolute right-10 mt-12">
+                      <div className="relative">
+                        <button
+                          className="absolute right-1 mt-3 z-50"
+                          onClick={() => setAlert(false)}
+                        >
+                          <TiDelete style={{ fontSize: "1.5rem" }} />
+                        </button>
+                        <Alert />
+                      </div>
                     </div>
                   </div>
+                )}
+              </li>
+            );
+          } else if (searchIcon) {
+            return (
+              <li
+                key={`searchIcon-${index}`}
+                className="relative py-2 text-center cursor-pointer mt-[7px]"
+              >
+                <div>
+                  <button onClick={() => setSearch(true)}>{searchIcon}</button>
                 </div>
-              }
-            </li>
-          )
-        } else if (searchIcon) {
-          return (
-            <li
-              key={`searchIcon-${index}`}
-              className="relative py-2 text-center cursor-pointer mt-[7px]"
-            >
-              <div>
-                <button
-                  onClick={() => setSearch(true)}>
-                  {searchIcon}
-                </button>
-              </div>
-              {
-                search && 
-                <div
-                  className="fixed inset-0"
-                  ref={modalBackground}
-                  onClick={(e) => {
-                    if (e.target === modalBackground.current) {
-                      setSearch(false);
-                    }
-                  }}
-                >
-                  <div className="absolute right-56 mt-2">
-                    <div className="relative">
-                      {/* <button
+                {search && (
+                  <div
+                    className="fixed inset-0"
+                    ref={modalBackground}
+                    onClick={(e) => {
+                      if (e.target === modalBackground.current) {
+                        setSearch(false);
+                      }
+                    }}
+                  >
+                    <div className="absolute right-56 mt-2">
+                      <div className="relative">
+                        {/* <button
                         className="absolute right-1 mt-3 z-50"
                         onClick={() => setSearch(false)}
                       >
                         <CiSearch style={{ fontSize: "1.5rem" }}/>
                       </button> */}
-                      <SearchInput />
+                        <SearchInput />
+                      </div>
                     </div>
                   </div>
-                </div>
-              }
-            </li>
-          )
+                )}
+              </li>
+            );
+          }
+          return null;
         }
-        return null;
-      })}
+      )}
     </ul>
   );
 };

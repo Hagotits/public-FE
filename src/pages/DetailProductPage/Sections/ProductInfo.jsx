@@ -6,9 +6,9 @@ import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import axiosInstance from "../../../utils/axios";
-import Alert from '../../../layout/Header/Sections/Alert';
 import Modal from "./Modal";
 import PopularityPost from "./PopularityPost";
+import PayLogo from "../images/btn_send_regular.png";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
@@ -16,27 +16,24 @@ const ProductInfo = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
-  const [like, setLike] = useState(false); //찜 상태 관리
-  const [deleteModal, setDeleteModal] = useState(false); // 게시글 삭제 모달
-  const [deleteSuccessModal, setDeleteSuccessModal] = useState(false); // 게시글 삭제 성공 모달
+  const [like, setLike] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
 
-  // 저장
   useEffect(() => {
     const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
     if (savedLikeState !== null) {
       setLike(JSON.parse(savedLikeState));
-      // parse는 적절한 객체로 바꿔주는 함수..(bool값이니까 true/false로 나타냄)
     }
   }, [product.id, userId]);
 
-  // 삭제
   const toggleLike = () => {
     if (userId === product.userId) {
       alert("본인의 상품은 찜할 수 없습니다.");
       return;
     }
 
-    const state = !like; // 반전시킴
+    const state = !like;
     setLike(state);
     localStorage.setItem(`like-${userId}-${product.id}`, JSON.stringify(state));
 
@@ -80,12 +77,10 @@ const ProductInfo = ({ product }) => {
     );
   };
 
-  // 가격 1000원 단위 , 나타나도록
   const Price = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // 게시글 삭제
   const Delete = async () => {
     try {
       const response = await axiosInstance.delete(`/products/${product.id}`, {
@@ -100,10 +95,12 @@ const ProductInfo = ({ product }) => {
     }
   };
 
-  // 게시글 수정
   const Edit = async () => {
-    // 유저와 게시글 만든 유저가 동일한 경우에만 삭제하기
     navigate(`/edit/${product.id}`, { state: { product } });
+  };
+
+  const handlePayment = () => {
+    window.location.href = "https://link.kakaopay.com/_/1HCxgjq"; // 카카오페이 결제 링크로 이동
   };
 
   return (
@@ -141,7 +138,10 @@ const ProductInfo = ({ product }) => {
                 <button className="flex" onClick={Edit}>
                   수정 /
                 </button>
-                <button className="flex justify-center" onClick={() => setDeleteModal(true)}>
+                <button
+                  className="flex justify-center"
+                  onClick={() => setDeleteModal(true)}
+                >
                   삭제
                 </button>
               </div>
@@ -157,8 +157,8 @@ const ProductInfo = ({ product }) => {
               <Modal
                 isOpen={deleteSuccessModal}
                 onClose={() => {
-                  setDeleteSuccessModal(false); // 모달창 닫은 뒤
-                  navigate("/"); // 페이지 이동
+                  setDeleteSuccessModal(false);
+                  navigate("/");
                 }}
                 title="삭제되었습니다."
                 message=""
@@ -188,7 +188,10 @@ const ProductInfo = ({ product }) => {
 
         <div className="relative flex justify-end flex-row items-end mt-[50px]">
           <div id="회색글씨" className="flex flex-col items-end mr-[10px]">
-            <div id="남은 인원" className="text-[14px] text-[rgb(182, 182, 182)]">
+            <div
+              id="남은 인원"
+              className="text-[14px] text-[rgb(182, 182, 182)]"
+            >
               {product.attend - 1}명 남음
             </div>
             <div
@@ -201,10 +204,10 @@ const ProductInfo = ({ product }) => {
           <div>
             <button
               id="참여 버튼"
-              className="w-[250px] h-12 text-[16px] ml-2 font-semibold bg-[#2B0585] rounded-md text-white hover:bg-puple-400"
-              // onClick={}
+              className=""
+              onClick={handlePayment} // 결제 페이지로 이동
             >
-              {Price(Math.floor(product.price / product.attend))}원으로 참여하기
+              <img src={PayLogo} alt="카카오페이 송금" />
             </button>
           </div>
         </div>
