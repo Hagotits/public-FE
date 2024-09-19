@@ -17,7 +17,7 @@ const ProfileModify = ({
   const [imagePreview, setImagePreview] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
-  const [name, setName] = useState(null);
+  const [name, setName] = useState(null); // 이름 상태 초기값을 null로 설정
   const fileInput = useRef(null);
 
   // 이미지 미리보기 처리 함수
@@ -37,38 +37,33 @@ const ProfileModify = ({
   };
 
   // 프로필 수정 함수
+
   const profileModify = async () => {
     const formData = new FormData();
 
-    // 이름이 있을 경우에만 추가
+    // 이름이 있으면 추가, 없으면 추가하지 않음
     if (name) {
       formData.append("name", name);
     }
 
-    // 이미지 파일이 있을 경우에만 추가
-    if (fileInput.current && fileInput.current.files[1]) {
-      formData.append("avatar", fileInput.current.files[1]);
+    // 이미지 파일이 있으면 추가
+    if (fileInput.current && fileInput.current.files[0]) {
+      formData.append("avatar", fileInput.current.files[0]);
     }
 
-    // formData 확인 로그
-    console.log([...formData.entries()]);
-
     try {
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.patch(
         `users/mypage/update/${userId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (response.status === 200) {
-        updateUserData(response.data.user); // 수정된 사용자 정보를 상위 컴포넌트로 전달
+        updateUserData(response.data.user);
         setModifyModal(false); // 모달 닫기
       }
     } catch (error) {
-      console.error(
-        "프로필 수정 중 오류: ",
-        error.response ? error.response.data : error.message
-      );
+      console.error(error);
     }
   };
 
