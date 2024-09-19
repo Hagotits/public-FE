@@ -2,7 +2,9 @@ import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import PassWordChange from "./PasswordChange";
 import axiosInstance from "../../../../utils/axios";
+import { updateUser } from "../../../../redux/thunkFunctions";
 import { FaCamera } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 const ProfileModify = ({
   modifyModal,
@@ -14,13 +16,13 @@ const ProfileModify = ({
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
+  const dispatch = useDispatch(); // dispath에서 오타 수정
   const [passwordModal, setPasswordModal] = useState(false); // 비밀번호 변경 모달 상태
   const [imagePreview, setImagePreview] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const [name, setName] = useState(null); // 이름 상태 초기값을 null로 설정
   const fileInput = useRef(null);
-  // const fileInputRef = useRef(null); // 파일 입력 참조
 
   // 이미지 미리보기 처리 함수
   const handleImageChange = (e) => {
@@ -40,6 +42,7 @@ const ProfileModify = ({
 
   // 프로필 수정 함수
   const profileModify = async () => {
+    console.log("form submit");
     const formData = new FormData();
 
     // 이름이 있으면 추가, 없으면 추가하지 않음
@@ -60,7 +63,8 @@ const ProfileModify = ({
       );
 
       if (response.status === 200) {
-        updateUserData(response.data.user);
+        updateUserData(response.data.user); // 상위 컴포넌트에서 받은 함수로 상태 업데이트
+        dispatch(updateUser(response.data.user)); // Redux 상태 업데이트
         setModifyModal(false); // 모달 닫기
       }
     } catch (error) {
@@ -87,7 +91,7 @@ const ProfileModify = ({
 
             {/* 프로필 수정 폼 */}
             <form
-              onSubmit={handleSubmit(profileModify)}
+              onSubmit={handleSubmit(profileModify)} // 여기서 profileModify 호출
               className="flex-1 flex flex-col"
             >
               {/* 프로필 이미지 업로드 */}
@@ -105,8 +109,8 @@ const ProfileModify = ({
                     onClick={() => fileInput.current.click()}
                   />
                   <div
-                  className="absolute w-10 h-10 bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center rounded-full"
-                  onClick={() => fileInput.current.click()} // 카메라 아이콘 클릭하면 파일 선택하도록
+                    className="absolute w-10 h-10 bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center rounded-full"
+                    onClick={() => fileInput.current.click()} // 카메라 아이콘 클릭하면 파일 선택하도록
                   >
                     <FaCamera style={{ fontSize: "1.4rem" }} />
                   </div>
@@ -119,13 +123,12 @@ const ProfileModify = ({
                   className="hidden"
                 />
                 {errors.avatar && (
-                  <p className="text-sm text-red-500">{errors.avatar.message}</p>
+                  <p className="text-sm text-red-500">
+                    {errors.avatar.message}
+                  </p>
                 )}
               </div>
-              <div
-                className="flex justify-end mb-7 text-[15px] text-gray-300 cursor-pointer"
-                // onClick={} 클릭하면 현재 올라와있는 이미지 삭제시키기
-              >
+              <div className="flex justify-end mb-7 text-[15px] text-gray-300 cursor-pointer">
                 프로필 이미지 삭제
               </div>
 
@@ -168,11 +171,10 @@ const ProfileModify = ({
                 />
               )}
 
-            </form>
-            {/* 버튼 섹션 */}
-            <div className="flex justify-end space-x-3 mt-6">
+              {/* 버튼 섹션 */}
+              <div className="flex justify-end space-x-3 mt-6">
                 <button
-                  type="submit"
+                  type="submit" // 버튼이 onClick 이벤트가 아니라 submit을 트리거해야 함
                   className="bg-[#2B0585] text-white px-4 py-2 rounded-md hover:bg-blue-700"
                 >
                   수정하기
@@ -185,6 +187,7 @@ const ProfileModify = ({
                   취소
                 </button>
               </div>
+            </form>
           </div>
         </div>
       </div>
