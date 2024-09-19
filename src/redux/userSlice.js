@@ -17,7 +17,7 @@ const initialState = {
     id: "",
     email: "",
     name: "",
-    avatar: [],
+    avatar: "",
     cart: [],
     history: [],
   },

@@ -42,7 +42,6 @@ const ProfileModify = ({
 
   // 프로필 수정 함수
   const profileModify = async () => {
-    console.log("form submit");
     const formData = new FormData();
 
     // 이름이 있으면 추가, 없으면 추가하지 않음

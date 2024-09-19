@@ -7,7 +7,6 @@ import ProfileModify from "./ProfileModal/ProfileModify";
 import UserQuit from "./ProfileModal/UserQuit";
 
 const Profile = () => {
-  const userData = useSelector((state) => state.user?.userData);
   const userId = useSelector((state) => state.user?.userData.id);
   const [name, setName] = useState(""); // 사용자 이름 상태
   const [avatar, setAvatar] = useState(""); // 프로필 이미지 상태
@@ -16,17 +15,19 @@ const Profile = () => {
   const [quitModal, setQuitModal] = useState(false); // 회원 탈퇴 모달
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await axiosInstance.get(`users/mypage/${userId}`);
-        console.log(response.data);
-        setName(response.data.user.name);
-        setAvatar(response.data.user.avatar);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchUserInfo();
+    if (userId) {
+      const fetchUserInfo = async () => {
+        try {
+          const response = await axiosInstance.get(`users/mypage/${userId}`);
+          // console.log(response.data);
+          setName(response.data.user.name);
+          setAvatar(response.data.user.avatar);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchUserInfo();
+    }
   }, [userId]);
 
   // 사용자 정보 업데이트 함수 (프로필 수정 후 호출)
