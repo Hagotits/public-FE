@@ -172,7 +172,7 @@ const UploadProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="price"
                 type="text"
-                placeholder="물건의 원가를 작성해주세요."
+                placeholder="판매하고 싶은 가격을 작성해주세요."
                 {...register("price", productPrice)}
               />
               {errors.price && (
@@ -196,7 +196,7 @@ const UploadProductPage = () => {
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="attend"
                 type="text"
-                placeholder="(본인 포함) 몇 명이서 나눠가지고 싶은가요?"
+                placeholder="몇 명에게 판매하고 싶은가요?"
                 {...register("attend", productAttend)}
               />
               {errors.attend && (
