@@ -78,6 +78,7 @@ const ProfileModify = ({
           )}`
         );
       }
+      window.location.reload();
     } catch (error) {
       console.error("프로필 수정 중 오류 발생:", error);
     }
