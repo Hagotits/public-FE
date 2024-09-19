@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { FaCamera } from "react-icons/fa";
 import ProfileModify from "./ProfileModal/ProfileModify";
 import UserQuit from "./ProfileModal/UserQuit";
 
@@ -50,9 +49,6 @@ const Profile = () => {
             alt="프로필"
             className="w-full h-full rounded-full object-cover"
           />
-          <div className="w-7 h-7 absolute rounded-full bottom-0 right-0 text-gray-500 bg-gray-200 cursor-pointer grid place-items-center">
-            <FaCamera style={{ fontSize: "1rem" }} />
-          </div>
         </div>
         <div className="flex flex-col items-left ml-6">
           <div id="회원 이름" className="relative mb-1 text-lg">
