@@ -6,6 +6,13 @@ import { useNavigate } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 import dayjs from "dayjs";
 import KakaoMapAPI from "../../components/KakaoMap";
+import People from "./Sections/People";
+import CustomDatePicker from "./Sections/People";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import { ko } from "date-fns/locale";
+import { FaCalendar } from "react-icons/fa";
+import "./../../index.js";
 
 const UploadProductPage = () => {
   const {
@@ -17,10 +24,16 @@ const UploadProductPage = () => {
 
   const [selectedTime, setSelectedTime] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [mapLocation, setMapLocation] = useState(null);
+  const [attend, setAttend] = useState(""); // 거래 인원 관련 상태
+  const [customAttend, setCustomAttend] = useState(""); // 직접 입력 값 상태
+  const [mapLocation, setMapLocation] = useState();
+  const [date, setDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const userData = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [selectedDateTime, setSelectedDateTime] = useState(""); // 선택된 날짜와 시간 상태
+
 
   const handleImages = (newImages) => {
     setImages(newImages);
@@ -33,6 +46,7 @@ const UploadProductPage = () => {
       ...data,
       images,
       location: mapLocation,
+      attend: attend === "직접 입력" ? customAttend : attend, // 직접 입력 값 처리
     };
 
     try {
@@ -60,6 +74,47 @@ const UploadProductPage = () => {
     }
   };
 
+  // 거래 날짜 선택
+  const handleSelectChange = (selectedOption) => {
+    if (selectedOption) {
+      setAttend(selectedOption.value);
+      if (selectedOption.value === "직접 입력") {
+        setCustomAttend("");
+      } else {
+        setCustomAttend(""); // 선택이 다른 값일 때 커스텀 입력값을 초기화
+      }
+    } else {
+      setAttend("");
+      setCustomAttend("");
+    }
+  };
+
+  // 선택한 날짜가 오늘인지 확인
+  const isToday = (date) => {
+    const today = dayjs().startOf("day");
+    return dayjs(date).isSame(today, "day");
+  }
+
+  // 시간 필터링 함수
+  const filterTime = (time) => {
+    if (isToday(date)) {
+      const now = new Date();
+      return time.getTime() >= now.getTime(); // 선택한 날짜가 오늘일 경우 현재시간 이후의 시간만 선택 가능
+    }
+    return true; // 선택한 날짜가 오늘이 아닐 경우 모든 시간 선택 가능
+  }
+
+  // 거래 날짜 선택 시 선택된 날짜와 시간을 업데이트
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate);
+    if (selectedDate) {
+      const formattedDateTime = dayjs(selectedDate).format("YYYY-MM-DD HH:mm");
+      setSelectedDateTime(formattedDateTime);
+    } else {
+      setSelectedDateTime("");
+    }
+  };
+  
   useEffect(() => {
     if (mapLocation) {
       setValue("places", mapLocation.address);
@@ -183,6 +238,7 @@ const UploadProductPage = () => {
             </div>
           </div>
 
+          {/* 거래 인원 */}
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="거래 인원"
@@ -191,21 +247,16 @@ const UploadProductPage = () => {
             >
               거래 인원
             </label>
-            <div className="w-full">
-              <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-                name="attend"
-                type="text"
-                placeholder="몇 명에게 판매하고 싶은가요?"
-                {...register("attend", productAttend)}
-              />
-              {errors.attend && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.attend.message}</span>
-                </div>
-              )}
-            </div>
+            <People
+              attend={attend}
+              setAttend={setAttend}
+              customAttend={customAttend}
+              setCustomAttend={setCustomAttend}
+              errors={errors.attend ? { attend: errors.attend } : {}}
+              handleSelectChange={handleSelectChange}
+            />
           </div>
+
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
@@ -215,7 +266,7 @@ const UploadProductPage = () => {
             >
               거래 장소
             </label>
-            <div className="w-full">
+            <div className="w-full z-0">
               <KakaoMapAPI onLocationChange={setMapLocation} />
               <input
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 hidden"
@@ -230,21 +281,33 @@ const UploadProductPage = () => {
             </div>
           </div>
 
+          {/* 거래 날짜 */}
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="수령 날짜"
+              id="거래 날짜"
               className="text-base font-medium text-left pr-2.5"
             >
-              수령 날짜
+              거래 날짜
             </label>
-            <div className="w-full">
-              <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
-                type="datetime-local"
-                name="receptTime"
-                onChange={handleTimeChange}
-                min={productReceptTime.minLength}
-                {...register("receptTime", productReceptTime)}
+            <div className="relative w-full">
+              <DatePicker
+                // showIcon
+                // icon="fa Fa-calendar"
+                inline // 화면에 달력, 시간 표시
+                selected={date} // 선택된 날짜를 ReactDatePicker에 전달
+                onChange={(date) => setDate(date)}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={10}
+                timeCaption="time"
+                dateFormat="yyyy-MM-dd, h:mm aa"
+                
+                locale={ko}
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 cursor-pointer z-90"
+                placeholderText="거래 날짜를 선택해주세요."
+                minDate={new Date()} // 현재 날짜보다 이전은 선택 불가
+                filterTime={filterTime} // 시간 필터링
+                calendarStartDay={1} // 월요일부터 시작
               />
               {errors.receptTime && (
                 <div className="mt-1 text-red-500 text-sm">
