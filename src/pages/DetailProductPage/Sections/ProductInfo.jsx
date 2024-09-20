@@ -20,6 +20,8 @@ const ProductInfo = ({ product }) => {
   const [like, setLike] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   // 이미지 경로 형식 지정
   const formatAvatarUrl = (avatar) => {
@@ -41,7 +43,7 @@ const ProductInfo = ({ product }) => {
 
   const toggleLike = () => {
     if (userId === product.userId) {
-      alert("본인의 상품은 찜할 수 없습니다.");
+      setAlertModal(true);
       return;
     }
 
@@ -103,7 +105,9 @@ const ProductInfo = ({ product }) => {
           setDeleteSuccessModal(true);
         }
       } else {
-        alert("본인의 게시글만 삭제할 수 있습니다.");
+        // alert("본인의 게시글만 삭제할 수 있습니다.");
+        setAlertMessage("본인의 게시글만 삭제할 수 있습니다.");
+        setAlertModal(true);
       }
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생했습니다: ", error);
@@ -116,7 +120,9 @@ const ProductInfo = ({ product }) => {
       if (product.userId === userId) {
         navigate(`/edit/${product.id}`, { state: { product } });
       } else {
-        alert("본인의 게시글만 수정할 수 있습니다.");
+        // alert("본인의 게시글만 수정할 수 있습니다.");
+        setAlertMessage("본인의 게시글만 수정할 수 있습니다.");
+        setAlertModal(true);
       }
     } catch (err) {
       console.error("게시 수정 중 오류가 발생했습니다: ", err);
@@ -188,8 +194,16 @@ const ProductInfo = ({ product }) => {
                   setDeleteSuccessModal(false);
                   navigate("/");
                 }}
-                title="삭제되었습니다."
+                title="성공적으로 삭제되었습니다."
                 message=""
+                confirmText="확인"
+              />
+
+              <Modal
+                isOpen={alertModal}
+                onClose={() => setAlertModal(false)}
+                title="오류"
+                message={alertMessage}
                 confirmText="확인"
               />
             </div>

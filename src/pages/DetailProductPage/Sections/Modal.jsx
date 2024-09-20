@@ -4,11 +4,11 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, confirmText = "í™•ì
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-40">
       <div className="bg-white w-[250px] h-[150px] p-4 rounded-lg shadow-lg flex flex-col justify-between">
         <div>
           <p className="text-sm font-semibold">{title}</p>
-          <p className="text-xs text-gray-500 mt-2">{message}</p>
+          <p className="text-xs text-red-500 mt-2">{message}</p>
         </div>
         <div className="flex justify-end space-x-2 mt-4">
           {onConfirm && (
