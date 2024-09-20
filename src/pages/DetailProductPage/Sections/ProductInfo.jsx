@@ -95,11 +95,15 @@ const ProductInfo = ({ product }) => {
 
   const Delete = async () => {
     try {
-      const response = await axiosInstance.delete(`/products/${product.id}`, {
-        params: { userId: userId },
-      });
-      if (response.status === 200) {
-        setDeleteSuccessModal(true);
+      if (product.userId === userId) {
+        const response = await axiosInstance.delete(`/products/${product.id}`, {
+          params: { userId: userId },
+        });
+        if (response.status === 200) {
+          setDeleteSuccessModal(true);
+        }
+      } else {
+        alert("본인의 게시글만 삭제할 수 있습니다.");
       }
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생했습니다: ", error);
@@ -108,11 +112,19 @@ const ProductInfo = ({ product }) => {
   };
 
   const Edit = async () => {
-    navigate(`/edit/${product.id}`, { state: { product } });
+    try {
+      if (product.userId === userId) {
+        navigate(`/edit/${product.id}`, { state: { product } });
+      } else {
+        alert("본인의 게시글만 수정할 수 있습니다.");
+      }
+    } catch (err) {
+      console.error("게시 수정 중 오류가 발생했습니다: ", err);
+    }
   };
 
   const handlePayment = () => {
-    window.location.href = "https://link.kakaopay.com/_/1HCxgjq"; // 카카오페이 결제 링크로 이동
+    window.location.href = "https://link.kakaopay.com/_/w4VaY4B";
   };
 
   return (
