@@ -13,12 +13,24 @@ dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
   const userId = useSelector((state) => state.user?.userData.id);
+  const userAvatar = useSelector((state) => state.user?.userData?.avatar);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [remainTime, setRemainTime] = useState("");
   const [like, setLike] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+
+  // 이미지 경로 형식 지정
+  const formatAvatarUrl = (avatar) => {
+    if (!avatar) {
+      // 기본 이미지 URL 설정
+      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+    }
+    return avatar.startsWith('"') && avatar.endsWith('"')
+      ? `http://localhost:4000/${avatar.replace(/(^"|"$)/g, "")}`
+      : `http://localhost:4000/${avatar}`;
+  };
 
   useEffect(() => {
     const savedLikeState = localStorage.getItem(`like-${userId}-${product.id}`);
@@ -83,11 +95,15 @@ const ProductInfo = ({ product }) => {
 
   const Delete = async () => {
     try {
-      const response = await axiosInstance.delete(`/products/${product.id}`, {
-        params: { userId: userId },
-      });
-      if (response.status === 200) {
-        setDeleteSuccessModal(true);
+      if (product.userId === userId) {
+        const response = await axiosInstance.delete(`/products/${product.id}`, {
+          params: { userId: userId },
+        });
+        if (response.status === 200) {
+          setDeleteSuccessModal(true);
+        }
+      } else {
+        alert("본인의 게시글만 삭제할 수 있습니다.");
       }
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생했습니다: ", error);
@@ -96,11 +112,19 @@ const ProductInfo = ({ product }) => {
   };
 
   const Edit = async () => {
-    navigate(`/edit/${product.id}`, { state: { product } });
+    try {
+      if (product.userId === userId) {
+        navigate(`/edit/${product.id}`, { state: { product } });
+      } else {
+        alert("본인의 게시글만 수정할 수 있습니다.");
+      }
+    } catch (err) {
+      console.error("게시 수정 중 오류가 발생했습니다: ", err);
+    }
   };
 
   const handlePayment = () => {
-    window.location.href = "https://link.kakaopay.com/_/1HCxgjq"; // 카카오페이 결제 링크로 이동
+    window.location.href = "https://link.kakaopay.com/_/w4VaY4B";
   };
 
   return (
@@ -109,10 +133,14 @@ const ProductInfo = ({ product }) => {
         id="글쓴 회원 정보"
         className="w-full h-[100px] border-b border-gray-300 relative flex py-[10px] items-center"
       >
-        <div
+        {/* 유저 아바타 이미지 표시 */}
+        <img
           id="프로필 이미지"
-          className="w-[60px] h-[60px] rounded-full border-2 border-[#c1c1c1]"
-        ></div>
+          className="w-[60px] h-[60px] rounded-full "
+          src={formatAvatarUrl(userAvatar)}
+          alt="User Avatar"
+        />
+
         <div className="h-full flex flex-col justify-center items-start ml-[20px]">
           <div id="닉네임" className="text-[16px] font-semibold mb-[5px]">
             {product.userName}

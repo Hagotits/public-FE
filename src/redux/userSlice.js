@@ -4,6 +4,7 @@ import {
   authUser,
   getCartItems,
   loginUser,
+  updateUser,
   logoutUser,
   payProducts,
   registerUser,
@@ -16,7 +17,7 @@ const initialState = {
     id: "",
     email: "",
     name: "",
-    avatar: [],
+    avatar: "",
     cart: [],
     history: [],
   },
@@ -73,6 +74,24 @@ const userSlice = createSlice({
         state.userData = initialState.userData;
         state.isAuth = false;
         localStorage.removeItem("accessToken");
+      })
+
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userData = {
+          ...state.userData,
+          avatar: action.payload.avatar,
+        };
+        state.isAuth = true;
+        toast.info("회원정보가 변경되었습니다.");
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        toast.error(action.payload);
       })
 
       .addCase(logoutUser.pending, (state) => {
