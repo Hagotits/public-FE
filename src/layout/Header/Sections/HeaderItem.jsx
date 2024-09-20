@@ -138,7 +138,12 @@ const HeaderItem = ({ mobile }) => {
                 </button>
                 {dropdownOpen && (
                   <div className={styles.DropdownMenu} ref={dropdownRef}>
-                    <Link to="/mypage" className={styles.DropdownItem}>
+                    <Link
+                      to="/mypage"
+                      className={styles.DropdownItem}
+                      onClick={() => setDropdownOpen(false)
+                      }
+                    >
                       <FaUser className={styles.DropdownItemIcon} />
                       MyPage
                     </Link>
@@ -152,7 +157,10 @@ const HeaderItem = ({ mobile }) => {
                     </button>
                     <hr />
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout();
+                        setDropdownOpen(false); // 드롭다운 닫기
+                      }}
                       className={styles.DropdownItem}
                     >
                       <IoLogOutSharp className={styles.DropdownItemIcon} />
