@@ -8,8 +8,8 @@ import dayjs from "dayjs";
 import KakaoMapAPI from "../../components/KakaoMap";
 import People from "./Sections/People";
 import CustomDatePicker from "./Sections/People";
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import { FaCalendar } from "react-icons/fa";
 import "./../../index.js";
@@ -34,12 +34,12 @@ const UploadProductPage = () => {
   const [images, setImages] = useState([]);
   const [selectedDateTime, setSelectedDateTime] = useState(""); // 선택된 날짜와 시간 상태
 
-
   const handleImages = (newImages) => {
     setImages(newImages);
   };
 
   const onSubmit = async (data) => {
+    const formattedDateTime = dayjs(date).format("YYYY-MM-DD HH:mm");
     const body = {
       userId: userData.id,
       userName: userData.name,
@@ -47,6 +47,7 @@ const UploadProductPage = () => {
       images,
       location: mapLocation,
       attend: attend === "직접 입력" ? customAttend : attend, // 직접 입력 값 처리
+      receptTime: formattedDateTime,
     };
 
     try {
@@ -60,17 +61,16 @@ const UploadProductPage = () => {
     }
   };
 
-  const handleTimeChange = (e) => {
-    const value = e.target.value;
-    setSelectedTime(value);
-
-    if (!value) {
-      setErrorMessage("수령 날짜를 선택해주세요");
-    } else if (dayjs(value).isBefore(dayjs())) {
-      setErrorMessage("선택한 시간은 현재 시간보다 작을 수 없습니다.");
+  // 거래 날짜 선택 시 선택된 날짜와 시간을 업데이트
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate);
+    if (selectedDate) {
+      const formattedDateTime = dayjs(selectedDate).format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      setSelectedDateTime(formattedDateTime);
     } else {
-      setErrorMessage("");
-      setValue("receptTime", value);
+      setSelectedDateTime("");
     }
   };
 
@@ -93,7 +93,7 @@ const UploadProductPage = () => {
   const isToday = (date) => {
     const today = dayjs().startOf("day");
     return dayjs(date).isSame(today, "day");
-  }
+  };
 
   // 시간 필터링 함수
   const filterTime = (time) => {
@@ -102,19 +102,8 @@ const UploadProductPage = () => {
       return time.getTime() >= now.getTime(); // 선택한 날짜가 오늘일 경우 현재시간 이후의 시간만 선택 가능
     }
     return true; // 선택한 날짜가 오늘이 아닐 경우 모든 시간 선택 가능
-  }
-
-  // 거래 날짜 선택 시 선택된 날짜와 시간을 업데이트
-  const handleDateChange = (selectedDate) => {
-    setDate(selectedDate);
-    if (selectedDate) {
-      const formattedDateTime = dayjs(selectedDate).format("YYYY-MM-DD HH:mm");
-      setSelectedDateTime(formattedDateTime);
-    } else {
-      setSelectedDateTime("");
-    }
   };
-  
+
   useEffect(() => {
     if (mapLocation) {
       setValue("places", mapLocation.address);
@@ -257,7 +246,6 @@ const UploadProductPage = () => {
             />
           </div>
 
-
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
               id="거래 장소"
@@ -301,7 +289,6 @@ const UploadProductPage = () => {
                 timeIntervals={10}
                 timeCaption="time"
                 dateFormat="yyyy-MM-dd, h:mm aa"
-                
                 locale={ko}
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 cursor-pointer z-90"
                 placeholderText="거래 날짜를 선택해주세요."
