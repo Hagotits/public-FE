@@ -141,8 +141,8 @@ const HeaderItem = ({ mobile }) => {
                     <Link
                       to="/mypage"
                       className={styles.DropdownItem}
-                      // onClick={() => setDropdownOpen(false)
-                      // }
+                      onClick={() => setDropdownOpen(false)
+                      }
                     >
                       <FaUser className={styles.DropdownItemIcon} />
                       MyPage
@@ -158,9 +158,8 @@ const HeaderItem = ({ mobile }) => {
                     <hr />
                     <button
                       onClick={() => {
-                        handleLogout
-                        // ();
-                        // setDropdownOpen(false); // 드롭다운 닫기
+                        handleLogout();
+                        setDropdownOpen(false); // 드롭다운 닫기
                       }}
                       className={styles.DropdownItem}
                     >
