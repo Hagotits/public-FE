@@ -45,12 +45,12 @@ const People = forwardRef((props, ref) => {
     <div className="w-full z-1">
       <Select
         options={optionData}
-        onChange={handleSelectChange}
+        onChange={(selectedOption) => handleSelectChange(selectedOption)}
         placeholder="몇 명에게 판매하고 싶은가요?"
         className="text-sm z-1"
         classNamePrefix="react-select"
         styles={customSelectStyles}
-        value={optionData.find((option) => option.value === attend)}
+        value={optionData.find((option) => option.value === attend) || null}
       />
       {attend === "직접 입력" && (
         <input
