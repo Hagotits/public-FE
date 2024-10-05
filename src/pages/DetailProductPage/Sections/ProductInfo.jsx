@@ -13,7 +13,7 @@ import PushNotification from "../../../components/PushNotification";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
-  const pushnotification = PushNotification(); // 알림 초기화
+  const pushNotification = PushNotification(); // 알림 초기화
   const userId = useSelector((state) => state.user?.userData.id);
   const userAvatar = useSelector((state) => state.user?.userData?.avatar);
   const dispatch = useDispatch();
@@ -55,12 +55,12 @@ const ProductInfo = ({ product }) => {
 
     if (state) {
       dispatch(addToCart({ productId: product.id }));
-      pushnotification.fireNotificationWithTimeout("좋아요!", 5000, {
+      pushNotification.fireNotificationWithTimeout("좋아요!", 5000, {
         body: `${product.title}을(를) 좋아요 하였습니다.`,
       });
     } else {
       dispatch(removeCartItem(product.id));
-      pushnotification.fireNotificationWithTimeout("좋아요!", 5000, {
+      pushNotification.fireNotificationWithTimeout("좋아요!", 5000, {
         body: `${product.title}을(를) 좋아요를 취소하였습니다.`,
       });
     }
