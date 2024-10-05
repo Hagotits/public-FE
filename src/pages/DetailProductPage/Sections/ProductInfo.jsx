@@ -46,6 +46,7 @@ const ProductInfo = ({ product }) => {
   }, [product.id, userId]);
 
   const toggleLike = () => {
+    let content;
     if (userId === product.userId) {
       setAlertModal(true);
       return;
@@ -59,19 +60,19 @@ const ProductInfo = ({ product }) => {
       dispatch(addToCart({ productId: product.id }));
 
       fireNotificationWithTimeout(
-        `${product.title}을(를) 좋아요 하였습니다.`,
+        (content = `${product.title}을(를) 좋아요 하였습니다.`),
         5000,
         {
-          body: `${user.name}: 제품을 좋아요 했습니다!`,
+          body: `${user.name}: ${content}`,
         }
       );
     } else {
       dispatch(removeCartItem(product.id));
       fireNotificationWithTimeout(
-        `${product.title}을(를) 좋아요를 취소 하였습니다.`,
+        (content = `${product.title}을(를) 좋아요 취소 하였습니다.`),
         5000,
         {
-          body: `${user.name}: 제품을 좋아요를 취소 했습니다!`,
+          body: `${user.name}: ${content}`,
         }
       );
     }

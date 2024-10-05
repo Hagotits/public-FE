@@ -51,7 +51,6 @@ const PushNotification = () => {
       console.log("알림 권한이 없습니다.");
       return;
     }
-    console.log("알림 생성", title);
 
     // `badge`와 `icon`은 이미지 URL이어야 함
     const newOption = {
