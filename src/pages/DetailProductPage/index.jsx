@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import ProductImage from "./Sections/ProductImage";
 import ProductInfo from "./Sections/ProductInfo";
+import QandA from "./Sections/QandA";
 
 const DetailProductPage = () => {
   const { productId } = useParams();

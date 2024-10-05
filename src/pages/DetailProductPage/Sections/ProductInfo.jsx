@@ -9,6 +9,7 @@ import axiosInstance from "../../../utils/axios";
 import Modal from "./Modal";
 import PopularityPost from "./PopularityPost";
 import PayLogo from "../images/btn_send_regular.png";
+import QandA from "./QandA";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
@@ -253,6 +254,9 @@ const ProductInfo = ({ product }) => {
             </button>
           </div>
         </div>
+      </div>
+      <div>
+        <QandA />
       </div>
       <div>
         <PopularityPost />
