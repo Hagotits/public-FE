@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../../redux/thunkFunctions";
+import { addToCart, removeCartItem } from "../../../redux/thunkFunctions";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
