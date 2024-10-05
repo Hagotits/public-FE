@@ -1,72 +1,85 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
+import atom from "./images/atom.png";
 
 const PushNotification = () => {
   const notificationRef = useRef(null);
-  const timerRef = useRef(null); // 타이머를 저장하기 위한 useRef 추가
+  const timerRef = useRef(null);
 
-  if (!Notification) {
-    // Notification 객체 존재하지 않으면 return
-    return;
-  }
+  useEffect(() => {
+    // 알림 권한을 한 번만 확인
+    if (!Notification) {
+      console.error("이 브라우저는 알림을 지원하지 않습니다.");
+      return;
+    }
 
-  if (Notification.permission !== "granted") {
-    // push 알림을 허용하는지 확인() 기본이 허용: granted
-    // 유저에게 푸시 알림 허용 요청
-    Notification.requestPermission() // push알림을 허용할지 묻기
-      .then((permission) => {
-        if (permission !== "granted") return;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission()
+        .then((permission) => {
+          console.log("알림권한: ", permission);
+          if (permission !== "granted") {
+            console.warn("알림 권한이 거부되었습니다.");
+          }
+        })
+        .catch((err) => {
+          console.error("알림 권한 요청 중 오류 발생:", err);
+        });
+    }
+  }, []);
 
   const setNotificationClickEvent = () => {
     notificationRef.current.onclick = (event) => {
-      event.preventDefault(); // 다른 페이지로 이동 등을 방지
-      window.focus(); // 브라우저 창 활성화(화면 전면에 띄움)
-      notificationRef.current.close(); // 알림을 닫음
+      event.preventDefault();
+      window.focus();
+      notificationRef.current.close();
     };
   };
 
   const setNotificationTimer = (timeout) => {
-    // clearTimeout을 위해 timerRef 사용
+    if (timerRef.current) {
+      clearTimeout(timerRef.current); // 이전 타이머 정리
+    }
     timerRef.current = setTimeout(() => {
-      // 알림을 추적하고, 동작중인지 확인
-      timerRef.current = null;
-      notificationRef.current.close();
-      notificationRef.current = null;
+      if (notificationRef.current) {
+        notificationRef.current.close();
+        notificationRef.current = null;
+      }
     }, timeout);
   };
 
   const fireNotificationWithTimeout = (title, timeout, options = {}) => {
-    // 유저가 푸시 알림을 껐다면 실행되지 않도록
-    if (Notification.permission !== "granted") return;
+    if (Notification.permission !== "granted") {
+      console.log("알림 권한이 없습니다.");
+      return;
+    }
+    console.log("알림 생성", title);
 
+    // `badge`와 `icon`은 이미지 URL이어야 함
     const newOption = {
-      badge: "https://babble.gg/img/logos/babble-speech-bubble.png",
-      icon: "https://babble.gg/img/logos/babble-speech-bubble.png",
+      badge: atom,
+      icon: atom,
       ...options,
     };
 
     if (!notificationRef.current) {
-      setNotificationTimer(timeout);
       notificationRef.current = new Notification(title, newOption);
       setNotificationClickEvent();
+      setNotificationTimer(timeout);
     }
   };
 
   const fireNotification = (title, options = {}) => {
+    if (Notification.permission !== "granted") return;
+
     const newOption = {
-      badge: "",
-      icon: "",
+      badge: atom,
+      icon: atom,
       ...options,
     };
+
     notificationRef.current = new Notification(title, newOption);
     setNotificationClickEvent();
   };
 
-  // 두 가지 알림 함수 반환
   return { fireNotificationWithTimeout, fireNotification };
 };
 
