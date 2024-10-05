@@ -276,7 +276,10 @@ const ProductInfo = ({ product }) => {
         </div>
       </div>
       <div>
-        <QandA />
+        <QandA
+          productId={product.id}
+          userId={userId}
+          isPostOwner={userId === product.userId}/>
       </div>
       <div>
         <PopularityPost />

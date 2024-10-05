@@ -77,9 +77,9 @@ const PopularityPost = () => {
       )}
 
       {/* 추가 콘텐츠 */}
-      <div className="mt-10 text-gray-600">
+      {/* <div className="mt-10 text-gray-600">
         여긴 찜 갯수 n개 이상인 게시물 띄우기 (하면 될 듯?)
-      </div>
+      </div> */}
     </div>
   );
 };
