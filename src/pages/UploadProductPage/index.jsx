@@ -7,77 +7,68 @@ import FileUpload from "../../components/FileUpload";
 import dayjs from "dayjs";
 import KakaoMapAPI from "../../components/KakaoMap";
 import People from "./Sections/People";
-import CustomDatePicker from "./Sections/People";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { FaCalendar } from "react-icons/fa";
 import "./../../index.js";
 
 const UploadProductPage = () => {
   const {
     register,
     handleSubmit,
-    setValue,
+    setValue, // setValue 추가
     formState: { errors },
   } = useForm();
 
-  const [selectedTime, setSelectedTime] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [attend, setAttend] = useState(""); // 거래 인원 관련 상태
   const [customAttend, setCustomAttend] = useState(""); // 직접 입력 값 상태
   const [mapLocation, setMapLocation] = useState();
   const [date, setDate] = useState(new Date());
-  // const [startDate, setStartDate] = useState(new Date());
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.user?.userData);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
-  const [selectedDateTime, setSelectedDateTime] = useState(""); // 선택된 날짜와 시간 상태
 
+  // 이미지 핸들러
   const handleImages = (newImages) => {
     setImages(newImages);
   };
 
+  // 폼 제출 핸들러
   const onSubmit = async (data) => {
+    console.log(data);
     const formattedDateTime = dayjs(date).format("YYYY-MM-DD HH:mm");
     const body = {
-      userId: userData.id,
-      userName: userData.name,
+      userId: userData?.id,
+      userName: userData?.name,
       ...data,
       images,
       location: mapLocation,
-      attend: attend === "직접 입력" ? customAttend : attend, // 직접 입력 값 처리
+      attend: attend === "직접 입력" ? customAttend : attend,
       receptTime: formattedDateTime,
     };
 
     try {
       const response = await axiosInstance.post("/products", body);
       const newProductId = response.data.productId;
-      if (response.data) {
+      if (newProductId) {
         navigate(`/products/${newProductId}`);
       }
     } catch (err) {
-      console.log(err);
+      console.error("Error submitting form:", err);
     }
   };
 
-  // 거래 날짜 선택 시 선택된 날짜와 시간을 업데이트
+  // 날짜 선택 핸들러
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
-    if (selectedDate) {
-      const formattedDateTime = dayjs(selectedDate).format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-      setSelectedDateTime(formattedDateTime);
-    } else {
-      setSelectedDateTime("");
-    }
+    setValue("receptTime", selectedDate ? selectedDate.toISOString() : "");
   };
 
-  // 거래 날짜 선택
+  // 거래 인원 선택 핸들러 (setValue 사용)
   const handleSelectChange = (selectedOption) => {
     if (selectedOption) {
       setAttend(selectedOption.value);
+      setValue("attend", selectedOption.value); // 선택한 값을 setValue로 업데이트
       if (selectedOption.value === "직접 입력") {
         setCustomAttend("");
       } else {
@@ -99,9 +90,9 @@ const UploadProductPage = () => {
   const filterTime = (time) => {
     if (isToday(date)) {
       const now = new Date();
-      return time.getTime() >= now.getTime(); // 선택한 날짜가 오늘일 경우 현재시간 이후의 시간만 선택 가능
+      return time.getTime() >= now.getTime();
     }
-    return true; // 선택한 날짜가 오늘이 아닐 경우 모든 시간 선택 가능
+    return true;
   };
 
   useEffect(() => {
@@ -110,47 +101,16 @@ const UploadProductPage = () => {
     }
   }, [mapLocation, setValue]);
 
-  const productTitle = {
-    required: "필수 항목입니다.",
-  };
-
-  const productContent = {
-    required: "필수 항목입니다.",
-  };
-
-  const productPlaces = {
-    required: "필수 항목입니다.",
-  };
-
-  const productPrice = {
-    required: "필수 항목입니다.",
-    minPrice: 1,
-  };
-
-  const productAttend = {
-    required: "필수 항목입니다.",
-    maxLength: 4,
-    minLength: 1,
-  };
-
-  const productReceptTime = {
-    required: "필수 항목입니다.",
-    minLength: dayjs().format("YYYY-MM-DDTHH:mm"),
-  };
-
   return (
     <div className="w-full h-auto flex flex-col justify-center items-center">
       <div className="relative w-4/5 flex flex-col justify-center items-start border-b border-gray-300 mt-8">
-        <h1 id="상품 정보" className="text-2xl">
-          상품 정보
-        </h1>
+        <h1 className="text-2xl">상품 정보</h1>
       </div>
 
       <div className="w-[60%] max-w-4xl flex flex-col justify-center items-start p-1.5">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="상품 이미지"
               htmlFor="Img"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -161,7 +121,6 @@ const UploadProductPage = () => {
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="상품명"
               htmlFor="title"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -171,19 +130,18 @@ const UploadProductPage = () => {
               <input
                 name="title"
                 className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border-solid border border-gray-400"
-                {...register("title", productTitle)}
+                {...register("title", { required: "필수 항목입니다." })}
               />
               {errors.title && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.title.message}</span>
-                </div>
+                <span className="text-red-500 text-sm">
+                  {errors.title.message}
+                </span>
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="상품 설명"
               htmlFor="content"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -191,21 +149,20 @@ const UploadProductPage = () => {
             </label>
             <div className="w-full">
               <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md h-[100px] border border-gray-400"
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
                 name="content"
-                {...register("content", productContent)}
+                {...register("content", { required: "필수 항목입니다." })}
               />
               {errors.content && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.content.message}</span>
-                </div>
+                <span className="text-red-500 text-sm">
+                  {errors.content.message}
+                </span>
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="상품 가격"
               htmlFor="price"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -217,12 +174,12 @@ const UploadProductPage = () => {
                 name="price"
                 type="text"
                 placeholder="판매하고 싶은 가격을 작성해주세요."
-                {...register("price", productPrice)}
+                {...register("price", { required: "필수 항목입니다." })}
               />
               {errors.price && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.price.message}</span>
-                </div>
+                <span className="text-red-500 text-sm">
+                  {errors.price.message}
+                </span>
               )}
             </div>
           </div>
@@ -230,7 +187,6 @@ const UploadProductPage = () => {
           {/* 거래 인원 */}
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="거래 인원"
               htmlFor="attend"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -242,13 +198,13 @@ const UploadProductPage = () => {
               customAttend={customAttend}
               setCustomAttend={setCustomAttend}
               errors={errors.attend ? { attend: errors.attend } : {}}
-              handleSelectChange={handleSelectChange}
+              handleSelectChange={handleSelectChange} // handleSelectChange가 setValue 사용
+              {...register("attend", { required: "필수 항목입니다." })}
             />
           </div>
 
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
             <label
-              id="거래 장소"
               htmlFor="places"
               className="text-base font-medium text-left pr-2.5"
             >
@@ -257,49 +213,44 @@ const UploadProductPage = () => {
             <div className="w-full z-0">
               <KakaoMapAPI onLocationChange={setMapLocation} />
               <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 hidden"
+                type="hidden"
                 name="places"
-                {...register("places", productPlaces)}
+                {...register("places", { required: "필수 항목입니다." })}
               />
               {errors.places && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.places.message}</span>
-                </div>
+                <span className="text-red-500 text-sm">
+                  {errors.places.message}
+                </span>
               )}
             </div>
           </div>
 
           {/* 거래 날짜 */}
           <div className="grid grid-cols-[100px_1fr] items-center mb-5">
-            <label
-              id="거래 날짜"
-              className="text-base font-medium text-left pr-2.5"
-            >
+            <label className="text-base font-medium text-left pr-2.5">
               거래 날짜
             </label>
             <div className="relative w-full">
               <DatePicker
-                // showIcon
-                // icon="fa Fa-calendar"
-                inline // 화면에 달력, 시간 표시
-                selected={date} // 선택된 날짜를 ReactDatePicker에 전달
-                onChange={(date) => setDate(date)}
+                inline
+                selected={date}
+                onChange={handleDateChange}
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={10}
                 timeCaption="time"
                 dateFormat="yyyy-MM-dd, h:mm aa"
                 locale={ko}
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 cursor-pointer z-90"
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 cursor-pointer"
                 placeholderText="거래 날짜를 선택해주세요."
-                minDate={new Date()} // 현재 날짜보다 이전은 선택 불가
-                filterTime={filterTime} // 시간 필터링
-                calendarStartDay={1} // 월요일부터 시작
+                minDate={new Date()}
+                filterTime={filterTime}
+                calendarStartDay={1}
               />
               {errors.receptTime && (
-                <div className="mt-1 text-red-500 text-sm">
-                  <span>{errors.receptTime.message}</span>
-                </div>
+                <span className="text-red-500 text-sm">
+                  {errors.receptTime.message}
+                </span>
               )}
             </div>
           </div>

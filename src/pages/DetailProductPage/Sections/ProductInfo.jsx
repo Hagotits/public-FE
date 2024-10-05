@@ -10,9 +10,11 @@ import Modal from "./Modal";
 import PopularityPost from "./PopularityPost";
 import PayLogo from "../images/btn_send_regular.png";
 import QandA from "./QandA";
+import PushNotification from "../../../components/PushNotification";
 dayjs.extend(duration);
 
 const ProductInfo = ({ product }) => {
+  const pushNotification = PushNotification(); // 알림 초기화
   const userId = useSelector((state) => state.user?.userData.id);
   const userAvatar = useSelector((state) => state.user?.userData?.avatar);
   const dispatch = useDispatch();
@@ -54,8 +56,14 @@ const ProductInfo = ({ product }) => {
 
     if (state) {
       dispatch(addToCart({ productId: product.id }));
+      pushNotification.fireNotificationWithTimeout("좋아요!", 5000, {
+        body: `${product.title}을(를) 좋아요 하였습니다.`,
+      });
     } else {
       dispatch(removeCartItem(product.id));
+      pushNotification.fireNotificationWithTimeout("좋아요!", 5000, {
+        body: `${product.title}을(를) 좋아요를 취소하였습니다.`,
+      });
     }
   };
 
@@ -104,11 +112,17 @@ const ProductInfo = ({ product }) => {
         });
         if (response.status === 200) {
           setDeleteSuccessModal(true);
+          pushNotification.fireNotificationWithTimeout("상품 삭제", 5000, {
+            body: "성공적으로 상품이 삭제되었습니다.",
+          });
         }
       } else {
         // alert("본인의 게시글만 삭제할 수 있습니다.");
         setAlertMessage("본인의 게시글만 삭제할 수 있습니다.");
         setAlertModal(true);
+        pushNotification.fireNotificationWithTimeout("알림", 5000, {
+          body: "본인의 게시글만 삭제할 수 있습니다.",
+        });
       }
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생했습니다: ", error);
@@ -120,10 +134,16 @@ const ProductInfo = ({ product }) => {
     try {
       if (product.userId === userId) {
         navigate(`/edit/${product.id}`, { state: { product } });
+        pushNotification.fireNotificationWithTimeout("게시글 수정", 5000, {
+          body: "게시글 수정 페이지로 이동합니다.",
+        });
       } else {
         // alert("본인의 게시글만 수정할 수 있습니다.");
         setAlertMessage("본인의 게시글만 수정할 수 있습니다.");
         setAlertModal(true);
+        pushNotification.fireNotificationWithTimeout("알림", 5000, {
+          body: "본인의 게시글만 수정할 수 있습니다.",
+        });
       }
     } catch (err) {
       console.error("게시 수정 중 오류가 발생했습니다: ", err);

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/thunkFunctions";
@@ -12,7 +12,7 @@ import { GoBell } from "react-icons/go";
 import Alert from "./Alert";
 import { TiDelete } from "react-icons/ti";
 import { FaBell } from "react-icons/fa6";
-import SearchInput from "../../../pages/MainPage/Sections/SearchInput";
+import PushNotification from "../../../components/PushNotification";
 
 const routes = [
   { to: "/signup", name: "회원가입", auth: false },
@@ -46,6 +46,7 @@ const HeaderItem = ({ mobile }) => {
   const [search, setSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
+  const pushNotification = PushNotification();
   const limit = 4;
 
   const handleLogout = async () => {
@@ -177,7 +178,18 @@ const HeaderItem = ({ mobile }) => {
                 className="relative py-2 text-center cursor-pointer mt-[7px]"
               >
                 <div>
-                  <button onClick={() => setAlert(true)}>{bellIcon}</button>
+                  <button
+                    onClick={() => {
+                      setAlert(true);
+                      pushNotification.fireNotificationWithTimeout(
+                        "새 알림이 도착했습니다!",
+                        5000, // 5초 후 알림이 사라짐
+                        { body: "확인하지 않은 알림이 있습니다." }
+                      );
+                    }}
+                  >
+                    {bellIcon}
+                  </button>
                 </div>
                 {alert && (
                   <div
@@ -222,19 +234,7 @@ const HeaderItem = ({ mobile }) => {
                         setSearch(false);
                       }
                     }}
-                  >
-                    <div className="absolute right-56 mt-2">
-                      <div className="relative">
-                        {/* <button
-                        className="absolute right-1 mt-3 z-50"
-                        onClick={() => setSearch(false)}
-                      >
-                        <CiSearch style={{ fontSize: "1.5rem" }}/>
-                      </button> */}
-                        <SearchInput />
-                      </div>
-                    </div>
-                  </div>
+                  ></div>
                 )}
               </li>
             );
