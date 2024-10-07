@@ -256,7 +256,7 @@ const ProductInfo = ({ product }) => {
               id="남은 인원"
               className="text-[14px] text-[rgb(182, 182, 182)]"
             >
-              {product.attend - 1}명 남음
+              {product.attend}명 남음
             </div>
             <div
               id="남은 시간"

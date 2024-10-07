@@ -121,7 +121,7 @@ const CardItem = ({ product }) => {
         <div>
           <p className="p-1 text-[21px]">{product.title}</p>
           <p className="p-1 text-[16px] text-black font-bold">
-            {Price(product.price / product.attend)}원
+            {Price(product.price)}원
           </p>
           <p className="p-1">{product.place}</p>
         </div>
@@ -130,7 +130,7 @@ const CardItem = ({ product }) => {
             <div className="flex p-1 items-center text-[14px] text-gray-500">
               <CiUser />
               <span className="text-red-500 font-medium ml-[2px]">
-                {product.attend - 1}
+                {product.attend}
               </span>
               <span>명</span>
               <span className="ml-[3px]">남음</span>
