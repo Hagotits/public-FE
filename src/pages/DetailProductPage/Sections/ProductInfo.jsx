@@ -138,7 +138,7 @@ const ProductInfo = ({ product }) => {
     try {
       if (product.userId === userId) {
         navigate(`/edit/${product.id}`, { state: { product } });
-        pushNotification.fireNotificationWithTimeout("게시글 수정", 5000, {
+        fireNotificationWithTimeout("게시글 수정", 5000, {
           body: "게시글 수정 페이지로 이동합니다.",
         });
       } else {
@@ -268,7 +268,7 @@ const ProductInfo = ({ product }) => {
           <div>
             <button
               id="참여 버튼"
-              className=""
+              className="relative top-2"
               onClick={handlePayment} // 결제 페이지로 이동
             >
               <img src={PayLogo} alt="카카오페이 송금" />
@@ -280,7 +280,8 @@ const ProductInfo = ({ product }) => {
         <QandA
           productId={product.id}
           userId={userId}
-          isPostOwner={userId === product.userId}/>
+          isPostOwner={userId === product.userId}
+        />
       </div>
       <div>
         <PopularityPost />
