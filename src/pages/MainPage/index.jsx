@@ -5,11 +5,11 @@ import CardItem from "./Sections/CardItem";
 import debounce from "lodash/debounce";
 
 const MainPage = () => {
-  const limit = 3;
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+  const limit = products || 0;
 
   useEffect(() => {
     fetchProducts({ skip, limit });

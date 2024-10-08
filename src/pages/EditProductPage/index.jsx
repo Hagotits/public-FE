@@ -179,8 +179,8 @@ const EditProductPage = () => {
               설명
             </label>
             <div className="w-full">
-              <input
-                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400"
+              <textarea
+                className="w-full text-sm font-normal text-gray-800 p-2.5 rounded-md border border-gray-400 h-[150px]"
                 name="content"
                 {...register("content", { required: "필수 항목입니다." })}
               />
