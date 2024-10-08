@@ -8,9 +8,11 @@ import { IoTimeOutline } from "react-icons/io5";
 import ImageSlider from "../../../components/ImageSlider";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import PushNotification from "../../../components/PushNotification";
 dayjs.extend(duration);
 
 const CardItem = ({ product }) => {
+  const { fireNotificationWithTimeout } = PushNotification(); // 알림 초기화
   const dispatch = useDispatch();
 
   // userId === product.userId가 일치하면 담지 않도록 만들기
@@ -32,6 +34,7 @@ const CardItem = ({ product }) => {
 
   // 삭제
   const toggleLike = () => {
+    let content;
     if (userId === product?.userId) {
       alert("본인의 상품은 찜할 수 없습니다.");
       return;
@@ -48,8 +51,22 @@ const CardItem = ({ product }) => {
 
     if (state) {
       dispatch(addToCart({ productId: product.id }));
+      fireNotificationWithTimeout(
+        (content = `${product.title}을(를) 좋아요 하였습니다.`),
+        3000,
+        {
+          body: `${user.name}: ${content}`,
+        }
+      );
     } else {
       dispatch(removeCartItem(product.id));
+      fireNotificationWithTimeout(
+        (content = `${product.title}을(를) 좋아요 취소 하였습니다.`),
+        3000,
+        {
+          body: `${user.name}: ${content}`,
+        }
+      );
     }
   };
 

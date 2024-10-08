@@ -61,7 +61,7 @@ const ProductInfo = ({ product }) => {
 
       fireNotificationWithTimeout(
         (content = `${product.title}을(를) 좋아요 하였습니다.`),
-        5000,
+        3000,
         {
           body: `${user.name}: ${content}`,
         }
@@ -70,7 +70,7 @@ const ProductInfo = ({ product }) => {
       dispatch(removeCartItem(product.id));
       fireNotificationWithTimeout(
         (content = `${product.title}을(를) 좋아요 취소 하였습니다.`),
-        5000,
+        3000,
         {
           body: `${user.name}: ${content}`,
         }
