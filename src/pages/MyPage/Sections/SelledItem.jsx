@@ -90,7 +90,6 @@ const SelledItem = () => {
                   <p className="text-red-500 font-bold mb-3">
                     {Price(item.price / item.attend)} 원
                   </p>
-                  <p className="text-gray-700 text-sm mb-2">{item.content}</p>
                   <p className="text-gray-600 text-xs mb-1">{item.places}</p>
                   <p className="text-gray-600 text-xs mb-1">
                     참여 인원: {item.attend - 1}
